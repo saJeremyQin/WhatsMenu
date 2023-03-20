@@ -9,7 +9,7 @@ import DishCell from '../components/DishCell';
 
 const db = openDatabase('mydb.db');
 
-const Menu = ({ route }) => {
+const MenuScreen = ({ route }) => {
   const { tableNumber } = route.params;
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dishes);

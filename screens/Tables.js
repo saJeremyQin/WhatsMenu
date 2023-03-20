@@ -182,8 +182,14 @@ const styles = StyleSheet.create({
   },
 });
 
-/*In this code, we import the setCurrentTable action creator from orderActions, and use connect to map the tables state from the Redux store to the component's props. We also pass setCurrentTable as a second argument to connect, which makes it available as a prop in the component.
+export default TablesScreen;
 
-In the TablesScreen component, we use handleTablePress to dispatch the setCurrentTable action when a table is pressed, and navigate to the Menu screen. We also use renderTableItem to render each table item in the FlatList.
+/*In this code, we import the setCurrentTable action creator from orderActions, 
+and use connect to map the tables state from the Redux store to the component's props. 
+We also pass setCurrentTable as a second argument to connect, which makes it available as a prop in the component.
+
+In the TablesScreen component, we use handleTablePress to dispatch the setCurrentTable action 
+when a table is pressed, and navigate to the Menu screen. We also use renderTableItem to render 
+each table item in the FlatList.
 
 Finally, we export the component wrapped with connect to connect it to the Redux store.*/
