@@ -444,6 +444,7 @@ import { useWindowDimensions, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 import * as ScreenOrientation from 'expo-screen-orientation';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 import TablesScreen from './screens/Tables';
@@ -472,24 +473,25 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        // tabBar={(props) => <TabBar {...props} />}
         screenOptions={{
           tabBarStyle: [
             styles.tabBar,
             {
-              flexDirection: "column",
-              width: 150,
-              height: '100%', // set tabBar height to occupy whole screen
+              width:150,
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
             },
           ],
           tabBarItemStyle: {
             flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
+            height:"50%"
           },
           tabBarItemLabelStyle: {
             fontSize: 16,
+            textAlign: 'center',
           },
+          tabBarLabelPosition: 'beside-icon', // set label position to beside the icon
         }}
       >
         <Tab.Screen
@@ -497,6 +499,7 @@ export default function App() {
           component={TablesScreen}
           options={{
             tabBarLabel: 'Tables',
+            // tabBarIcon: ({ color }) => <Icon name="table" size={24} color={color} />,
           }}
         />
         <Tab.Screen
@@ -504,6 +507,7 @@ export default function App() {
           component={MenuScreen}
           options={{
             tabBarLabel: 'Menu',
+            // tabBarIcon: ({ color }) => <Icon name="menu" size={24} color={color} />,
           }}
         />
       </Tab.Navigator>
