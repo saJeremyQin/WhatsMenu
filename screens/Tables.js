@@ -14,6 +14,19 @@ const TablesScreen = () => {
   );
 }
 
+const styles=StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#ff4081',
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  text:{
+    fontSize:30,
+  },
+})
+
 export default TablesScreen;
 
 
@@ -86,36 +99,36 @@ export default TablesScreen;
 
 // export default connect(mapStateToProps, { setCurrentTable })(TablesScreen);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection:"row",
-    padding: 10,
-    justifyContent:"center",
-    alignItems:"center"
-  },
-  text:{
-    fontSize:30
-  },
-  tableItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-    paddingVertical: 10,
-  },
-  tableNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  orderAmount: {
-    fontSize: 16,
-    color: '#555',
-  },
-  numberOfDiners: {
-    fontSize: 16,
-    color: '#555',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection:"row",
+//     padding: 10,
+//     justifyContent:"center",
+//     alignItems:"center"
+//   },
+//   text:{
+//     fontSize:30
+//   },
+//   tableItem: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     borderBottomWidth: 1,
+//     borderColor: '#ddd',
+//     paddingVertical: 10,
+//   },
+//   tableNumber: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//   },
+//   orderAmount: {
+//     fontSize: 16,
+//     color: '#555',
+//   },
+//   numberOfDiners: {
+//     fontSize: 16,
+//     color: '#555',
+//   },
+// });
 

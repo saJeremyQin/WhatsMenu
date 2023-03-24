@@ -1,45 +1,37 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { useEffect } from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
-// import * as ScreenOrientation from 'expo-screen-orientation';
-// import RootNavigator from './navigation/RootNavigator';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import RootNavigator from './navigation/RootNavigator';
 
 
-// export default function App() {
+export default function App() {
 
-//   useEffect(() => {
-//     try {
-//       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-//     } catch (error) {
-//       console.log(error);   
-//     }
+  // useEffect(() => {
+  //   try {
+  //     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+  //   } catch (error) {
+  //     console.log(error);   
+  //   }
 
-//     return () => {
-//       ScreenOrientation.unlockAsync();
-//     };
-//   },[]);
+  //   return () => {
+  //     ScreenOrientation.unlockAsync();
+  //   };
+  // },[]);
 
-//   return (
-//     // <View style={styles.container}>
-//     //     <MyScreen />
-//     //   <StatusBar style="auto" />
-//     // </View>
-//     <View style={styles.container}>    
-//       <RootNavigator />
-//     </View>
+  return (
+    <View style={styles.container}>    
+      <RootNavigator />
+    </View>
+  );
+}
 
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection:"row"
-//     // backgroundColor: '#fff',
-//     // alignItems: 'center',
-//     // justifyContent: 'center',
-//   },
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // flexDirection:"row"
+  },
+});
 
 
 // import React,{ useEffect } from 'react';
@@ -439,84 +431,84 @@
 //   );
 // };
 
-import { useEffect } from 'react';
-import { useWindowDimensions, StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from "@react-navigation/native";
-import * as ScreenOrientation from 'expo-screen-orientation';
+// import { useEffect } from 'react';
+// import { useWindowDimensions, StyleSheet } from 'react-native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { NavigationContainer } from "@react-navigation/native";
+// import * as ScreenOrientation from 'expo-screen-orientation';
 
 
-import TablesScreen from './screens/Tables';
-import MenuScreen from './screens/Menu';
-import TabBar from './components/TarBar';
+// import TablesScreen from './screens/Tables';
+// import MenuScreen from './screens/Menu';
+// import TabBar from './components/TarBar';
 
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 
-export default function App() {
-  const dimensions = useWindowDimensions();
-  const isLandscape = dimensions.width > dimensions.height;
-  console.log("Horizontally display!, ", isLandscape);
+// export default function App() {
+//   const dimensions = useWindowDimensions();
+//   const isLandscape = dimensions.width > dimensions.height;
+//   console.log("Horizontally display!, ", isLandscape);
 
-  useEffect(() => {
-    try {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-    } catch (error) {
-      console.log(error);   
-    }
+//   useEffect(() => {
+//     try {
+//       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+//     } catch (error) {
+//       console.log(error);   
+//     }
 
-    return () => {
-      ScreenOrientation.unlockAsync();
-    };
-  },[]);
+//     return () => {
+//       ScreenOrientation.unlockAsync();
+//     };
+//   },[]);
 
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        // tabBar={(props) => <TabBar {...props} />}
-        screenOptions={{
-          tabBarStyle: [
-            styles.tabBar,
-            {
-              flexDirection: "column",
-              width: 150,
-              height: '100%', // set tabBar height to occupy whole screen
-            },
-          ],
-          tabBarItemStyle: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          },
-          tabBarItemLabelStyle: {
-            fontSize: 16,
-          },
-        }}
-      >
-        <Tab.Screen
-          name="Tables"
-          component={TablesScreen}
-          options={{
-            tabBarLabel: 'Tables',
-          }}
-        />
-        <Tab.Screen
-          name="Menu"
-          component={MenuScreen}
-          options={{
-            tabBarLabel: 'Menu',
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-};
+//   return (
+//     <NavigationContainer>
+//       <Tab.Navigator
+//         // tabBar={(props) => <TabBar {...props} />}
+//         screenOptions={{
+//           tabBarStyle: [
+//             styles.tabBar,
+//             {
+//               flexDirection: "column",
+//               width: 150,
+//               height: '100%', // set tabBar height to occupy whole screen
+//             },
+//           ],
+//           tabBarItemStyle: {
+//             flex: 1,
+//             justifyContent: "center",
+//             alignItems: "center",
+//           },
+//           tabBarItemLabelStyle: {
+//             fontSize: 16,
+//           },
+//         }}
+//       >
+//         <Tab.Screen
+//           name="Tables"
+//           component={TablesScreen}
+//           options={{
+//             tabBarLabel: 'Tables',
+//           }}
+//         />
+//         <Tab.Screen
+//           name="Menu"
+//           component={MenuScreen}
+//           options={{
+//             tabBarLabel: 'Menu',
+//           }}
+//         />
+//       </Tab.Navigator>
+//     </NavigationContainer>
+//   );
+// };
 
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: '#333',
-    position: 'absolute', // set tabBar position to absolute
-    top: 0, // align tabBar to top of the screen
-    left: 0, // align tabBar to left of the screen
-  },
-});
+// const styles = StyleSheet.create({
+//   tabBar: {
+//     backgroundColor: '#333',
+//     position: 'absolute', // set tabBar position to absolute
+//     top: 0, // align tabBar to top of the screen
+//     left: 0, // align tabBar to left of the screen
+//   },
+// });
 
