@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize:30,
-    flexDirection:"column"
+    // flexDirection:"column"
   },
 });
 
