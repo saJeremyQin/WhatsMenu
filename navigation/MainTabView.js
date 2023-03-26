@@ -10,13 +10,15 @@ import {
 import { TabView, SceneMap } from 'react-native-tab-view';
 import TablesScreen from '../screens/Tables';
 import MenuScreen from '../screens/Menu';
+import AboutUsScreen from '../screens/AboutUs';
 
 
 const MainTabView = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
+    { key: 'first', title: 'Tables' },
+    { key: 'second', title: 'Menu' },
+    { key: 'third', title: 'AboutUs' },
   ]);
 
   const handleIndexChange = (index) => setIndex(index);
@@ -58,6 +60,7 @@ const MainTabView = () => {
   const renderScene = SceneMap({
     first: TablesScreen,
     second: MenuScreen,
+    third: AboutUsScreen
   });
 
   return (
@@ -88,14 +91,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent:"center",
     alignItems: 'center',
-    // transform:[{rotate:"90deg"}],
     padding: 16,
     height:120,           // when landscapre, it is the 'width'
-    width: "35%",
-    backgroundColor:"#7855be"
+    width: "33.3%",
+    backgroundColor:"#7855be",
+    fontSize:30
   },
   tabItemSelected: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#2596be',
     borderColor: '#333',
     borderBottomWidth: 0,
   },

@@ -1,9 +1,8 @@
-// store.js
 import { createStore, combineReducers } from 'redux';
-import orderReducer from './reducers/orderReducer';
+import ordersReducer from './reducers';
 
 const rootReducer = combineReducers({
-  orders: orderReducer,
+  orders: ordersReducer,
 });
 
 const store = createStore(rootReducer);
