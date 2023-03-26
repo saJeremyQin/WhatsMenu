@@ -1,7 +1,15 @@
-import React from "react";
+import React,{ useEffect} from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { client } from "../Gloabls/netRequest";
+
 
 const MenuScreen = () => {
+  useEffect(() => {
+    client.request(DISHES_QUERY).then((data) => {
+      console.log(data);
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is MenuScreen</Text>

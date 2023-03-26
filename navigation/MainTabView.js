@@ -24,9 +24,9 @@ const MainTabView = () => {
   const handleIndexChange = (index) => setIndex(index);
 
   const renderTabBar = (props) => {
-    console.log(props);
+
     const inputRange = props.navigationState.routes.map((x, i) => i);
-    console.log(inputRange);
+
 
     return (
       <View style={styles.tabBar}>
@@ -39,7 +39,7 @@ const MainTabView = () => {
             ),
           });
 
-          console.log(opacity);
+          {/* console.log(opacity); */}
 
           return (
             <Pressable
