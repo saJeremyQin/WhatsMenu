@@ -1,6 +1,6 @@
 import React,{ useEffect} from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { client } from "../Gloabls/netRequest";
+import { client, DISHES_QUERY } from "../Gloabls/netRequest";
 
 
 const MenuScreen = () => {
