@@ -1,17 +1,46 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Card, Icon } from "react-native-elements";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import { Button } from '@rneui/themed';
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const cardSize = 180;
 
 
 const DishCard = props => {
+
+  // set the flag of if this dish is added
+  const [added, setAdded] = useState(false);
+  const [dishName, setDishName] = useState();
+  const [dishDescription, setDishDescription] = useState();
+
   const dish = props.dish;
-  // console.log(dish);
+
+  function TrimText() {
+    if(dish.name.length >= 15)
+      setDishName(`${dish.name.slice(0,15)}...`);
+    else
+      setDishName(dish.name);
+    
+    if(dish.description.length >=15)
+      setDishDescription(`${dish.description.slice(0,15)}...`);
+    else
+      setDishDescription(dish.description);
+  }
+
+  useEffect(()=>{
+    TrimText();
+  },[]);
+
+  const addDishToCartHandler = () => {
+    console.log("Add dish to Shopping Cart");
+  };
+  
   return (
       <Card containerStyle={styles.container} wrapperStyle={{alignItems:"center"}}>
-        <Card.Title style={styles.title}>{dish.name}</Card.Title>
+        <Card.Title style={styles.title}>{dishName}</Card.Title>
         <Card.Divider />
         <View
           style={{
@@ -26,12 +55,19 @@ const DishCard = props => {
               uri:dish.image 
             }}
           />
-          <Text>{dish.description}</Text>
+          <Text>{dishDescription}</Text>
           <Text style={styles.price}>${dish.price}</Text>
-          {/* <Button radius={'sm'} type="solid">
-            Save
-            <Icon name="save" color="white" />
-          </Button> */}
+          <Pressable
+            activeOpacity={0.5}
+            style={[styles.add_circle, { backgroundColor:"#FD9228" }]}
+            onPress={addDishToCartHandler}
+          >
+            {added ? (
+              <MaterialIcons name="done" size={18} />
+            ) : (
+              <AntDesign name="plus" size={18} />
+            )}
+          </Pressable>
         </View>
       </Card>
   );
@@ -44,23 +80,28 @@ const styles = StyleSheet.create({
     borderColor:"#52f",
     borderTopLeftRadius:5,
     borderTopRightRadius:5,
+    // width: cardSize,
+    // height:cardSize/1.25
+    
     // paddingHorizontal:0       //can be used to make image occupy the whole width of the card.
   },
   title:{
-    // margin:0,
+    fontSize:22
   },
   image:{
-    width: 180,
-    height: cardSize/1.2,
-    // margin:0,
-    // padding:0,
-    // marginTop: -10
+    width: cardSize,
+    height:cardSize/1.25
   },
   description:{
     fontSize:20
   },
   price:{
     fontSize:22
+  },
+  add_circle:{
+    position:"absolute",
+    bottom:5,
+    right:5
   }
 });
 

@@ -9,7 +9,7 @@ const MenuScreen = () => {
 
   const [menuData, setMenuData] = useState();
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
-  console.log(menuData);
+  // console.log(menuData);
 
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
