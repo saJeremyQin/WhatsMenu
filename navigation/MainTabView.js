@@ -83,16 +83,16 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: "row",
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
     backgroundColor: "#887",
-    height: 120
+    height: 100
   },
   tabItem: {
     flex: 1,
     justifyContent:"center",
     alignItems: 'center',
-    padding: 16,
-    height:120,           // when landscapre, it is the 'width'
+    // padding: 16,
+    height:100,           
     width: "33.3%",
     backgroundColor:"#7855be",
     fontSize:30
