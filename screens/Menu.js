@@ -1,17 +1,18 @@
 import React,{ useEffect, useState} from "react";
-import { StyleSheet, View, Text, Dimensions, FlatList } from "react-native";
+import { StyleSheet, View, Text, Dimensions, FlatList, Image } from "react-native";
 import { client, DISHES_QUERY } from "../Gloabls/netRequest";
 import { DISH_TYPES } from "../Gloabls/constants";
 import DishCard from "../components/DishCard";
 import { Divider } from '@rneui/themed';
+// import { Button } from "react-native-elements";
 
 const MenuScreen = () => {
 
   const [menuData, setMenuData] = useState();
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
-  // console.log(menuData);
 
   useEffect(() => {
+    console.log(Dimensions.get("window").width);
     client.request(DISHES_QUERY).then((data) => {
       setMenuData(data.dishes);
       const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
@@ -38,11 +39,18 @@ const MenuScreen = () => {
   return (
     <React.Fragment>
       <View style={styles.headerContainer}>
-        <Text style={styles.horizontalText}>
-          Horizontal Divider with width and color
+        <Image
+            source={require("../assets/table.png")}
+            containerStyle={styles.headerItem}
+            resizeMode="contain"
+            // PlaceholderContent={<ActivityIndicator />}
+        />        
+        <Text style={styles.headerText}>
+          Table26
         </Text>
-        <Divider width={3} color={"#887"} />
+        {/* <Button title="Test" style={{width:100}} /> */}
       </View>
+      <Divider width={3} color={"#887"} />
       <View style={styles.flatlistContainer}> 
         <FlatList
           data={dishesByType}
@@ -60,27 +68,42 @@ const MenuScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    // justifyContent:"center",
-    // alignItems:"center"
+    backgroundColor:"pink"
   },
   headerContainer:{
-    marginTop:20,
+    flex:1,
+    flexDirection:"row",
+    backgroundColor:"green",
+    paddingLeft:40,
+    marginTop:40,
+    marginBottom:40,
+    justifyContent:"flex-start",
+    alignItems:"center",
+    height:100
   },
-  horizontalText: {
+  headerItem:{
+    // aspectRatio: 1,
+    // width: "5%",
+    width:64,
+    height:64,
+    // height: "auto"
+    // borderWidth: 3,
+    // borderColor:"#606"
+    // verticalAlign:"middle"
+  },
+  headerText: {
+    // borderWidth: 3,
+    // borderColor:"#606",
+    // backgroundColor:"blue",
     textAlign: 'center',
-    fontSize: 24,
-    marginVertical: 10,
+    fontSize: 30,
+    minHeight:50,
+    // color:"red",
   },
   flatlistContainer:{
-    // flex: 1,
-    padding: 10,
+    paddingTop: 20,
     justifyContent:"flex-start",
     alignItems:"center"
-  },
-  text:{
-    fontSize:30,
-    // flexDirection:"column"
   },
   flat_list: {
     height: 700,

@@ -1,7 +1,14 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { Button, ButtonGroup, withTheme } from '@rneui/themed';
 
 const TablesScreen = () => {
+  const onCreateOrderHandler = () => {
+    // PseudoCode
+    // create an order, through dispatch CREATE_ORDER:
+    // with two payload, tableNumber=1, numberOfClients=4
+
+  };
   return (
     <View style={styles.container}>
       {/* <FlatList
@@ -9,6 +16,21 @@ const TablesScreen = () => {
         renderItem={renderTableItem}
         keyExtractor={(item) => item.tableNumber.toString()}
       /> */}
+      <Button
+        title="CreateOrder"
+        buttonStyle={{ backgroundColor: 'rgba(127, 220, 103, 1)' }}
+        containerStyle={{
+          height: 40,
+          width: 200,
+          marginHorizontal: 50,
+          marginVertical: 10,
+        }}
+        titleStyle={{
+          color: 'white',
+          marginHorizontal: 20,
+        }}
+        onPress={onCreateOrderHandler}
+      />
       <Text style={styles.text}>This is TablesScreen</Text>
     </View>
   );
