@@ -37,7 +37,7 @@ const MenuScreen = () => {
   // }
   return (
     <React.Fragment>
-      <View>
+      <View style={styles.headerContainer}>
         <Text style={styles.horizontalText}>
           Horizontal Divider with width and color
         </Text>
@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
     padding: 10,
     // justifyContent:"center",
     // alignItems:"center"
+  },
+  headerContainer:{
+    marginTop:20,
   },
   horizontalText: {
     textAlign: 'center',

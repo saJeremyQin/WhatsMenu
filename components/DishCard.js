@@ -30,8 +30,16 @@ const DishCard = props => {
       setDishDescription(dish.description);
   }
 
+  function CheckAdded() {
+    // Check the staus, if the dish can be found in tobeAddedDishes of currentOrder
+  }
+
   useEffect(()=>{
     TrimText();
+  },[]);
+
+  useEffect(()=>{
+
   },[]);
 
   const addDishToCartHandler = () => {
@@ -100,8 +108,13 @@ const styles = StyleSheet.create({
   },
   add_circle:{
     position:"absolute",
-    bottom:5,
-    right:5
+    bottom:2,
+    right:2,
+    justifyContent: "center",
+    alignItems: "center",
+    width:cardSize/6,
+    height:cardSize/6,
+    borderRadius:cardSize/3
   }
 });
 

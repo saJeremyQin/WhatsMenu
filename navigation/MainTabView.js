@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // paddingTop: StatusBar.currentHeight,
     backgroundColor: "#887",
-    height: 100
+    height: 80
   },
   tabItem: {
     flex: 1,
     justifyContent:"center",
     alignItems: 'center',
     // padding: 16,
-    height:100,           
+    height:80,           
     width: "33.3%",
     backgroundColor:"#7855be",
     fontSize:30
