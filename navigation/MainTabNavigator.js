@@ -18,6 +18,12 @@ const MainTabNavigator = () => {
       }}
       screenOptions={({route}) => ({
           headerShown: false,
+          tabBarActiveTintColor:"#320952",          //Text color of TarBarItem, Active
+          tabBarInactiveTintColor:"white",          //Text color of TarBarItem, Inactive
+          tabBarStyle:{
+            backgroundColor:"#7855be",              //Background color of TarBarItem
+          },
+          tabBarActiveBackgroundColor:"#2596be",    //Background color of TarBarItem, selected one
           tabBarIcon:({focused, size, color}) => {
           let iconName;
           if( route.name === 'Tables') {
