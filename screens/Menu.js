@@ -18,11 +18,17 @@ const MenuScreen = () => {
 
   useEffect(() => {
     console.log(Dimensions.get("window").width);
-    client.request(DISHES_QUERY).then((data) => {
-      setMenuData(data.dishes);
-      const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
-      setDishesByType(filterByDishesTypeArr);    
-    });
+    try {
+      client.request(DISHES_QUERY).then((data) => {
+        setMenuData(data.dishes);
+        const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
+        setDishesByType(filterByDishesTypeArr);    
+      });
+      
+    } catch (error) {
+      console.log(error);
+    }
+
   }, []);
 
   const renderDishItem = ({item}) => {
@@ -51,7 +57,7 @@ const MenuScreen = () => {
             // PlaceholderContent={<ActivityIndicator />}
         />        
         <Text style={styles.headerText}>
-          Table26
+          Table {currentTableNum}
         </Text>
         {/* <Button title="Test" style={{width:100}} /> */}
       </View>
@@ -78,7 +84,7 @@ const styles = StyleSheet.create({
   headerContainer:{
     flex:1,
     flexDirection:"row",
-    backgroundColor:"green",
+    // backgroundColor:"green",
     paddingLeft:40,
     marginTop:40,
     marginBottom:40,
@@ -103,6 +109,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 30,
     minHeight:50,
+    marginLeft:20
     // color:"red",
   },
   flatlistContainer:{
