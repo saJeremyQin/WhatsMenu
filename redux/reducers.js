@@ -5,7 +5,7 @@ import {
   REMOVE_DISH_FROM_CHART,
   PLACE_ORDER,
   CHECKOUT_ORDER,
-} from '../actions';
+} from './actions';
 
 const initialOrderState = {
   orders: [],
@@ -20,6 +20,9 @@ function generateOrderId() {
   const orderIdString = orderIdCounter.toString().padStart(5, '0');
   return orderIdString;
 }
+
+
+
 
 
 const ordersReducer = (state = initialOrderState, action) => {

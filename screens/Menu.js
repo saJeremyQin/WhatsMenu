@@ -4,12 +4,17 @@ import { client, DISHES_QUERY } from "../Gloabls/netRequest";
 import { DISH_TYPES } from "../Gloabls/constants";
 import DishCard from "../components/DishCard";
 import { Divider } from '@rneui/themed';
-// import { Button } from "react-native-elements";
+import { useSelector } from "react-redux";
+// import { selectCurrentTable } from "../redux/slice";
+import { selectCurrentTable } from "../redux/slice";
 
 const MenuScreen = () => {
 
   const [menuData, setMenuData] = useState();
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
+
+  const currentTableNum = useSelector(selectCurrentTable);
+  console.log("current table is", currentTableNum);
 
   useEffect(() => {
     console.log(Dimensions.get("window").width);

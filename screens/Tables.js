@@ -1,13 +1,24 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Button, ButtonGroup, withTheme } from '@rneui/themed';
+import { useDispatch } from "react-redux";
+import { createOrder } from "../redux/slice";
+import { useNavigation } from "@react-navigation/native";
+
 
 const TablesScreen = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const onCreateOrderHandler = () => {
     // PseudoCode
     // create an order, through dispatch CREATE_ORDER:
     // with two payload, tableNumber=1, numberOfClients=4
-
+    dispatch(createOrder({
+      tableNumber:5,
+      numberOfDiners:3
+    }));
+    navigation.navigate("Menu");
   };
   return (
     <View style={styles.container}>
