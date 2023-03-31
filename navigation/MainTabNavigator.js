@@ -20,6 +20,9 @@ const MainTabNavigator = () => {
           headerShown: false,
           tabBarActiveTintColor:"#320952",          //Text color of TarBarItem, Active
           tabBarInactiveTintColor:"white",          //Text color of TarBarItem, Inactive
+          tabBarLabelStyle: { 
+            fontSize: 20 
+          },
           tabBarStyle:{
             backgroundColor:"#7855be",              //Background color of TarBarItem
           },
