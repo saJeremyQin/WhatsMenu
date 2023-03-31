@@ -4,8 +4,8 @@ import { client, DISHES_QUERY } from "../Gloabls/netRequest";
 import { DISH_TYPES } from "../Gloabls/constants";
 import DishCard from "../components/DishCard";
 import { Divider } from '@rneui/themed';
-import { useSelector } from "react-redux";
-import { selectCurrentTable, selectShoppingCartDishesCount } from "../redux/slice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentOrder, selectCurrentTable } from "../redux/slice";
 import ShoppingCart from "../components/ShoppingCart";
 
 
@@ -15,7 +15,7 @@ const MenuScreen = () => {
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
 
   const currentTableNum = useSelector(selectCurrentTable);
-  const dishesCountInShoppingCart = useSelector(selectShoppingCartDishesCount);
+  const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
   // console.log("current table is", currentTableNum);
   console.log("shopping cart dished number is", dishesCountInShoppingCart);
 
@@ -61,7 +61,7 @@ const MenuScreen = () => {
         <Text style={styles.headerText}>
           Table {currentTableNum}
         </Text>
-        <ShoppingCart style={styles.headerCart} count={5}/>
+        <ShoppingCart style={styles.headerCart} count={dishesCountInShoppingCart}/>
       </View>
       <Divider width={3} color={"#887"} />
       <View style={styles.flatlistContainer}> 

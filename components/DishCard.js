@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { Card, Icon } from "react-native-elements";
 import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import { Button } from '@rneui/themed';
-import { AntDesign } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { useSelector,useDispatch } from "react-redux";
+import { selectCurrentOrder } from "../redux/slice";
+import { addDishToShoppingCart } from "../redux/slice";
 
 const cardSize = 180;
 
@@ -15,8 +17,11 @@ const DishCard = props => {
   const [added, setAdded] = useState(false);
   const [dishName, setDishName] = useState();
   const [dishDescription, setDishDescription] = useState();
+  
 
   const dish = props.dish;
+  const curOrder = useSelector(selectCurrentOrder);
+  const dispatch = useDispatch();
 
   function TrimText() {
     if(dish.name.length >= 15)
@@ -31,19 +36,36 @@ const DishCard = props => {
   }
 
   function CheckAdded() {
-    // Check the staus, if the dish can be found in tobeAddedDishes of currentOrder
+    curOrder.tobeAddedDishes.map((dishInChart)=> {
+      if(dishInChart.id == dish.id)
+        setAdded(true);
+    });
   }
 
   useEffect(()=>{
     TrimText();
   },[]);
 
+  // check initial state, then setAdded
   useEffect(()=>{
+    //iterate the tobeAddedDishes Array, if we find the dishId equals, then setAdded
+    CheckAdded();  
+  },[curOrder]);
 
-  },[]);
 
-  const addDishToCartHandler = () => {
-    console.log("Add dish to Shopping Cart");
+  const toggleAddDishToChart = () => {
+    console.log("added is", added);
+    if(!added) {
+      dispatch(addDishToShoppingCart({
+        dishId: dish.id,
+        currentTable: curOrder.currentTable
+      }));
+    } else {
+      dispatch(removeDishFromShoppingCart({
+        dishId: dish.id,
+        currentTable: curOrder.currentTable
+      }));
+    }
   };
   
   return (
@@ -68,7 +90,7 @@ const DishCard = props => {
           <Pressable
             activeOpacity={0.5}
             style={[styles.add_circle, { backgroundColor:"#EA5755" }]}
-            onPress={addDishToCartHandler}
+            onPress={toggleAddDishToChart}
           >
             {added ? (
               <MaterialIcons name="done" size={18} />

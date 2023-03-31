@@ -38,12 +38,45 @@ const ordersSlice = createSlice({
           state.orders=[...state.orders,newOrder];
           console.log("State after creating order:", state);
       },
+      addDishToShoppingCart: (state, action) => {
+
+        const dishId=action.payload.dishId;
+        const curTable=action.payload.currentTable;
+
+        // update dishes in tobeAddedDishes array of currentOrder
+        const tobeAddedDishes = [...state.currentOrder.tobeAddedDishes, {
+          dishId:dishId,
+          numberOfCurDish:1
+        }];
+        
+        // set updatedOrder with updated tobeAddedDishes
+        const updatedOrder = {
+          ...state.currentOrder,
+          tobeAddedDishes,
+        };
+
+        state.currentOrder = updatedOrder;
+
+        // find the current order in orders, which needs to be updated, in previous operations, id doesn't change.
+        const orderIndex = state.orders.findIndex(order => order.id === state.currentOrder.id && order.tableNumber===curTable);
+        // update order in orders
+        state.orders=[
+          ...state.orders.slice(0, orderIndex),
+          updatedOrder,
+          ...state.orders.slice(orderIndex+1)
+        ];
+
+        console.log("State after creating order:", state.currentOrder);
+      },
+      removeDishFromShoppingCart:(state, action) => {
+
+      }
     }
   });
 
-export const { createOrder } = ordersSlice.actions;
+export const { createOrder, addDishToShoppingCart } = ordersSlice.actions;
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
-export const selectShoppingCartDishesCount = (state) => state.allOrders.currentOrder.tobeAddedDishes.length;
+export const selectCurrentOrder = (state) => state.allOrders.currentOrder;
 
 
 
