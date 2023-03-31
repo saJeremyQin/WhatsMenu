@@ -5,8 +5,9 @@ import { DISH_TYPES } from "../Gloabls/constants";
 import DishCard from "../components/DishCard";
 import { Divider } from '@rneui/themed';
 import { useSelector } from "react-redux";
-// import { selectCurrentTable } from "../redux/slice";
-import { selectCurrentTable } from "../redux/slice";
+import { selectCurrentTable, selectShoppingCartDishesCount } from "../redux/slice";
+import ShoppingCart from "../components/ShoppingCart";
+
 
 const MenuScreen = () => {
 
@@ -14,7 +15,9 @@ const MenuScreen = () => {
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
 
   const currentTableNum = useSelector(selectCurrentTable);
-  console.log("current table is", currentTableNum);
+  const dishesCountInShoppingCart = useSelector(selectShoppingCartDishesCount);
+  // console.log("current table is", currentTableNum);
+  console.log("shopping cart dished number is", dishesCountInShoppingCart);
 
   useEffect(() => {
     console.log(Dimensions.get("window").width);
@@ -48,18 +51,17 @@ const MenuScreen = () => {
   //   console.log("the data is",dishesByType)
   // }
   return (
-    <React.Fragment>
+    <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Image
-            source={require("../assets/table.png")}
-            containerStyle={styles.headerItem}
-            resizeMode="contain"
-            // PlaceholderContent={<ActivityIndicator />}
-        />        
+          source={require("../assets/table.png")}
+          resizeMode="contain"
+          style={styles.headerImage}
+        />
         <Text style={styles.headerText}>
           Table {currentTableNum}
         </Text>
-        {/* <Button title="Test" style={{width:100}} /> */}
+        <ShoppingCart style={styles.headerCart} count={5}/>
       </View>
       <Divider width={3} color={"#887"} />
       <View style={styles.flatlistContainer}> 
@@ -72,35 +74,30 @@ const MenuScreen = () => {
           renderItem={renderDishItem}
         />    
       </View>
-    </React.Fragment>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:"pink"
+
+  container:{
+    flex:1,
+    backgroundColor:"#66a"
   },
   headerContainer:{
+    // position:"relative",
     flex:1,
     flexDirection:"row",
-    // backgroundColor:"green",
-    paddingLeft:40,
-    marginTop:40,
+    paddingHorizontal:40,
+    marginTop:60,
     marginBottom:40,
-    justifyContent:"flex-start",
+    justifyContent:"space-between",
     alignItems:"center",
     height:100
   },
-  headerItem:{
-    // aspectRatio: 1,
-    // width: "5%",
-    width:64,
-    height:64,
-    // height: "auto"
-    // borderWidth: 3,
-    // borderColor:"#606"
-    // verticalAlign:"middle"
+  headerImage:{
+    aspectRatio: 1,
+    width: "5%",
   },
   headerText: {
     // borderWidth: 3,
@@ -109,8 +106,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 30,
     minHeight:50,
-    marginLeft:20
-    // color:"red",
+    // marginLeft:'auto',
+
+  },
+  shoppingcart:{
+    // position:"absolute",
+    // right:10,
+    // marginLeft:"auto"
+    // top:10
   },
   flatlistContainer:{
     paddingTop: 20,

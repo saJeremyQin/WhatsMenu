@@ -43,6 +43,7 @@ const ordersSlice = createSlice({
 
 export const { createOrder } = ordersSlice.actions;
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
+export const selectShoppingCartDishesCount = (state) => state.allOrders.currentOrder.tobeAddedDishes.length;
 
 
 

@@ -67,7 +67,7 @@ const DishCard = props => {
           <Text style={styles.price}>${dish.price}</Text>
           <Pressable
             activeOpacity={0.5}
-            style={[styles.add_circle, { backgroundColor:"#FD9228" }]}
+            style={[styles.add_circle, { backgroundColor:"#EA5755" }]}
             onPress={addDishToCartHandler}
           >
             {added ? (
