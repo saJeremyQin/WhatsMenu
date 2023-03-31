@@ -36,7 +36,7 @@ const ordersSlice = createSlice({
 
           state.currentOrder=newOrder;
           state.orders=[...state.orders,newOrder];
-          console.log("State after creating order:", state);
+          // console.log("State after creating order:", state);
       },
       addDishToShoppingCart: (state, action) => {
 
@@ -66,19 +66,19 @@ const ordersSlice = createSlice({
           ...state.orders.slice(orderIndex+1)
         ];
 
-        console.log("State after creating order:", state.currentOrder);
+        // console.log("State after creating order:", state.currentOrder);
       },
       removeDishFromShoppingCart:(state, action) => {
         const dishId = action.payload.dishId;
         const curTable = action.payload.currentTable;
-        console.log("dishId is", dishId);
-        console.log("curTable is", curTable);
+        // console.log("dishId is", dishId);
+        // console.log("curTable is", curTable);
         const { orders } = state;
 
         // find the current order in orders, which needs to be updated, in previous operations, id doesn't change.
         const orderIndex = orders.findIndex(order => order.id === state.currentOrder.id && order.tableNumber===curTable);
      
-        console.log(orderIndex);
+        // console.log(orderIndex);
         let tobeAddedDishes = [...state.currentOrder.tobeAddedDishes];
 
         const dishIndex = tobeAddedDishes.findIndex(dish => dish.dishId === dishId);
@@ -86,25 +86,24 @@ const ordersSlice = createSlice({
         if(dishIndex !== -1) {
           tobeAddedDishes.splice(dishIndex,1);
         }
-        console.log("toBeAddedDishes is", tobeAddedDishes);
+        // console.log("toBeAddedDishes is", tobeAddedDishes);
         // create a new order object which is simliar to currentOrder except tobeAddedDishes
         const updatedOrder = {
           ...state.currentOrder, 
           tobeAddedDishes};
 
         state.currentOrder=updatedOrder;
-        console.log("updatedorder is",updatedOrder);
+        // console.log("updatedorder is",updatedOrder);
 
 
         //how to update orders?, the same
-        // update order in orders
         state.orders=[
           ...state.orders.slice(0, orderIndex),
           updatedOrder,
           ...state.orders.slice(orderIndex+1)
         ];
         
-        console.log("State after creating order:", state.currentOrder);
+        // console.log("State after creating order:", state.currentOrder);
       }
     }
   });

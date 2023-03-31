@@ -34,7 +34,7 @@ const MainTabNavigator = () => {
               iconName = 'spa'
           }
           color = focused ? '#f0f' : '#555';
-          size = focused ? 24 : 20;
+          size = focused ? 28 : 24;
             return <FontAwesome5 name={iconName} size={size} color={color}/>;
           },
       })}

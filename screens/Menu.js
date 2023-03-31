@@ -17,10 +17,10 @@ const MenuScreen = () => {
   const currentTableNum = useSelector(selectCurrentTable);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
   // console.log("current table is", currentTableNum);
-  console.log("shopping cart dished number is", dishesCountInShoppingCart);
+  // console.log("shopping cart dished number is", dishesCountInShoppingCart);
 
   useEffect(() => {
-    console.log(Dimensions.get("window").width);
+    // console.log(Dimensions.get("window").width);
     try {
       client.request(DISHES_QUERY).then((data) => {
         setMenuData(data.dishes);

@@ -51,25 +51,25 @@ const DishCard = props => {
   useEffect(()=>{
     //iterate the tobeAddedDishes Array, if we find the dishId equals, then setAdded
     CheckAdded();  
-    console.log("I am in checkAdded");
+    // console.log("I am in checkAdded");
   },[curOrder]);
 
 
   const toggleAddDishToChart = () => {
-    console.log("added is", added);
+    // console.log("added is", added);
     setAdded((flag) => !flag);
 
     if(!added) {
-      console.log("dishId in addDish is", dish.id);
-      console.log("currentTable in addDish is", curTable);
+      // console.log("dishId in addDish is", dish.id);
+      // console.log("currentTable in addDish is", curTable);
 
       dispatch(addDishToShoppingCart({
         dishId: dish.id,
         currentTable: curTable
       }));
     } else {
-      console.log("dishId in removeDish is", dish.id);
-      console.log("currentTable in removeDish is", curTable);
+      // console.log("dishId in removeDish is", dish.id);
+      // console.log("currentTable in removeDish is", curTable);
       dispatch(removeDishFromShoppingCart({
         dishId: dish.id,
         currentTable: curTable
