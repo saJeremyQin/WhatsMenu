@@ -63,7 +63,7 @@ const MenuScreen = () => {
         </Text>
         <ShoppingCart style={styles.headerCart} count={dishesCountInShoppingCart}/>
       </View>
-      <Divider width={3} color={"#887"} />
+      <Divider width={1.5} color={"white"} />
       <View style={styles.flatlistContainer}> 
         <FlatList
           data={dishesByType}
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
   container:{
     flex:1,
-    backgroundColor:"#66a"
+    backgroundColor:"#5e0a9c"
   },
   headerContainer:{
     // position:"relative",
