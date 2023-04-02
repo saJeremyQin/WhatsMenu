@@ -97,14 +97,11 @@ const styles = StyleSheet.create({
     width: "5%",
   },
   headerText: {
-    // borderWidth: 3,
-    // borderColor:"#606",
-    // backgroundColor:"blue",
+
     textAlign: 'center',
     fontSize: 30,
     minHeight:50,
     // marginLeft:'auto',
-
   },
   shoppingcart:{
     // position:"absolute",

@@ -5,7 +5,6 @@ import { AntDesign } from "@expo/vector-icons";
 
 const ShoppingCart = (props) => {
     const count = props.count;
-    // console.log(count);
     
     return (
         <Pressable style={styles.cartContainer}

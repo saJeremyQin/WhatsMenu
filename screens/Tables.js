@@ -98,7 +98,7 @@ const styles=StyleSheet.create({
   container: {
     flex: 1,
     // padding: 10,
-    backgroundColor: '#ff4081',
+    backgroundColor:"#5e0a9c",
     justifyContent:"center",
   },
   headContainer:{
@@ -107,7 +107,7 @@ const styles=StyleSheet.create({
     paddingHorizontal:40,
     marginTop:60,
     marginBottom:40,
-    justifyContent:"space-between",
+    justifyContent:"flex-start",
     alignItems:"center",
     height:100
   },
@@ -117,7 +117,10 @@ const styles=StyleSheet.create({
   },
   headerText:{
     fontSize:24,
-    color:"white"
+    color:"white",
+    minHeight:50,
+    paddingLeft:30,
+    lineHeight:60
   }
 })
 
