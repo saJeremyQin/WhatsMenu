@@ -10,12 +10,14 @@
 // export default store;
 
 import { configureStore } from "@reduxjs/toolkit";
-import ordersSlice from "./slice";
+import dishesSlice from "./slices/dishesSlice";
+import ordersSlice from "./slices/ordersSlice";
 
 
 
 export const store = configureStore({
   reducer: {
       allOrders: ordersSlice,
+      dishes: dishesSlice
   }
 });

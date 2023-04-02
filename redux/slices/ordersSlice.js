@@ -20,7 +20,6 @@ const ordersSlice = createSlice({
     initialState,
     reducers:{
       createOrder: (state, action) => {
-          // const { tableNumber, numberOfDiners } = action.payload;
           state.currentTable=action.payload.tableNumber;
           const numberOfDiners=action.payload.numberOfDiners;
       
@@ -46,7 +45,7 @@ const ordersSlice = createSlice({
         // update dishes in tobeAddedDishes array of currentOrder
         const tobeAddedDishes = [...state.currentOrder.tobeAddedDishes, {
           dishId:dishId,
-          numberOfCurDish:1
+          dishQuantity:1
         }];
         
         // set updatedOrder with updated tobeAddedDishes
@@ -111,6 +110,7 @@ const ordersSlice = createSlice({
 export const { createOrder, addDishToShoppingCart, removeDishFromShoppingCart } = ordersSlice.actions;
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
 export const selectCurrentOrder = (state) => state.allOrders.currentOrder;
+export const selectOrders = (state) => state.allOrders.orders;
 
 
 

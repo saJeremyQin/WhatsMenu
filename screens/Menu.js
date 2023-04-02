@@ -5,7 +5,8 @@ import { DISH_TYPES } from "../Gloabls/constants";
 import DishCard from "../components/DishCard";
 import { Divider } from '@rneui/themed';
 import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentOrder, selectCurrentTable } from "../redux/slice";
+import {createOrder, selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
+import { selectDishes } from "../redux/slices/dishesSlice";
 import ShoppingCart from "../components/ShoppingCart";
 
 
@@ -14,6 +15,11 @@ const MenuScreen = () => {
   const [menuData, setMenuData] = useState();
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
 
+  const dispatch = useDispatch();
+  const dishes = useSelector(selectDishes);
+
+
+
   const currentTableNum = useSelector(selectCurrentTable);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
   // console.log("current table is", currentTableNum);
@@ -21,17 +27,8 @@ const MenuScreen = () => {
 
   useEffect(() => {
     // console.log(Dimensions.get("window").width);
-    try {
-      client.request(DISHES_QUERY).then((data) => {
-        setMenuData(data.dishes);
-        const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
-        setDishesByType(filterByDishesTypeArr);    
-      });
-      
-    } catch (error) {
-      console.log(error);
-    }
-
+    dispatch(createOrder(5,3));
+    setDishesByType(dishes);
   }, []);
 
   const renderDishItem = ({item}) => {

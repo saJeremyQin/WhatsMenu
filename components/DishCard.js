@@ -5,8 +5,8 @@ import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import { Button } from '@rneui/themed';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
-import { selectCurrentOrder, selectCurrentTable } from "../redux/slice";
-import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slice";
+import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
+import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slices/ordersSlice";
 
 const cardSize = 180;
 
