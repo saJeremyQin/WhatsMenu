@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   },
   amount:{
     fontSize:22,
+    color: "#f31282"
   },
   image:{
     width: 128,

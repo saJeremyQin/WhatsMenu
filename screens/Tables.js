@@ -117,10 +117,10 @@ const styles=StyleSheet.create({
   },
   headerText:{
     fontSize:24,
-    color:"white",
     minHeight:50,
     paddingLeft:30,
-    lineHeight:60
+    lineHeight:60,
+    color: "#f31282"
   }
 })
 
