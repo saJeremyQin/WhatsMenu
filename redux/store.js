@@ -1,11 +1,23 @@
-// store.js
-import { createStore, combineReducers } from 'redux';
-import orderReducer from './reducers/orderReducer';
+// import { createStore, combineReducers } from 'redux';
+// import ordersReducer from './reducers';
 
-const rootReducer = combineReducers({
-  orders: orderReducer,
+// const rootReducer = combineReducers({
+//   orders: ordersReducer,
+// });
+
+// const store = createStore(rootReducer);
+
+// export default store;
+
+import { configureStore } from "@reduxjs/toolkit";
+import dishesSlice from "./slices/dishesSlice";
+import ordersSlice from "./slices/ordersSlice";
+
+
+
+export const store = configureStore({
+  reducer: {
+      allOrders: ordersSlice,
+      dishes: dishesSlice
+  }
 });
-
-const store = createStore(rootReducer);
-
-export default store;

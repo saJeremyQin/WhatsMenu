@@ -1,8 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import MainTabNavigator from "./MainTabNavigator";
-import NotFound from "../screens/NotFound";
 
+import NotFound from "../screens/NotFound";
+// import MainTabView from "./MainTabView";
+import MainTabNavigator from "./MainTabNavigator";
+import OrdersScreen from "../screens/Orders";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +19,10 @@ const RootNavigator = () => {
                 <Stack.Screen 
                     name="NotFound"
                     component={NotFound}
+                />
+                <Stack.Screen
+                    name="Orders"
+                    component={OrdersScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>

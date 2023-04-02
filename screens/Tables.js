@@ -1,121 +1,125 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React,{useEffect} from "react";
+import { StyleSheet, View, Text, Image, FlatList } from "react-native";
+// import { Button, ButtonGroup, withTheme } from '@rneui/themed';
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder, selectOrders } from "../redux/slices/ordersSlice";
+import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
+import { useNavigation } from "@react-navigation/native";
+import { Divider } from "react-native-elements";
+import { client, DISHES_QUERY } from "../Gloabls/netRequest";
+import { DISH_TYPES } from "../Gloabls/constants";
+import TableCard from "../components/TableCard";
 
 const TablesScreen = () => {
+  const numOfTables = 30;
+  const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
+
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+    // should use [dispatch] or []?
+  useEffect(() => {
+    try {
+      client.request(DISHES_QUERY).then((data) => {
+        dispatch(addDishes(data.dishes));
+        // setMenuData(data.dishes);
+        // const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
+        // setDishesByType(filterByDishesTypeArr);    
+      });
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+  }, [dispatch]);
+  
+  const orders = useSelector(selectOrders);
+  const dishes = useSelector(selectDishes);
+
+  const getDishById = (dishId) => {
+    return dishes.find((dish) => dish.id === dishId);
+  }
+
+
+  
+  const renderTableItem = ({item}) => {
+    const tableOrder = orders.find(order => order.tableNumber === item);
+
+    if(tableOrder) {
+      const totalAmount = tableOrder.haveBeenPlacedDishes.reduce(
+        (acc,dish) => acc + getDishById(dish.dishId).price * dish.quantity,0
+      );
+      return (      
+        // <View>
+        //   <Text>
+        //     Table {item} ({tableOrder.numberOfDiners} diners) - Total:{" "}
+        //     {totalAmount}
+        //   </Text>
+        // </View>
+          <TableCard tableNumber={item} totalAmount={totalAmount} />
+        )
+    } else {
+      return (
+        // <View>
+        //   <Text>Table {item} (Unoccupied)</Text>
+        // </View>
+          <TableCard tableNumber={item} totalAmount={0} />
+      );
+    }
+
+  };
+
   return (
     <View style={styles.container}>
-      {/* <FlatList
-        data={tables}
+      <View style={styles.headContainer}>
+        <Image 
+          source={require("../assets/logo.png")}
+          resizeMode="contain"
+          style={styles.headerImage}
+        />
+        <Text style={styles.headerText}>
+          Welcome to WhatsMenu
+        </Text>
+      </View>
+      <Divider width={1} color="white" />
+      <FlatList
+        data={tableNumbers}
+        numColumns={5}
+        // width={Dimensions.get('window').width}
         renderItem={renderTableItem}
-        keyExtractor={(item) => item.tableNumber.toString()}
-      /> */}
-      <Text style={styles.text}>This is TablesScreen</Text>
+        keyExtractor={(item) => item.toString()}
+        // alignItems="space-evenly"
+      />
     </View>
   );
 }
 
-export default TablesScreen;
-
-
-
-
-
-
-// //Tables.js
-
-// import React, { useEffect } from 'react';
-// import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-// import { connect } from 'react-redux';
-// import { setCurrentTable } from '../actions/orderActions';
-
-// const TablesScreen = ({ navigation, tables, setCurrentTable }) => {
-// useEffect(() => {
-// // Load tables data from SQLite or server and dispatch it to Redux store
-// // ...
-// }, []);
-
-// const handleTablePress = (table) => {
-// setCurrentTable(table.tableNumber, table.tableCapacity);
-// if (table.orderStatus === 1) {
-// navigation.navigate('Order');
-// } else {
-// navigation.navigate('Menu');
-// }
-// };
-
-// const renderTableItem = ({ item }) => {
-// let orderAmount = null;
-// if (item.orderStatus === 1) {
-// // Calculate order amount for ongoing orders
-// orderAmount = item.OngoingDishes.reduce((total, dish) => {
-// return total + dish.price;
-// }, 0);
-// }
-
-// return (
-// <TouchableOpacity onPress={() => handleTablePress(item)}>
-// <View style={styles.tableItem}>
-// <Text style={styles.tableNumber}>Table {item.tableNumber}</Text>
-// {item.orderStatus === 1 ? (
-// <>
-// <Text style={styles.orderAmount}>Order Amount: ${orderAmount}</Text>
-// <Text style={styles.numberOfDiners}>Diners: {item.numberOfDiners}</Text>
-// </>
-// ) : null}
-// </View>
-// </TouchableOpacity>
-// );
-// };
-
-// return (
-// <View style={styles.container}>
-// <FlatList
-// data={tables}
-// renderItem={renderTableItem}
-// keyExtractor={(item) => item.tableNumber.toString()}
-// />
-// </View>
-// );
-// };
-
-// const mapStateToProps = (state) => {
-// return {
-// tables: state.order.tables,
-// };
-// };
-
-// export default connect(mapStateToProps, { setCurrentTable })(TablesScreen);
-
-const styles = StyleSheet.create({
+const styles=StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection:"row",
-    padding: 10,
+    // padding: 10,
+    backgroundColor: '#ff4081',
     justifyContent:"center",
-    alignItems:"center"
   },
-  text:{
-    fontSize:30
+  headContainer:{
+    flex:1,
+    flexDirection:"row",
+    paddingHorizontal:40,
+    marginTop:60,
+    marginBottom:40,
+    justifyContent:"space-between",
+    alignItems:"center",
+    height:100
   },
-  tableItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-    paddingVertical: 10,
+  headerImage:{
+    aspectRatio: 1,
+    width: "5%",
   },
-  tableNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  orderAmount: {
-    fontSize: 16,
-    color: '#555',
-  },
-  numberOfDiners: {
-    fontSize: 16,
-    color: '#555',
-  },
-});
+  headerText:{
+    fontSize:24,
+    color:"white"
+  }
+})
+
+export default TablesScreen;
 
