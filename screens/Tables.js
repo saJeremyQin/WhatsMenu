@@ -56,7 +56,7 @@ const TablesScreen = () => {
         //     {totalAmount}
         //   </Text>
         // </View>
-          <TableCard tableNumber={item} totalAmount={totalAmount} />
+          <TableCard tableNumber={item} totalAmount={totalAmount} tableStatus={Boolean(tableOrder)} />
         )
     } else {
       return (
@@ -98,7 +98,8 @@ const styles=StyleSheet.create({
   container: {
     flex: 1,
     // padding: 10,
-    backgroundColor:"#5e0a9c",
+    // backgroundColor:"#5e0a9c",
+    backgroundColor:"white",
     justifyContent:"center",
   },
   headContainer:{
