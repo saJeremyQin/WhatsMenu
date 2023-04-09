@@ -21,7 +21,9 @@ const TablesScreen = () => {
   useEffect(() => {
     try {
       client.request(DISHES_QUERY).then((data) => {
+        console.log("in tables dishes are", data.dishes);
         dispatch(addDishes(data.dishes));
+        console.log(data.dishes);
         // setMenuData(data.dishes);
         // const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
         // setDishesByType(filterByDishesTypeArr);    

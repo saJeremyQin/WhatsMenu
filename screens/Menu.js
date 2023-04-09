@@ -12,7 +12,7 @@ import ShoppingCart from "../components/ShoppingCart";
 
 const MenuScreen = () => {
 
-  const [menuData, setMenuData] = useState();
+  // const [menuData, setMenuData] = useState();
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
 
   const dispatch = useDispatch();
@@ -27,9 +27,14 @@ const MenuScreen = () => {
 
   useEffect(() => {
     // console.log(Dimensions.get("window").width);
-    dispatch(createOrder(5,3));
-    setDishesByType(dishes);
-  }, []);
+    // dispatch(createOrder(5,3));
+    if(dishes) {
+      console.log("in menu dishes are", dishes);
+
+      const filterByDishesTypeArr = dishes.filter((dish) => dish.type == "main");
+      setDishesByType(filterByDishesTypeArr);  
+    }
+  }, [dishes]);
 
   const renderDishItem = ({item}) => {
       return (

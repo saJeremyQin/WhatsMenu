@@ -15,6 +15,6 @@ const dishesSlice = createSlice({
 });
 
 export const { addDishes } = dishesSlice.actions;
-export const selectDishes = (state) => state.dishes;
+export const selectDishes = (state) => state.dishes.dishes;
 
 export default dishesSlice.reducer;
