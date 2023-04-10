@@ -19,20 +19,15 @@ const TableCard = props => {
 
   const dispatch = useDispatch();
 
-  // check table status, if it is ongoing
-  const tableClickHandler = () => {
-    dispatch(
-      createOrder({
-        tableNumber:tableNumber,
-        numberOfDiners:3
-      })
-    );
-    navigation.navigate("Menu");
-  }
-  
+  const tableCardClickHandler = () => {
+    props.onTableCardClick(tableNumber);
+  };
   
   return (
-    <Pressable style={styles.container} onPress={tableClickHandler}>
+    <Pressable 
+      style={styles.container} 
+      onPress={tableCardClickHandler}
+    >
         <Text style={styles.amount}>${totalAmount}</Text>
         <Image
             style={styles.image}
