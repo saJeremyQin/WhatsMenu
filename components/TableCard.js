@@ -21,7 +21,6 @@ const TableCard = props => {
 
   // check table status, if it is ongoing
   const tableClickHandler = () => {
-    console.log("table number is ", tableNumber);
     dispatch(
       createOrder({
         tableNumber:tableNumber,
@@ -29,7 +28,6 @@ const TableCard = props => {
       })
     );
     navigation.navigate("Menu");
-    
   }
   
   
@@ -64,7 +62,6 @@ const styles = StyleSheet.create({
   },
   number:{
     fontSize:22,
-    // color: "#f31282"
   }
  
 });

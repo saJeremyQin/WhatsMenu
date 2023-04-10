@@ -1,6 +1,5 @@
-import React,{useEffect} from "react";
+import React,{useEffect,useState} from "react";
 import { StyleSheet, View, Text, Image, FlatList } from "react-native";
-// import { Button, ButtonGroup, withTheme } from '@rneui/themed';
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders } from "../redux/slices/ordersSlice";
 import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
@@ -8,9 +7,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-elements";
 import { client, DISHES_QUERY } from "../Gloabls/netRequest";
 import { DISH_TYPES } from "../Gloabls/constants";
+import { Dialog, Button, TextInput } from "react-native-elements";
 import TableCard from "../components/TableCard";
 
 const TablesScreen = () => {
+
   const numOfTables = 30;
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
 
@@ -21,12 +22,7 @@ const TablesScreen = () => {
   useEffect(() => {
     try {
       client.request(DISHES_QUERY).then((data) => {
-        console.log("in tables dishes are", data.dishes);
         dispatch(addDishes(data.dishes));
-        console.log(data.dishes);
-        // setMenuData(data.dishes);
-        // const filterByDishesTypeArr = data.dishes.filter((dish) => dish.type == "main");
-        // setDishesByType(filterByDishesTypeArr);    
       });
       
     } catch (error) {
@@ -41,35 +37,20 @@ const TablesScreen = () => {
   const getDishById = (dishId) => {
     return dishes.find((dish) => dish.id === dishId);
   }
-
-
   
   const renderTableItem = ({item}) => {
     const tableOrder = orders.find(order => order.tableNumber === item);
-
+    let totalAmount=0;
     if(tableOrder) {
-      const totalAmount = tableOrder.haveBeenPlacedDishes.reduce(
+      totalAmount = tableOrder.haveBeenPlacedDishes.reduce(
         (acc,dish) => acc + getDishById(dish.dishId).price * dish.quantity,0
       );
-      return (      
-        // <View>
-        //   <Text>
-        //     Table {item} ({tableOrder.numberOfDiners} diners) - Total:{" "}
-        //     {totalAmount}
-        //   </Text>
-        // </View>
-          <TableCard tableNumber={item} totalAmount={totalAmount} tableStatus={Boolean(tableOrder)} />
-        )
-    } else {
-      return (
-        // <View>
-        //   <Text>Table {item} (Unoccupied)</Text>
-        // </View>
-          <TableCard tableNumber={item} totalAmount={0} />
-      );
     }
-
+    return (
+      <TableCard tableNumber={item} totalAmount={totalAmount} tableStatus={Boolean(tableOrder)} />
+    )
   };
+
 
   return (
     <View style={styles.container}>
@@ -87,11 +68,11 @@ const TablesScreen = () => {
       <FlatList
         data={tableNumbers}
         numColumns={5}
-        // width={Dimensions.get('window').width}
         renderItem={renderTableItem}
         keyExtractor={(item) => item.toString()}
         // alignItems="space-evenly"
       />
+
     </View>
   );
 }
@@ -99,8 +80,6 @@ const TablesScreen = () => {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 10,
-    // backgroundColor:"#5e0a9c",
     backgroundColor:"white",
     justifyContent:"center",
   },
@@ -124,6 +103,12 @@ const styles=StyleSheet.create({
     paddingLeft:30,
     lineHeight:60,
     color: "#f31282"
+  },
+  dialog:{
+    width:400,
+    height:320,
+    backgroundColor:"pink"
+
   }
 })
 

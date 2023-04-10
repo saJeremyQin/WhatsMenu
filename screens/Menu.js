@@ -12,25 +12,18 @@ import ShoppingCart from "../components/ShoppingCart";
 
 const MenuScreen = () => {
 
-  // const [menuData, setMenuData] = useState();
   const [dishesByType, setDishesByType] = useState([]);   //dishes in array by current activeType
 
   const dispatch = useDispatch();
   const dishes = useSelector(selectDishes);
 
-
-
   const currentTableNum = useSelector(selectCurrentTable);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
-  // console.log("current table is", currentTableNum);
-  // console.log("shopping cart dished number is", dishesCountInShoppingCart);
+
 
   useEffect(() => {
-    // console.log(Dimensions.get("window").width);
-    // dispatch(createOrder(5,3));
-    if(dishes) {
-      console.log("in menu dishes are", dishes);
 
+    if(dishes) {
       const filterByDishesTypeArr = dishes.filter((dish) => dish.type == "main");
       setDishesByType(filterByDishesTypeArr);  
     }
