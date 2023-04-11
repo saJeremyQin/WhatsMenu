@@ -20,8 +20,8 @@ const MenuScreen = () => {
   const currentTableNum = useSelector(selectCurrentTable);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
   const dinersNum =  useSelector(selectNumberOfDiners);
-  console.log("Current table is", currentTableNum);
-  console.log("Number of Diners is", dinersNum);
+  // console.log("Current table is", currentTableNum);
+  // console.log("Number of Diners is", dinersNum);
 
   useEffect(() => {
 
