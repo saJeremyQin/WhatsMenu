@@ -37,6 +37,7 @@ const TablesScreen = () => {
   
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);
+  // console.log("dishes in tables are", dishes);
 
   const getDishById = (dishId) => {
     return dishes.find((dish) => dish.id === dishId);

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, FlatList } from "react-native";
 import { Divider } from "react-native-elements";
 import { useSelector } from "react-redux";
 import { selectCurrentOrder } from "../redux/slices/ordersSlice";
+import CartDish from "../components/CartDish";
 
 const OrdersScreen = () => {
   const [cartData, setCartData] = useState([]);
@@ -21,13 +22,9 @@ const OrdersScreen = () => {
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
-              // <CartDish
-              //   name={item.name}
-              //   price={item.price}
-              //   image={item.image}
-              //   id={item.id}
-              // />
-              <Text>{item.dishId}</Text>
+              <CartDish
+                dishId={item.dishId}
+              />
             );
           }}
         />
@@ -58,7 +55,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   flatList:{
-    flexGrow: 0,
+    // flexGrow: 0,
+    marginTop:30,
+    width:"80%"
   }
 });
 

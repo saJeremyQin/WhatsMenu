@@ -5,16 +5,28 @@ const initialState = {
 };
 
 const dishesSlice = createSlice({
-  name: 'dishes',
+  name: 'allDishes',
   initialState,
   reducers: {
     addDishes: (state, action) => {
       state.dishes = action.payload;
+      // console.log("dishes after add are", state.dishes);
     },
+
   },
 });
 
 export const { addDishes } = dishesSlice.actions;
-export const selectDishes = (state) => state.dishes.dishes;
+export const selectDishes = (state) => state.allDishes.dishes;
+// export const selectDishById = (state, dishId) => {
+//   console.log("current state is", state);
+//   state.allDishes.dishes.find((dish) => dish.id === dishId);
+// }
+export const selectDishByIdWrapper = (dishId) => (state) => {
+  // This will create a closure that captures the dishId argument, 
+  // and returns a selector function that takes the state and returns the desired dish object.
+  return state.allDishes.dishes.find((dish) => dish.id === dishId);
+}
+
 
 export default dishesSlice.reducer;

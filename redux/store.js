@@ -18,6 +18,6 @@ import ordersSlice from "./slices/ordersSlice";
 export const store = configureStore({
   reducer: {
       allOrders: ordersSlice,
-      dishes: dishesSlice
+      allDishes: dishesSlice
   }
 });
