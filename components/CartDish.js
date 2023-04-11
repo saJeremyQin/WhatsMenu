@@ -3,6 +3,7 @@ import { processColor } from "react-native";
 import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { selectDishByIdWrapper } from "../redux/slices/dishesSlice";
+import { AntDesign } from "@expo/vector-icons";
 
 const CartDish = props => {
 
@@ -24,33 +25,46 @@ const CartDish = props => {
             $ {dish.price || "price"}
           </Text>
         </View>
+        <View style={styles.quantity_container}>
+          <Pressable style={styles.quantity_btn}>
+            <AntDesign name="plus" size={20} color="black" />
+          </Pressable>
+          <Text style={{fontSize:16}}>{dishQuantity}</Text>
+          <Pressable style={styles.quantity_btn}>
+            <AntDesign name="minus" size={20} color="black" />
+          </Pressable>
+        </View>
       </View>
-      <Pressable>
-
+      <Pressable style={styles.delete_container}>
+        <AntDesign name="delete" size={28} color="black"/>
       </Pressable>
     </View>
-
-
   );
 };
 
 
 const styles = StyleSheet.create({
     container:{
-      borderWidth: 1,
-      borderColor:"#52f",
-      borderTopLeftRadius:5,
-      borderTopRightRadius:5,
-      width: "100%",
-      marginTop:10
+      display: "flex",
+      flexDirection:"row",
+      // borderWidth: 1,
+      // borderColor:"#52f",
+      // borderTopLeftRadius:5,
+      // borderTopRightRadius:5,
+      // width: "100%",
+      justifyContent:"center",
+      alignItems:"center",
+      marginVertical:10
     },
     main_container: {
       overflow: "hidden",
       flexDirection: "row",
       alignItems: "center",
       height: 100,
+      width: "80%",
   
-      borderColor: "#000",
+      // borderColor: "#000",
+      borderColor:"#52f",
       borderWidth: 1,
       borderRadius: 15,
     },
@@ -67,6 +81,26 @@ const styles = StyleSheet.create({
     text:{
       color: "#000",
       fontSize: 16,     
+    },
+    quantity_container:{
+      backgroundColor: "green",
+      position: "absolute",
+      justifyContent: "center",
+      alignItems: "center",
+      right: 15,
+      borderRadius: 15,
+    },
+    quantity_btn:{
+      paddingHorizontal:5,
+      paddingVertical:3
+    },
+    delete_container:{
+      width:60,
+      height:60,
+      borderRadius:12,
+      marginLeft:15,
+      justifyContent:"center",
+      alignItems:"center"
     }
 });
 
