@@ -1,18 +1,39 @@
 import React,{ useState} from "react";
 import { processColor } from "react-native";
 import { Pressable, StyleSheet, Text, View, Image } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectDishByIdWrapper } from "../redux/slices/dishesSlice";
 import { AntDesign } from "@expo/vector-icons";
+import { selectDishQuantityByIdWrapper } from "../redux/slices/ordersSlice";
+import { changeDishQuantityInShoppingCart } from "../redux/slices/ordersSlice";
 
 const CartDish = props => {
 
   const [isdelete, setIsDelete] = useState(false);
-  const [dishQuantity, setDishQuantity] = useState(1);
+  const dispatch = useDispatch();
+  // const [dishQuantity, setDishQuantity] = useState(1);
 
   const dishId = props.dishId;
   // console.log("dishId is", dishId);
   const dish = useSelector(selectDishByIdWrapper(dishId));
+  const dishQuantity = useSelector(selectDishQuantityByIdWrapper(dishId));
+  console.log("dish quantity is", dishQuantity);
+
+  function changeDishQuantity(slug) {
+    if(dishQuantity == 1 && slug =="minus") return;
+    dispatch(changeDishQuantityInShoppingCart({
+      dishId: dishId,
+      slug:slug
+    }));   
+  };
+
+
+  // function changeDishCount(slug) {
+  //   // console.log("dishCount is", dishCount);
+  //   if (dishCount == 1 && slug == "minus") return;
+  //   if (slug == "plus") setDishCount((p) => p + 1);
+  //   else setDishCount((p) => p - 1);
+  // }
   return (
     <View style={styles.container}>
       <View style={styles.main_container}>
@@ -26,11 +47,11 @@ const CartDish = props => {
           </Text>
         </View>
         <View style={styles.quantity_container}>
-          <Pressable style={styles.quantity_btn}>
+          <Pressable style={styles.quantity_btn} onPress={()=>changeDishQuantity("plus")} >
             <AntDesign name="plus" size={20} color="black" />
           </Pressable>
           <Text style={{fontSize:16}}>{dishQuantity}</Text>
-          <Pressable style={styles.quantity_btn}>
+          <Pressable style={styles.quantity_btn} onPress={()=>changeDishQuantity("minus")}>
             <AntDesign name="minus" size={20} color="black" />
           </Pressable>
         </View>
@@ -52,7 +73,7 @@ const styles = StyleSheet.create({
       // borderTopLeftRadius:5,
       // borderTopRightRadius:5,
       // width: "100%",
-      justifyContent:"center",
+      // justifyContent:"center",
       alignItems:"center",
       marginVertical:10
     },
@@ -83,7 +104,7 @@ const styles = StyleSheet.create({
       fontSize: 16,     
     },
     quantity_container:{
-      backgroundColor: "green",
+      backgroundColor: "#887",
       position: "absolute",
       justifyContent: "center",
       alignItems: "center",
@@ -92,13 +113,16 @@ const styles = StyleSheet.create({
     },
     quantity_btn:{
       paddingHorizontal:5,
-      paddingVertical:3
+      paddingVertical:5
     },
     delete_container:{
       width:60,
       height:60,
       borderRadius:12,
-      marginLeft:15,
+      // borderWidth:1,
+      // borderColor:"#52f",
+      backgroundColor:"#52f",
+      marginLeft:35,
       justifyContent:"center",
       alignItems:"center"
     }

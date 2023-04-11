@@ -84,20 +84,51 @@ const ordersSlice = createSlice({
         const updatedTobeAddedDishes = [...tobeAddedDishes.slice(0, dishIndex), ...tobeAddedDishes.slice(dishIndex + 1)];
         const updatedOrder = { ...state.orders[orderIndex], tobeAddedDishes: updatedTobeAddedDishes };
       
-
         //how to update orders?, the same
         state.orders=[
           ...state.orders.slice(0, orderIndex),
           updatedOrder,
           ...state.orders.slice(orderIndex+1)
         ];
-        
         //console.log("State after creating order:", state.orders[orderIndex]);
+      },
+      changeDishQuantityInShoppingCart:(state, action) => {
+        const { currentOrderId: orderId, currentTable } = state;
+        const { dishId, slug } = action.payload;
+
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
+        if (orderIndex === -1) return;
+
+        const { tobeAddedDishes } = state.orders[orderIndex];
+        const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
+        if (dishIndex === -1) return;
+
+        // Update the dishQuantity for the specified dishId
+        const quantity = slug==="plus" ? 1:-1;
+        console.log("quantity here is", quantity);
+        const updatedTobeAddedDishes = tobeAddedDishes.map((dish) =>
+          dish.dishId === dishId ? { ...dish, dishQuantity: dish.dishQuantity + quantity } : dish
+        );
+        console.log("updatedTo is",updatedTobeAddedDishes);
+
+        const updatedOrder = { ...state.orders[orderIndex], tobeAddedDishes: updatedTobeAddedDishes };
+
+        state.orders = [
+          ...state.orders.slice(0, orderIndex),
+          updatedOrder,
+          ...state.orders.slice(orderIndex + 1),
+        ];
       }
     }
   });
 
-export const { createOrder, addDishToShoppingCart, removeDishFromShoppingCart } = ordersSlice.actions;
+export const { 
+  createOrder, 
+  addDishToShoppingCart, 
+  removeDishFromShoppingCart,
+  changeDishQuantityInShoppingCart 
+} = ordersSlice.actions;
+
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
 export const selectCurrentOrder = (state) =>
   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId);
@@ -105,6 +136,28 @@ export const selectNumberOfDiners = (state) =>
   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).numberOfDiners;
 export const selectOrders = (state) => state.allOrders.orders;
 
+export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
+  // This will create a closure that captures the dishId argument, 
+  // and returns a selector function that takes the state and returns the desired dish object.
+  // return state.allDishes.dishes.find((dish) => dish.id === dishId);
+  // const { currentOrderId: orderId, currentTable } = state;
+  const orderId = state.allOrders.currentOrderId;
+  const curTable = state.allOrders.currentTable;
+  console.log("current OrderId  is", orderId);
+  console.log("curTable is", curTable);
+
+  const orderIndex = state.allOrders.orders.findIndex((order) => order.id === orderId && order.tableNumber === curTable);
+  console.log("order index is", orderIndex);
+
+  if (orderIndex === -1) return;
+  // console.log("order index is", orderIndex);
+
+  const { tobeAddedDishes } = state.allOrders.orders[orderIndex];
+  console.log("tobeAdded is", tobeAddedDishes);
+  const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
+  if (dishIndex === -1) return;
+  return tobeAddedDishes[dishIndex].dishQuantity;
+}
 
 
 export default ordersSlice.reducer;
