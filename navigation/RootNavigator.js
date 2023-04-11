@@ -11,10 +11,13 @@ const Stack = createNativeStackNavigator();
 const RootNavigator = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator 
+                // screenOptions={{ headerShown: false }}
+            >
                 <Stack.Screen 
                     name="MainTab"
                     component={MainTabNavigator}
+                    options={{headerShown: false}}
                 />
                 <Stack.Screen 
                     name="NotFound"

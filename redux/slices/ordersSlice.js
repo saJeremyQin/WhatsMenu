@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     orders: [],
-    currentOrder: null,     //current order of selected table
+    currentOrderId: null,   //id of current order
     currentTable: 0,        //currently select table
 };
 
@@ -33,7 +33,7 @@ const ordersSlice = createSlice({
             orderStatus: 1,               //1, ongoing; 0, finished or unstart
           };
 
-          state.currentOrder=newOrder;
+          state.currentOrderId=orderId;
           state.orders=[...state.orders,newOrder];
           // console.log("State after creating order:", state);
       },
@@ -41,59 +41,49 @@ const ordersSlice = createSlice({
 
         const dishId=action.payload.dishId;
         const curTable=action.payload.currentTable;
+        const orderId = state.currentOrderId;
 
-        // update dishes in tobeAddedDishes array of currentOrder
-        const tobeAddedDishes = [...state.currentOrder.tobeAddedDishes, {
+        // find the index of the order in orders array 
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId );
+
+        // create a new array of tobeAddedDishes for the updated order, add a new object.
+        const tobeAddedDishes = [...state.orders[orderIndex].tobeAddedDishes, {
           dishId:dishId,
           dishQuantity:1
         }];
         
-        // set updatedOrder with updated tobeAddedDishes
+        // create a new object representing the updated order.
         const updatedOrder = {
-          ...state.currentOrder,
+          ...state.orders[orderIndex],
           tobeAddedDishes,
         };
 
-        state.currentOrder = updatedOrder;
+        state.currentOrderId = orderId;
 
-        // find the current order in orders, which needs to be updated, in previous operations, id doesn't change.
-        const orderIndex = state.orders.findIndex(order => order.id === state.currentOrder.id && order.tableNumber===curTable);
         // update order in orders
         state.orders=[
           ...state.orders.slice(0, orderIndex),
           updatedOrder,
           ...state.orders.slice(orderIndex+1)
         ];
-
-        // console.log("State after creating order:", state.currentOrder);
+        //console.log("State after creating order:", state.orders[orderIndex]);
       },
       removeDishFromShoppingCart:(state, action) => {
-        const dishId = action.payload.dishId;
-        const curTable = action.payload.currentTable;
-        // console.log("dishId is", dishId);
-        // console.log("curTable is", curTable);
-        const { orders } = state;
+   
+        const { currentOrderId: orderId, currentTable } = state;
+        const { dishId } = action.payload;
 
-        // find the current order in orders, which needs to be updated, in previous operations, id doesn't change.
-        const orderIndex = orders.findIndex(order => order.id === state.currentOrder.id && order.tableNumber===curTable);
-     
-        // console.log(orderIndex);
-        let tobeAddedDishes = [...state.currentOrder.tobeAddedDishes];
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
+        if (orderIndex === -1) return;
 
-        const dishIndex = tobeAddedDishes.findIndex(dish => dish.dishId === dishId);
+        const { tobeAddedDishes } = state.orders[orderIndex];
+        const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
+        if (dishIndex === -1) return;
 
-        if(dishIndex !== -1) {
-          tobeAddedDishes.splice(dishIndex,1);
-        }
-        // console.log("toBeAddedDishes is", tobeAddedDishes);
-        // create a new order object which is simliar to currentOrder except tobeAddedDishes
-        const updatedOrder = {
-          ...state.currentOrder, 
-          tobeAddedDishes};
-
-        state.currentOrder=updatedOrder;
-        // console.log("updatedorder is",updatedOrder);
-
+        // remove the tobeAddedDishes[dishIndex], but operate on copied data.
+        const updatedTobeAddedDishes = [...tobeAddedDishes.slice(0, dishIndex), ...tobeAddedDishes.slice(dishIndex + 1)];
+        const updatedOrder = { ...state.orders[orderIndex], tobeAddedDishes: updatedTobeAddedDishes };
+      
 
         //how to update orders?, the same
         state.orders=[
@@ -102,15 +92,17 @@ const ordersSlice = createSlice({
           ...state.orders.slice(orderIndex+1)
         ];
         
-        // console.log("State after creating order:", state.currentOrder);
+        //console.log("State after creating order:", state.orders[orderIndex]);
       }
     }
   });
 
 export const { createOrder, addDishToShoppingCart, removeDishFromShoppingCart } = ordersSlice.actions;
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
-export const selectCurrentOrder = (state) => state.allOrders.currentOrder;
-export const selectNumberOfDiners = (state) => state.allOrders.currentOrder.numberOfDiners;
+export const selectCurrentOrder = (state) =>
+  state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId);
+export const selectNumberOfDiners = (state) => 
+  state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).numberOfDiners;
 export const selectOrders = (state) => state.allOrders.orders;
 
 

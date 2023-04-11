@@ -1,14 +1,24 @@
 import React from "react";
 import { Pressable, View, StyleSheet, Text} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import OrdersScreen from "../screens/Orders";
+import { useNavigation } from "@react-navigation/native";
 
 
 const ShoppingCart = (props) => {
     const count = props.count;
+    const navigation = useNavigation();
+
+    const cartClickHandler = () => {
+        // console.log("it is fine");
+        navigation.navigate("Orders");
+    };
     
     return (
-        <Pressable style={styles.cartContainer}
+        <Pressable 
+            style={styles.cartContainer}
             activeOpacity={0.1}
+            onPress={cartClickHandler}
         >
             <AntDesign
                 name="shoppingcart"
