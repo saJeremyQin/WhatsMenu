@@ -41,6 +41,8 @@ const TablesScreen = () => {
   const getDishById = (dishId) => {
     return dishes.find((dish) => dish.id === dishId);
   }
+
+  // This is the function pass down to child component and invoked by TableCard.
   const handleTableCardClick = (tableNumber) => {
     const tableOrder = orders.find(order => order.tableNumber === tableNumber);
     if (!tableOrder) {
@@ -101,7 +103,7 @@ const TablesScreen = () => {
       />
        <Overlay isVisible={showDialog} onBackdropPress={() => setShowDialog(false)}>
         <View style={styles.dialogContainer}>
-          <Text style={styles.dialogTitle}>Enter Number of Diners</Text>
+          <Text style={styles.dialogTitle}>Enter Number of Diners for Table {tableNumber}</Text>
           <Input
             placeholder="Number of Diners"
             keyboardType="number-pad"
@@ -149,7 +151,7 @@ const styles=StyleSheet.create({
     padding: 20,
   },
   dialogTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
   },

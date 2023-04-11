@@ -110,6 +110,7 @@ const ordersSlice = createSlice({
 export const { createOrder, addDishToShoppingCart, removeDishFromShoppingCart } = ordersSlice.actions;
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
 export const selectCurrentOrder = (state) => state.allOrders.currentOrder;
+export const selectNumberOfDiners = (state) => state.allOrders.currentOrder.numberOfDiners;
 export const selectOrders = (state) => state.allOrders.orders;
 
 
