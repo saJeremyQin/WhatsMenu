@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Image } from "react-native";
 import { Button, Divider } from "react-native-elements";
-import { useSelector } from "react-redux";
-import { selectCurrentOrder } from "../redux/slices/ordersSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
 
 const OrdersScreen = () => {
   const [cartData, setCartData] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     setCartData(shoppingCartDishes);
   },[]);
 
   const btnPlaceOrderHandler = () => {
-    console.log("it is ok.");
+    // console.log("it is ok.");
+    dispatch(placeOrder());
     setOrderPlaced(true);
   };
 

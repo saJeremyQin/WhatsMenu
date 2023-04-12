@@ -109,7 +109,7 @@ const ordersSlice = createSlice({
         const updatedTobeAddedDishes = tobeAddedDishes.map((dish) =>
           dish.dishId === dishId ? { ...dish, dishQuantity: dish.dishQuantity + quantity } : dish
         );
-        console.log("updatedTo is",updatedTobeAddedDishes);
+        // console.log("updatedTo is",updatedTobeAddedDishes);
 
         const updatedOrder = { ...state.orders[orderIndex], tobeAddedDishes: updatedTobeAddedDishes };
 
@@ -118,6 +118,29 @@ const ordersSlice = createSlice({
           updatedOrder,
           ...state.orders.slice(orderIndex + 1),
         ];
+      },
+      placeOrder:(state, action) => {
+        const { currentOrderId: orderId, currentTable } = state;
+
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
+        if (orderIndex === -1) return;
+
+        let { tobeAddedDishes } = state.orders[orderIndex];
+        console.log("tobeAddedDishes are",tobeAddedDishes);
+        const haveBeenPlacedDishes = [...state.orders[orderIndex].haveBeenPlacedDishes, ...tobeAddedDishes];
+        console.log("haveBeenPlacedDishes are",haveBeenPlacedDishes);
+        const updatedOrder = {
+          ...state.orders[orderIndex],
+          tobeAddedDishes: [],
+          haveBeenPlacedDishes
+        };
+
+        state.orders = [
+          ...state.orders.slice(0, orderIndex),
+          updatedOrder,
+          ...state.orders.slice(orderIndex + 1),
+        ];
+        console.log("updatedOrder is",updatedOrder);
       }
     }
   });
@@ -126,7 +149,8 @@ export const {
   createOrder, 
   addDishToShoppingCart, 
   removeDishFromShoppingCart,
-  changeDishQuantityInShoppingCart 
+  changeDishQuantityInShoppingCart,
+  placeOrder 
 } = ordersSlice.actions;
 
 export const selectCurrentTable = (state) => state.allOrders.currentTable;

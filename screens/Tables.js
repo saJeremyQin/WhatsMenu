@@ -40,7 +40,9 @@ const TablesScreen = () => {
   // console.log("dishes in tables are", dishes);
 
   const getDishById = (dishId) => {
-    return dishes.find((dish) => dish.id === dishId);
+    const dish = dishes.find((dish) => dish.id === dishId);
+    console.log("dishprice is",dish.price);
+    return dish;
   }
 
   // This is the function pass down to child component and invoked by TableCard.
@@ -69,10 +71,12 @@ const TablesScreen = () => {
     const tableOrder = orders.find(order => order.tableNumber === item);
     let totalAmount=0;
     if(tableOrder) {
+      console.log("tableOrder here are",tableOrder.haveBeenPlacedDishes);
       totalAmount = tableOrder.haveBeenPlacedDishes.reduce(
-        (acc,dish) => acc + getDishById(dish.dishId).price * dish.quantity,0
+        (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
       );
-    }
+      console.log("totalAmount is", totalAmount);
+    };
     return (
       <TableCard 
         tableNumber={item} 
