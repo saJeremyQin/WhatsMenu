@@ -17,23 +17,26 @@ const CartDish = props => {
   // console.log("dishId is", dishId);
   const dish = useSelector(selectDishByIdWrapper(dishId));
   const dishQuantity = useSelector(selectDishQuantityByIdWrapper(dishId));
-  console.log("dish quantity is", dishQuantity);
+  // console.log("dish quantity is", dishQuantity);
 
-  function changeDishQuantity(slug) {
-    if(dishQuantity == 1 && slug =="minus") return;
+  // function changeDishQuantity(slug) {
+  //   if(dishQuantity == 1 && slug =="minus") return;
+  //   dispatch(changeDishQuantityInShoppingCart({
+  //     dishId: dishId,
+  //     slug:slug
+  //   }));   
+  // };
+  const changeDishQuantity = (slug) => {
+    if(dishQuantity == 1 && slug =="minus") 
+      return;
     dispatch(changeDishQuantityInShoppingCart({
       dishId: dishId,
       slug:slug
-    }));   
-  };
+    }));  
+  }; 
 
 
-  // function changeDishCount(slug) {
-  //   // console.log("dishCount is", dishCount);
-  //   if (dishCount == 1 && slug == "minus") return;
-  //   if (slug == "plus") setDishCount((p) => p + 1);
-  //   else setDishCount((p) => p - 1);
-  // }
+
   return (
     <View style={styles.container}>
       <View style={styles.main_container}>

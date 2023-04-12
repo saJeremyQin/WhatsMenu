@@ -143,17 +143,17 @@ export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
   // const { currentOrderId: orderId, currentTable } = state;
   const orderId = state.allOrders.currentOrderId;
   const curTable = state.allOrders.currentTable;
-  console.log("current OrderId  is", orderId);
-  console.log("curTable is", curTable);
+  // console.log("current OrderId  is", orderId);
+  // console.log("curTable is", curTable);
 
   const orderIndex = state.allOrders.orders.findIndex((order) => order.id === orderId && order.tableNumber === curTable);
-  console.log("order index is", orderIndex);
+  // console.log("order index is", orderIndex);
 
   if (orderIndex === -1) return;
   // console.log("order index is", orderIndex);
 
   const { tobeAddedDishes } = state.allOrders.orders[orderIndex];
-  console.log("tobeAdded is", tobeAddedDishes);
+  // console.log("tobeAdded is", tobeAddedDishes);
   const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
   if (dishIndex === -1) return;
   return tobeAddedDishes[dishIndex].dishQuantity;

@@ -50,7 +50,7 @@ const TablesScreen = () => {
       // dispatch(showDialog(tableNumber));
       setTableNumber(tableNumber);
       setShowDialog(true);
-      console.log("the show is", showDialog);
+      // console.log("the show is", showDialog);
     }
   };
 
@@ -78,7 +78,7 @@ const TablesScreen = () => {
         tableNumber={item} 
         totalAmount={totalAmount} 
         tableStatus={Boolean(tableOrder)}
-        onTableCardClick={()=> handleTableCardClick(item)} />    //how to understand tablenumber here?
+        onTableCardClick={()=> handleTableCardClick(item)} />    
     )
   };
 

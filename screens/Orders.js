@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
-import { Divider } from "react-native-elements";
+import { StyleSheet, View, Text, FlatList, Image } from "react-native";
+import { Button, Divider } from "react-native-elements";
 import { useSelector } from "react-redux";
 import { selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
 
 const OrdersScreen = () => {
   const [cartData, setCartData] = useState([]);
+  const [orderPlaced, setOrderPlaced] = useState(false);
   const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
 
   useEffect(()=>{
     setCartData(shoppingCartDishes);
   },[]);
 
+  const btnPlaceOrderHandler = () => {
+    console.log("it is ok.");
+    setOrderPlaced(true);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.leftColumn}>
-        <FlatList
+      {
+        orderPlaced ? (
+          <Image source={require("../assets/orderplaced.jpeg")} style={styles.orderplaced_img}/>
+        ):
+        (<FlatList
           style={styles.flatList}
           data={cartData}
           showsVerticalScrollIndicator={false}
@@ -27,7 +37,27 @@ const OrdersScreen = () => {
               />
             );
           }}
-        />
+        />)
+      }
+        <Button
+            title="Place Order"
+            buttonStyle={{
+              backgroundColor: 'rgba(111, 202, 186, 1)',
+              borderRadius: 5,
+            }}
+            disabled={orderPlaced}
+            titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+            containerStyle={{
+              marginHorizontal: 50,
+              height: 50,
+              width: 200,
+              marginVertical: 10,
+              position:"absolute",
+              bottom:20
+              // backgroundColor:"pink"
+            }}
+            onPress={btnPlaceOrderHandler}
+        />      
       </View>
       <Divider orientation="vertical" />
       <View style={styles.rightColumn}>
@@ -53,6 +83,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  orderplaced_img:{
+    width:320,
+    height:246
   },
   flatList:{
     // flexGrow: 0,
