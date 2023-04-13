@@ -10,6 +10,8 @@ const OrdersScreen = () => {
   const [cartData, setCartData] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
+  const ongoingDishes = (useSelector(selectCurrentOrder)).haveBeenPlacedDishes;
+  console.log("ongoing are",ongoingDishes);
   const dispatch = useDispatch();
 
   const logo_img = require("../assets/restaurant_logo.png");
@@ -90,9 +92,11 @@ const OrdersScreen = () => {
       </View>
       <Divider orientation="vertical" />
       <View style={styles.rightColumn}>
-      {/*  { items, subtotal, tax, discount, total } = props; */}
+      {/*  { items, subtotal, tax, discount, total } = props; */
+          
+      }
       <View style={styles.receipt_container}>
-        <Receipt lineItems={dishItems} header={restaurant} footer={bill}  />
+        <Receipt lineItems={ongoingDishes} header={restaurant} footer={bill}  />
       </View>
       </View>
     </View>

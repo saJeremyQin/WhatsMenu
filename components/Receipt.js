@@ -1,7 +1,24 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
+import { selectDishes } from '../redux/slices/dishesSlice';
 
 const Receipt = ({ header, lineItems, footer }) => {
+
+  const dishes = useSelector(selectDishes);
+  const getDishById = (dishId) => {
+    const dish = dishes.find((dish) => dish.id === dishId);
+    console.log("dishprice is",dish.price);
+    return dish;
+  };
+
+  const subtotal = lineItems.reduce(
+      (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
+  );
+  
+  const tax = subtotal * 0.1 ;
+  const total = subtotal + tax;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -15,18 +32,23 @@ const Receipt = ({ header, lineItems, footer }) => {
           <Text style={styles.quantityHeader}>Qty</Text>
           <Text style={styles.priceHeader}>Price</Text>
         </View>
-        {lineItems.map((item) => (
-          <View key={item.id} style={styles.lineItem}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.quantity}>{item.quantity}</Text>
-            <Text style={styles.price}>{item.price}</Text>
-          </View>
-        ))}
+        {
+          lineItems.map((item,index) => {
+            const dish = getDishById(item.dishId);
+            return (
+              <View key={`line-item-${index}`} style={styles.lineItem}>
+                <Text style={styles.name}>{dish.name}</Text>
+                <Text style={styles.quantity}>{item.dishQuantity}</Text>
+                <Text style={styles.price}>{getDishById(item.dishId).price}</Text>
+              </View>
+            )
+          })
+        }
       </View>
       <View style={styles.footer}>
-        <Text style={styles.subtotal}>Subtotal: {footer.subtotal}</Text>
-        <Text style={styles.tax}>Tax: {footer.tax}</Text>
-        <Text style={styles.total}>Total: {footer.total}</Text>
+        <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
+        <Text style={styles.tax}>Tax: {tax}</Text>
+        <Text style={styles.total}>Total: {total}</Text>
       </View>
     </View>
   );
