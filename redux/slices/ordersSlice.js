@@ -154,7 +154,7 @@ export const {
 } = ordersSlice.actions;
 
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
-export const selectCurrentOrder = (state) =>
+export const selectCurrentOrder = (state) =>  
   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId);
 export const selectNumberOfDiners = (state) => 
   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).numberOfDiners;

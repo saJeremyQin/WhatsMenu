@@ -3,11 +3,16 @@ import TablesScreen from '../screens/Tables';
 import MenuScreen from '../screens/Menu';
 import AboutUsScreen from '../screens/AboutUs';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { selectCurrentOrder } from '../redux/slices/ordersSlice';
+import { current } from '@reduxjs/toolkit';
 
 
 const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
+  const currentOrder = useSelector(selectCurrentOrder);
+  console.log("currentOrder in main is", currentOrder);
   return (
     <Tab.Navigator
       initialRouteName="Tables"
@@ -44,7 +49,11 @@ const MainTabNavigator = () => {
       })}
     >
       <Tab.Screen name="Tables" component={TablesScreen} />
-      <Tab.Screen name="Menu" component={MenuScreen} />
+      <Tab.Screen 
+        name="Menu" 
+        component={MenuScreen}
+        disabled={!currentOrder}
+      />
       <Tab.Screen name="AboutUs" component={AboutUsScreen} />
     </Tab.Navigator>
   );
