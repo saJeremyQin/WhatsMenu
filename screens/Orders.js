@@ -4,12 +4,39 @@ import { Button, Divider } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
+import Receipt from "../components/Receipt";
 
 const OrdersScreen = () => {
   const [cartData, setCartData] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
   const dispatch = useDispatch();
+
+  const logo_img = require("../assets/restaurant_logo.png");
+  const restaurant = {
+    company:"Forks and Chopsticks Asian Restaurant",
+    address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
+    logo:logo_img
+  }
+
+  const dishItems=[
+    {
+      name:"Fish&Chips",
+      quantity: 1,
+      price:30
+    },
+    {
+      name:"Honey Chicken",
+      quantity:2,
+      price:20
+    }
+  ];
+
+  const bill = {
+    subtotal:70,
+    tax:7,
+    total:77
+  }
 
   useEffect(()=>{
     setCartData(shoppingCartDishes);
@@ -63,7 +90,10 @@ const OrdersScreen = () => {
       </View>
       <Divider orientation="vertical" />
       <View style={styles.rightColumn}>
-        <Text>This is the right column</Text>
+      {/*  { items, subtotal, tax, discount, total } = props; */}
+      <View style={styles.receipt_container}>
+        <Receipt lineItems={dishItems} header={restaurant} footer={bill}  />
+      </View>
       </View>
     </View>
   );
@@ -94,6 +124,14 @@ const styles = StyleSheet.create({
     // flexGrow: 0,
     marginTop:30,
     width:"80%"
+  },
+  receipt_container:{
+    flex:1,
+    width:"80%",
+    height:"80%",
+    justifyContent:"center",
+    alignItems:"center",
+    // backgroundColor:"green"
   }
 });
 
