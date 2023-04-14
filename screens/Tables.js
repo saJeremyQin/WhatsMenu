@@ -64,7 +64,8 @@ const TablesScreen = () => {
       })
     );
     setShowDialog(false);
-    navigation.navigate("Menu");
+    // navigation.navigate("Menu");
+    navigation.navigate("Orders");
   };
 
   const renderTableItem = ({item}) => {

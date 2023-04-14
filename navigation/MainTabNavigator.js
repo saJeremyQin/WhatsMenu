@@ -49,11 +49,11 @@ const MainTabNavigator = () => {
       })}
     >
       <Tab.Screen name="Tables" component={TablesScreen} />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Menu" 
         component={MenuScreen}
         disabled={!currentOrder}
-      />
+      /> */}
       <Tab.Screen name="AboutUs" component={AboutUsScreen} />
     </Tab.Navigator>
   );

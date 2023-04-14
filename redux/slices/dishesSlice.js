@@ -28,5 +28,9 @@ export const selectDishByIdWrapper = (dishId) => (state) => {
   return state.allDishes.dishes.find((dish) => dish.id === dishId);
 }
 
+export const selectDishesByTypeWrapper = (type) => (state) => {
+  return state.allDishes.dishes.filter((dish) => dish.type === type);
+}
+
 
 export default dishesSlice.reducer;

@@ -57,7 +57,7 @@ const Receipt = ({ header, lineItems, footer }) => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    padding: 20,
+    padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
