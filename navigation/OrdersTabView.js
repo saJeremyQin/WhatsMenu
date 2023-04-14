@@ -1,130 +1,45 @@
-import React, { useState } from 'react';
-import {
-  Animated,
-  View,
-  StyleSheet,
-  StatusBar,
-  Pressable,
-  Dimensions
-} from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
-// import TablesScreen from '../screens/Tables';
-// import MenuScreen from '../screens/Menu';
-// import AboutUsScreen from '../screens/AboutUs';
+
+import React,{ useState} from 'react';
 import CartView from '../screens/CartView';
 import Receipt from '../components/Receipt';
+import { Tab, Text, TabView } from '@rneui/themed';
 
 
 const OrdersTabView = () => {
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: 'first', title: 'Bucket' },
-    { key: 'second', title: 'Receipt' },
-  ]);
-
-  const handleIndexChange = (index) => setIndex(index);
-
-  const renderTabBar = (props) => {
-
-    const inputRange = props.navigationState.routes.map((x, i) => i);
-
-
-    return (
-      <View style={styles.tabBar}>
-        {
-          props.navigationState.routes.map((route, i) => {
-          const opacity = props.position.interpolate({
-            inputRange,
-            outputRange: inputRange.map((inputIndex) =>
-              inputIndex === i ? 1 : 0.5
-            ),
-          });
-
-          {/* console.log(opacity); */}
-
-          return (
-            <Pressable
-              key={route.key}
-              style={[
-                styles.tabItem,
-                index === i && styles.tabItemSelected,
-              ]}
-              onPress={() => setIndex(i)}>
-              <Animated.Text style={{ opacity }}>{route.title}</Animated.Text>
-            </Pressable>
-          );
-        })}
-      </View>
-    );
-  };
-
-  const renderScene = SceneMap({
-    first: CartView,
-    second: Receipt,
-    // third: AboutUsScreen
-  });
-
   return (
-    <View style={styles.container}>
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-        tabBarPosition="top"
-        onIndexChange={handleIndexChange}
-        // style={{ flex: 1 }}
+    <>
+    <Tab
+      value={index}
+      onChange={(e) => setIndex(e)}
+      indicatorStyle={{
+        backgroundColor: 'white',
+        height: 3,
+      }}
+      variant="primary"
+    >
+      <Tab.Item
+        title="Cart"
+        titleStyle={{ fontSize: 16 }}
+        icon={{ name: 'cart', type: 'ionicon', color: 'white' }}
       />
-    </View>
+      <Tab.Item
+        title="Receipt"
+        titleStyle={{ fontSize: 16 }}
+        icon={{ name: 'heart', type: 'ionicon', color: 'white' }}
+      />
+    </Tab>
+
+    <TabView value={index} onChange={setIndex} animationType="spring">
+      <TabView.Item style={{ backgroundColor: 'red', width: '100%' }}>
+        <CartView />
+      </TabView.Item>
+      <TabView.Item style={{ backgroundColor: 'blue', width: '100%' }}>
+        <Receipt />
+      </TabView.Item>
+    </TabView>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:"pink"
-  },
-  tabBar: {
-    flexDirection: "row",
-    // paddingTop: StatusBar.currentHeight,
-    backgroundColor: "#887",
-    height: 80
-  },
-  // tabItem: {
-  //   flex: 1,
-  //   justifyContent:"center",
-  //   alignItems: 'center',
-  //   // padding: 16,
-  //   height:80,           
-  //   width: "50%",
-  //   // backgroundColor:"#7855be",
-  //   fontSize:30
-  // },
-  // tabItemSelected: {
-  //   backgroundColor: '#2596be',
-  //   borderColor: '#333',
-  //   borderBottomWidth: 0,
-  // },
-  tabItem: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80,
-    width: '50%',
-    backgroundColor: '#fff',
-    borderBottomWidth: 3,
-    borderBottomColor: '#aaa',
-  },
-  tabItemSelected: {
-    backgroundColor: '#2596be',
-    borderColor: '#333',
-    borderBottomWidth: 0,
-  },
-  tabItemText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  
-});
 
 export default OrdersTabView;

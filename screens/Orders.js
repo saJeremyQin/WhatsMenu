@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // paddingHorizontal:10
     height: Dimensions.get("window").height-120,
+    overflow:"hidden"
   },
   orderplaced_img:{
     width:320,
