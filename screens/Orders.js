@@ -8,7 +8,8 @@ import Receipt from "../components/Receipt";
 import DishCard from "../components/DishCard";
 import { placeOrder, selectCurrentOrder, selectCurrentTable,selectNumberOfDiners } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
-import MainTabView from "../navigation/MainTabView";
+import OrdersTabView from "../navigation/OrdersTabView";
+
 
 
 const OrdersScreen = () => {
@@ -73,11 +74,13 @@ const OrdersScreen = () => {
           {/* </View> */}
         </View>
         <Divider orientation="vertical" width={2} />
-        <View style={styles.rightColumn}>
+        <View 
+          style={styles.rightColumn}
+        >
           {/* <View style={styles.receipt_container}> */}
             {/* <Receipt lineItems={ongoingDishes} header={restaurant} footer={bill}  /> */}
           {/* </View> */}
-          <MainTabView style={{flex:1,backgroundColor:"pink"}}/>
+          <OrdersTabView style={{flex:1,backgroundColor:"pink"}}/>
       </View>
     </View>
   );
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
     // paddingHorizontal:10
-    height:400
+    height: Dimensions.get("window").height-120,
   },
   orderplaced_img:{
     width:320,
