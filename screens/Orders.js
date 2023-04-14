@@ -8,6 +8,7 @@ import Receipt from "../components/Receipt";
 import DishCard from "../components/DishCard";
 import { placeOrder, selectCurrentOrder, selectCurrentTable,selectNumberOfDiners } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
+import MainTabView from "../navigation/MainTabView";
 
 
 const OrdersScreen = () => {
@@ -22,13 +23,13 @@ const OrdersScreen = () => {
   const dinersNum =  useSelector(selectNumberOfDiners);
 
   const ongoingDishes = (useSelector(selectCurrentOrder)).haveBeenPlacedDishes;
+  const logo_img = require("../assets/restaurant_logo.png");
 
   const restaurant = {
     company:"Forks and Chopsticks Asian Restaurant",
     address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
     logo:logo_img
   };
-  const logo_img = require("../assets/restaurant_logo.png");
   const bill = {
     subtotal:70,
     tax:7,
@@ -74,8 +75,9 @@ const OrdersScreen = () => {
         <Divider orientation="vertical" width={2} />
         <View style={styles.rightColumn}>
           {/* <View style={styles.receipt_container}> */}
-            <Receipt lineItems={ongoingDishes} header={restaurant} footer={bill}  />
+            {/* <Receipt lineItems={ongoingDishes} header={restaurant} footer={bill}  /> */}
           {/* </View> */}
+          <MainTabView style={{flex:1,backgroundColor:"pink"}}/>
       </View>
     </View>
   );
@@ -108,10 +110,11 @@ const styles = StyleSheet.create({
   },
   rightColumn: {
     flex: 2,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal:10
+    backgroundColor: '#eee',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // paddingHorizontal:10
+    height:400
   },
   orderplaced_img:{
     width:320,

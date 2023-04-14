@@ -8,17 +8,18 @@ import {
   Dimensions
 } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import TablesScreen from '../screens/Tables';
-import MenuScreen from '../screens/Menu';
-import AboutUsScreen from '../screens/AboutUs';
+// import TablesScreen from '../screens/Tables';
+// import MenuScreen from '../screens/Menu';
+// import AboutUsScreen from '../screens/AboutUs';
+import CartView from '../screens/CartView';
+import Receipt from '../components/Receipt';
 
 
 const MainTabView = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'first', title: 'Tables' },
-    { key: 'second', title: 'Menu' },
-    { key: 'third', title: 'AboutUs' },
+    { key: 'first', title: 'Bucket' },
+    { key: 'second', title: 'Receipt' },
   ]);
 
   const handleIndexChange = (index) => setIndex(index);
@@ -58,9 +59,9 @@ const MainTabView = () => {
   };
 
   const renderScene = SceneMap({
-    first: TablesScreen,
-    second: MenuScreen,
-    third: AboutUsScreen
+    first: CartView,
+    second: Receipt,
+    // third: AboutUsScreen
   });
 
   return (
@@ -80,6 +81,7 @@ const MainTabView = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:"pink"
   },
   tabBar: {
     flexDirection: "row",

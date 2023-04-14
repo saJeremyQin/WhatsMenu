@@ -55,21 +55,24 @@ const DishCard = props => {
   },[curOrder]);
 
 
+  const addDishToChart = () => {
+    dispatch(addDishToShoppingCart({
+      dishId: dish.id,
+      currentTable: curTable
+    }));
+  };
+  
   const toggleAddDishToChart = () => {
     // console.log("added is", added);
     setAdded((flag) => !flag);
 
     if(!added) {
-      // console.log("dishId in addDish is", dish.id);
-      // console.log("currentTable in addDish is", curTable);
 
       dispatch(addDishToShoppingCart({
         dishId: dish.id,
         currentTable: curTable
       }));
     } else {
-      // console.log("dishId in removeDish is", dish.id);
-      // console.log("currentTable in removeDish is", curTable);
       dispatch(removeDishFromShoppingCart({
         dishId: dish.id,
         currentTable: curTable
@@ -81,11 +84,12 @@ const DishCard = props => {
       <Card containerStyle={styles.container} wrapperStyle={{alignItems:"center"}}>
         <Card.Title style={styles.title}>{dishName}</Card.Title>
         <Card.Divider />
-        <View
+        <Pressable
           style={{
             position: "relative",
             // alignItems: "center"
           }}
+          onPress={addDishToChart}
         >
           <Image
             style={styles.image}
@@ -96,7 +100,7 @@ const DishCard = props => {
           />
           <Text>{dishDescription}</Text>
           <Text style={styles.price}>${dish.price}</Text>
-          <Pressable
+          {/* <Pressable
             activeOpacity={0.5}
             style={[styles.add_circle, { backgroundColor:"#EA5755" }]}
             onPress={toggleAddDishToChart}
@@ -106,8 +110,8 @@ const DishCard = props => {
             ) : (
               <AntDesign name="plus" size={18} />
             )}
-          </Pressable>
-        </View>
+          </Pressable> */}
+        </Pressable>
       </Card>
   );
 }

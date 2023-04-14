@@ -5,23 +5,23 @@ import { selectDishes } from '../redux/slices/dishesSlice';
 
 const Receipt = ({ header, lineItems, footer }) => {
 
-  const dishes = useSelector(selectDishes);
-  const getDishById = (dishId) => {
-    const dish = dishes.find((dish) => dish.id === dishId);
-    console.log("dishprice is",dish.price);
-    return dish;
-  };
+  // const dishes = useSelector(selectDishes);
+  // const getDishById = (dishId) => {
+  //   const dish = dishes.find((dish) => dish.id === dishId);
+  //   console.log("dishprice is",dish.price);
+  //   return dish;
+  // };
 
-  const subtotal = lineItems.reduce(
-      (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
-  );
+  // const subtotal = lineItems.reduce(
+  //     (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
+  // );
   
-  const tax = subtotal * 0.1 ;
-  const total = subtotal + tax;
+  // const tax = subtotal * 0.1 ;
+  // const total = subtotal + tax;
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Image style={styles.logo} source={header.logo} />
         <Text style={styles.company}>{header.company}</Text>
         <Text style={styles.address}>{header.address}</Text>
@@ -49,7 +49,8 @@ const Receipt = ({ header, lineItems, footer }) => {
         <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
         <Text style={styles.tax}>Tax: {tax}</Text>
         <Text style={styles.total}>Total: {total}</Text>
-      </View>
+      </View> */}
+      <Text>This is Receipt</Text>
     </View>
   );
 };
