@@ -83,7 +83,9 @@ const TablesScreen = () => {
         tableNumber={item} 
         totalAmount={totalAmount} 
         tableStatus={Boolean(tableOrder)}
-        onTableCardClick={()=> handleTableCardClick(item)} />    
+        onTableCardClick={()=> handleTableCardClick(item)} 
+        // style={styles.tableCard}
+      />    
     )
   };
 
@@ -166,7 +168,17 @@ const styles=StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 20,
   },
-})
+  tableCard: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    shadowOpacity: 0.5, // add this line to create a shadow effect on iOS
+    shadowRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+  },
+});
 
 export default TablesScreen;
 
