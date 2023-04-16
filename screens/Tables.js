@@ -72,7 +72,7 @@ const TablesScreen = () => {
     const tableOrder = orders.find(order => order.tableNumber === item);
     let totalAmount=0;
     if(tableOrder) {
-      console.log("tableOrder here are",tableOrder.ongoingDishesSections);
+      // console.log("tableOrder here are",tableOrder.ongoingDishesSections);
       if(tableOrder.ongoingDishesSections.length == 0)
         totalAmount = 0;
       else {

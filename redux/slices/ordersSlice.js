@@ -157,7 +157,7 @@ const ordersSlice = createSlice({
           updatedOrder,
           ...state.orders.slice(orderIndex + 1),
         ];
-        console.log("updatedOrder after placeOrder is",updatedOrder);
+        // console.log("updatedOrder after placeOrder is",updatedOrder);
       }
     }
   });
@@ -200,5 +200,6 @@ export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
   return tobeAddedDishes[dishIndex].dishQuantity;
 }
 
-
+export const selectOngoingDishesSections = (state) => 
+  state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).ongoingDishesSections;
 export default ordersSlice.reducer;

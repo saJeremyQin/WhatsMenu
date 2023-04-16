@@ -2,37 +2,48 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
+import { selectOngoingDishesSections } from '../redux/slices/ordersSlice';
 
 const ReceiptView = () => {
 
-  // const logo_img = require("../assets/restaurant_logo.png");
-  // const restaurant = {
-  //   company:"Forks and Chopsticks Asian Restaurant",
-  //   address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
-  //   logo:logo_img
-  // };
+  const logo_img = require("../assets/restaurant_logo.png");
+  const restaurant = {
+    company:"Forks and Chopsticks Asian Restaurant",
+    address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
+    logo:logo_img
+  };
 
-  // // dishSections, {{[dishesPlaced1], time1}, {[dishesPlaced2],time2}}
-  // const dishes = useSelector(selectDishes);
-  // const getDishById = (dishId) => {
-  //   const dish = dishes.find((dish) => dish.id === dishId);
-  //   console.log("dishprice is",dish.price);
-  //   return dish;
-  // };
+  // dishSections, [{[dishesPlaced1], time1}, {[dishesPlaced2],time2}]
+  const dishes = useSelector(selectDishes);
+  const getDishById = (dishId) => {
+    const dish = dishes.find((dish) => dish.id === dishId);
+    console.log("dishprice is",dish.price);
+    return dish;
+  };
 
-  // const subtotal = lineItems.reduce(
-  //     (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
-  // );
+  const dishesSections = useSelector(selectOngoingDishesSections);
+
+  // Calculate the total money of all sections.
+  let subtotal = 0;
+  dishesSections.map((dishSection) => {
+    console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
+    subtotal = subtotal + dishSection.dishesOngoing.reduce(
+      (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
+    );
+    console.log("subtotal inside is", subtotal);
+  })
   
-  // const tax = subtotal * 0.1 ;
-  // const total = subtotal + tax;
+  console.log("receipt subtotal is", subtotal);
+  
+  const tax = subtotal * 0.1 ;
+  const total = subtotal + tax;
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <Image style={styles.logo} source={header.logo} />
-        <Text style={styles.company}>{header.company}</Text>
-        <Text style={styles.address}>{header.address}</Text>
+      <View style={styles.header}>
+        <Image style={styles.logo} source={restaurant.logo} />
+        <Text style={styles.company}>{restaurant.company}</Text>
+        <Text style={styles.address}>{restaurant.address}</Text>
       </View>
       <View style={styles.lineItems}>
         <View style={styles.lineItem}>
@@ -41,15 +52,20 @@ const ReceiptView = () => {
           <Text style={styles.priceHeader}>Price</Text>
         </View>
         {
-          lineItems.map((item,index) => {
-            const dish = getDishById(item.dishId);
-            return (
-              <View key={`line-item-${index}`} style={styles.lineItem}>
-                <Text style={styles.name}>{dish.name}</Text>
-                <Text style={styles.quantity}>{item.dishQuantity}</Text>
-                <Text style={styles.price}>{getDishById(item.dishId).price}</Text>
-              </View>
-            )
+          dishesSections.map((dishSection, indexS) => {
+            dishSection.dishesOngoing.map((dishItem,indexD) => {
+              const dish = getDishById(dishItem.dishId);
+              console.log("dish inside is",dish);
+              return (
+                <View style={styles.dishSection}>
+                  <View key={`line-${indexS}-${indexD}`} style={styles.lineItem}>
+                    <Text style={styles.name}>{dish.name}</Text>
+                    <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
+                    <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
+                  </View>
+                </View>
+              )
+            })
           })
         }
       </View>
@@ -57,8 +73,8 @@ const ReceiptView = () => {
         <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
         <Text style={styles.tax}>Tax: {tax}</Text>
         <Text style={styles.total}>Total: {total}</Text>
-      </View> */}
-      <Text>This is Receipt</Text>
+      </View>
+      {/* <Text>This is Receipt</Text> */}
     </View>
   );
 };
@@ -98,6 +114,10 @@ const styles = StyleSheet.create({
     paddingHorizontal:5,
     borderTopWidth: 1,
     borderColor: '#ccc',
+  },
+  dishSection:{
+    flex:1,
+    backgroundColor:"pink"
   },
   lineItem: {
     flexDirection: 'row',

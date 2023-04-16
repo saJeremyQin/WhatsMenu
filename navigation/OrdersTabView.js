@@ -41,7 +41,7 @@ const OrdersTabView = () => {
       <TabView.Item style={{ backgroundColor: '#f0f0f0', width: '100%' }}>
         <CartView onOrderPlaced={onOrderPlaced} />
       </TabView.Item>
-      <TabView.Item style={{ backgroundColor: 'blue', width: '100%' }}>
+      <TabView.Item style={{ backgroundColor: '#f0f0f0', width: '100%' }}>
         <ReceiptView />
       </TabView.Item>
     </TabView>
