@@ -4,7 +4,7 @@ import { Button, Divider } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
-import Receipt from "../components/Receipt";
+import Receipt from "../components/ReceiptView";
 
 const OrdersScreen = () => {
   const [cartData, setCartData] = useState([]);

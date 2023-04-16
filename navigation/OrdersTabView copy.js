@@ -11,8 +11,8 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 // import TablesScreen from '../screens/Tables';
 // import MenuScreen from '../screens/Menu';
 // import AboutUsScreen from '../screens/AboutUs';
-import CartView from '../screens/CartView';
-import Receipt from '../components/Receipt';
+import CartView from '../components/CartView';
+import Receipt from '../components/ReceiptView';
 
 
 const OrdersTabView = () => {

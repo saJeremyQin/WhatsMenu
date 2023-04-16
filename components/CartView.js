@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
-import CartDish from "../components/CartDish";
+import CartDish from "./CartDish";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentOrder, placeOrder } from "../redux/slices/ordersSlice";
 import { Button } from "react-native-elements";

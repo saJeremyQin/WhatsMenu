@@ -45,24 +45,25 @@ const ReceiptView = () => {
         <Text style={styles.company}>{restaurant.company}</Text>
         <Text style={styles.address}>{restaurant.address}</Text>
       </View>
-      <View style={styles.lineItems}>
-        <View style={styles.lineItem}>
+      <View style={styles.dishesSections}>
+        <View style={styles.sectionHeader}>
           <Text style={styles.itemHeader}>Item</Text>
           <Text style={styles.quantityHeader}>Qty</Text>
           <Text style={styles.priceHeader}>Price</Text>
         </View>
         {
           dishesSections.map((dishSection, indexS) => {
-            dishSection.dishesOngoing.map((dishItem,indexD) => {
+            return dishSection.dishesOngoing.map((dishItem,indexD) => {
               const dish = getDishById(dishItem.dishId);
               console.log("dish inside is",dish);
               return (
                 <View style={styles.dishSection}>
-                  <View key={`line-${indexS}-${indexD}`} style={styles.lineItem}>
+                {/* {console.log(`line-${indexS}-${indexD}`)} */}                
+                  <View key={`line-${indexS}-${indexD}`} style={styles.dishItem}>
                     <Text style={styles.name}>{dish.name}</Text>
                     <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
                     <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
-                  </View>
+                  </View>                     
                 </View>
               )
             })
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 10,
     margin: 10,
-    // backgroundColor:"pink",
+    backgroundColor:"pink",
     width:"100%",
     // alignItems:"center"
   },
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
   },
-  lineItems: {
+  dishesSections: {
     marginTop: 20,
     paddingTop:20,
     paddingHorizontal:5,
@@ -116,10 +117,17 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
   dishSection:{
-    flex:1,
+    // flex:1,
+    // borderTopWidth: 1,
+    // borderColor: '#ccc',
     backgroundColor:"pink"
   },
-  lineItem: {
+  sectionHeader:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  dishItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
