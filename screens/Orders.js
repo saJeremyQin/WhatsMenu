@@ -101,7 +101,7 @@ const OrdersScreen = () => {
           numColumns={3}
           // width={(Dimensions.get('window').width)/2}
           contentContainerStyle={{ alignSelf: 'center' }}
-          style={styles.flat_list}
+          style={styles.dishesList}
           alignItems={dishesByType.length > 1 ? "flex-start":"center"}
           renderItem={renderDishItem}
         />    
@@ -139,18 +139,19 @@ const styles = StyleSheet.create({
   },
   dishTypeButtonList:{
     marginLeft:30,
-    paddingVertical: 20,  
+    paddingTop: 25,  
   },
-  flatlistContainer:{
-    paddingTop: 20,
-    backgroundColor:"#f0f0f0"
-  },
-  flat_list: {
+  // flatlistContainer:{
+  //   paddingTop: 20,
+  //   backgroundColor:"#f0f0f0"
+  // },
+  dishesList: {
     // height: 700,
     // flexGrow: 0,
     // flex:1,
-    marginTop:40,
+    marginTop:10,
     paddingHorizontal: 10,
+    // alignItems:"flex-start"
   },
   rightColumn: {
     flex: 2,

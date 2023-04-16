@@ -26,6 +26,15 @@ const RootNavigator = () => {
                 <Stack.Screen
                     name="Orders"
                     component={OrdersScreen}
+                    options={{
+                        animation: "fade_from_bottom",
+                        headerShown: true,
+                        title: "",
+                        headerStyle: {
+                            backgroundColor: "#7855be",
+                        },
+                        headerTintColor: "#f31282",
+                     }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
