@@ -72,10 +72,15 @@ const TablesScreen = () => {
     const tableOrder = orders.find(order => order.tableNumber === item);
     let totalAmount=0;
     if(tableOrder) {
-      console.log("tableOrder here are",tableOrder.haveBeenPlacedDishes);
-      totalAmount = tableOrder.haveBeenPlacedDishes.reduce(
-        (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
-      );
+      console.log("tableOrder here are",tableOrder.ongoingDishesSections);
+      if(tableOrder.ongoingDishesSections.length == 0)
+        totalAmount = 0;
+      else {
+        // write pesudo logic here now, revise later
+        totalAmount = tableOrder.ongoingDishesSections[0].dishesOngoing.reduce(
+          (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
+        );
+      }
       console.log("totalAmount is", totalAmount);
     };
     return (

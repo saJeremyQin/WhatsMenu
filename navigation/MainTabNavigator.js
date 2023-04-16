@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
   const currentOrder = useSelector(selectCurrentOrder);
-  console.log("currentOrder in main is", currentOrder);
+  // console.log("currentOrder in main is", currentOrder);
   return (
     <Tab.Navigator
       initialRouteName="Tables"

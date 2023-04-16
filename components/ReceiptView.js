@@ -3,8 +3,16 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
 
-const ReceiptView = ({ header, lineItems, footer }) => {
+const ReceiptView = () => {
 
+  // const logo_img = require("../assets/restaurant_logo.png");
+  // const restaurant = {
+  //   company:"Forks and Chopsticks Asian Restaurant",
+  //   address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
+  //   logo:logo_img
+  // };
+
+  // // dishSections, {{[dishesPlaced1], time1}, {[dishesPlaced2],time2}}
   // const dishes = useSelector(selectDishes);
   // const getDishById = (dishId) => {
   //   const dish = dishes.find((dish) => dish.id === dishId);

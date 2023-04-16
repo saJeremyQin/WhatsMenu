@@ -22,25 +22,19 @@ const OrdersScreen = () => {
 
   // Get the dishes by current dishType
   const dishesByType = useSelector(selectDishesByTypeWrapper(curDishType));
-  console.log("dishesByType are", dishesByType);
+  // console.log("dishesByType are", dishesByType);
 
   const currentTableNum = useSelector(selectCurrentTable);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
   const dinersNum =  useSelector(selectNumberOfDiners);
 
   const ongoingDishes = (useSelector(selectCurrentOrder)).haveBeenPlacedDishes;
-  const logo_img = require("../assets/restaurant_logo.png");
 
-  const restaurant = {
-    company:"Forks and Chopsticks Asian Restaurant",
-    address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
-    logo:logo_img
-  };
-  const bill = {
-    subtotal:70,
-    tax:7,
-    total:77
-  }
+  // const bill = {
+  //   subtotal:70,
+  //   tax:7,
+  //   total:77
+  // }
 
   const handleDishTypeClick = (slug, id) => {
     console.log("slug is", slug);

@@ -29,7 +29,8 @@ const ordersSlice = createSlice({
             tableNumber:state.currentTable,
             numberOfDiners:numberOfDiners,
             tobeAddedDishes: [],
-            haveBeenPlacedDishes: [],
+            // haveBeenPlacedDishes: [],
+            ongoingDishesSections:[],
             orderStatus: 1,               //1, ongoing; 0, finished or unstart
           };
 
@@ -122,17 +123,33 @@ const ordersSlice = createSlice({
       placeOrder:(state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
 
+
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
         if (orderIndex === -1) return;
 
         let { tobeAddedDishes } = state.orders[orderIndex];
         console.log("tobeAddedDishes are",tobeAddedDishes);
-        const haveBeenPlacedDishes = [...state.orders[orderIndex].haveBeenPlacedDishes, ...tobeAddedDishes];
-        console.log("haveBeenPlacedDishes are",haveBeenPlacedDishes);
+
+        //dishesPlacedArray1:[{dishId:3, quantity:1}, {dishId:5,quantity:2}]
+        //dishesOngoingSection1:  {dishesOngoing:[dishesPlacedArray1], placedTime:currentTime}
+        //dishesOngoingSections:  [{[dishesPlacedArray1], time1}, {[dishesPlacedArray2],time2}]
+
+        //add one section each time 
+        const currentTime = new Date();
+        const currentTimestamp = currentTime.getTime();
+
+        const ongoingDishesSections = [...state.orders[orderIndex].ongoingDishesSections, {
+          dishesOngoing: tobeAddedDishes,
+          placedTime: currentTimestamp
+        }];
+
+        // const haveBeenPlacedDishes = [...state.orders[orderIndex].haveBeenPlacedDishes, ...tobeAddedDishes];
+        // console.log("haveBeenPlacedDishes are",haveBeenPlacedDishes);
+
         const updatedOrder = {
           ...state.orders[orderIndex],
           tobeAddedDishes: [],
-          haveBeenPlacedDishes
+          ongoingDishesSections
         };
 
         state.orders = [
@@ -140,7 +157,7 @@ const ordersSlice = createSlice({
           updatedOrder,
           ...state.orders.slice(orderIndex + 1),
         ];
-        console.log("updatedOrder is",updatedOrder);
+        console.log("updatedOrder after placeOrder is",updatedOrder);
       }
     }
   });

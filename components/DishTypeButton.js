@@ -2,7 +2,7 @@ import { Pressable, Text, StyleSheet } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
 export function DishTypeButton({ title, slug, onPress, id, active }) {
-  console.log("dishbutton here slug is", slug);
+  // console.log("dishbutton here slug is", slug);
 //   const { colors } = useTheme();
   return (
     <Pressable
