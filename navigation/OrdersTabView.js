@@ -1,8 +1,8 @@
 
 import React,{ useState} from 'react';
-import CartView from '../screens/CartView';
-import Receipt from '../components/Receipt';
+import CartView from '../components/CartView';
 import { Tab, Text, TabView } from '@rneui/themed';
+import ReceiptView from '../components/ReceiptView';
 
 
 const OrdersTabView = () => {
@@ -42,7 +42,7 @@ const OrdersTabView = () => {
         <CartView onOrderPlaced={onOrderPlaced} />
       </TabView.Item>
       <TabView.Item style={{ backgroundColor: 'blue', width: '100%' }}>
-        <Receipt />
+        <ReceiptView />
       </TabView.Item>
     </TabView>
     </>

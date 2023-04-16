@@ -4,7 +4,7 @@ import { Button, Divider } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 // import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
-import Receipt from "../components/Receipt";
+import ReceiptView from "../components/ReceiptView";
 import DishCard from "../components/DishCard";
 import { placeOrder, selectCurrentOrder, selectCurrentTable,selectNumberOfDiners } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";

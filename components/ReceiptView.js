@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
 
-const Receipt = ({ header, lineItems, footer }) => {
+const ReceiptView = ({ header, lineItems, footer }) => {
 
   // const dishes = useSelector(selectDishes);
   // const getDishById = (dishId) => {
@@ -141,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Receipt;
+export default ReceiptView;
