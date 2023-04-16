@@ -7,48 +7,56 @@ import { Button } from "react-native-elements";
 import { useState } from "react";
 
 
-const CartView = () => {
-    const [orderPlaced, setOrderPlaced] = useState(false);
+const CartView = (props) => {
+    // const [orderPlaced, setOrderPlaced] = useState(false);
     const dispatch = useDispatch();
     const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
+    const numOfShoppingCartDishes = shoppingCartDishes.length;
     console.log("shopping dishes are", shoppingCartDishes);
 
     const btnPlaceOrderHandler = () => {
-        // console.log("it is ok.");
         dispatch(placeOrder());
-        setOrderPlaced(true);
+        props.onOrderPlaced();
     };
 
     return (
         <View style={styles.container}>
-            <FlatList
-                style={styles.flatList}
-                data={shoppingCartDishes}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => {
-                    return (
-                        <CartDish dishId={item.dishId}/>
-                    );
-                }}
-            />
-            <Button
-                title="Place Order"
-                buttonStyle={{
-                backgroundColor: 'rgba(111, 202, 186, 1)',
-                borderRadius: 5,
-                }}
-                disabled={orderPlaced}
-                titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
-                containerStyle={{
-                    marginHorizontal: 50,
-                    height: 50,
-                    width: 200,
-                    marginVertical: 10,
-                    position:"absolute",
-                    bottom:20
-                }}
-                onPress={btnPlaceOrderHandler}
-            />   
+        {
+            numOfShoppingCartDishes == 0 ? (
+                <Text style={styles.noDishesText}>
+                    No dishes in your cart!
+                </Text>
+            ) : (
+                <>
+                <FlatList
+                    style={styles.flatList}
+                    data={shoppingCartDishes}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }) => {
+                        return (
+                            <CartDish dishId={item.dishId}/>
+                        );
+                    }}
+                />
+                <Button
+                    title="Place Order"
+                    buttonStyle={{
+                        backgroundColor: 'rgba(111, 202, 186, 1)',
+                        borderRadius: 5,
+                    }}
+                    // disabled={orderPlaced}
+                    titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+                    containerStyle={{
+                        marginVertical: 10,
+                        alignSelf: 'center', // center the button horizontally
+                        position:"absolute",
+                        bottom:30
+                    }}
+                    onPress={btnPlaceOrderHandler}
+                />  
+                </>               
+            )
+        }   
         </View>
     )
 }
@@ -56,10 +64,19 @@ const CartView = () => {
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:"green"
+        justifyContent:"center",
+        alignItems:"center",
+        // height:800
     },
-    flat_list: {
-        marginTop:40,
+    noDishesText: {
+        flex:1,
+        alignSelf:"center",
+        // justifyContent:"center"
+        textAlignVertical: "center",
+        fontSize: 20
+    },
+    flatList: {
+        marginTop:20,
         paddingHorizontal: 10,
     },
 })
