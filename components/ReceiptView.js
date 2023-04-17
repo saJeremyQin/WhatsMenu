@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
 import { selectOngoingDishesSections } from '../redux/slices/ordersSlice';
+import { Divider } from '@rneui/themed';
 
 const ReceiptView = () => {
 
@@ -53,20 +54,27 @@ const ReceiptView = () => {
         </View>
         {
           dishesSections.map((dishSection, indexS) => {
-            return dishSection.dishesOngoing.map((dishItem,indexD) => {
-              const dish = getDishById(dishItem.dishId);
-              console.log("dish inside is",dish);
-              return (
-                <View style={styles.dishSection}>
-                {/* {console.log(`line-${indexS}-${indexD}`)} */}                
-                  <View key={`line-${indexS}-${indexD}`} style={styles.dishItem}>
-                    <Text style={styles.name}>{dish.name}</Text>
-                    <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
-                    <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
-                  </View>                     
-                </View>
-              )
-            })
+            const placedTime = dishSection.placedTime;
+            const formattedTimestamp = new Date(placedTime).toLocaleString();
+            return (
+              <React.Fragment key={indexS}>
+              {
+                dishSection.dishesOngoing.map((dishItem,indexD) => {
+                  const dish = getDishById(dishItem.dishId);
+                  {/* console.log("dish inside is",dish); */}
+                  return (            
+                      <View key={`line-${indexS}-${indexD}`} style={styles.dishItem}>
+                        <Text style={styles.name}>{dish.name}</Text>
+                        <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
+                        <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
+                      </View>                     
+                  )
+                })
+              }
+              <Text style={styles.timeText}>placed on {formattedTimestamp}</Text>
+              {indexS < dishesSections.length-1  && <Divider width={1} color={"#ccc"} />}
+              </React.Fragment>
+            )
           })
         }
       </View>
@@ -83,14 +91,15 @@ const ReceiptView = () => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
+    paddingHorizontal: 20,
+    // borderWidth: 1,
+    // borderColor: '#ccc',
+    // borderRadius: 10,
     margin: 10,
-    backgroundColor:"pink",
+    // backgroundColor:"pink",
     width:"100%",
-    // alignItems:"center"
+    alignItems:"center",
+    // justifyContent:"space-between"
   },
   logo: {
     width: 100,
@@ -110,17 +119,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   dishesSections: {
-    marginTop: 20,
-    paddingTop:20,
+    marginTop: 10,
+    paddingTop:10,
     paddingHorizontal:5,
     borderTopWidth: 1,
+    borderBottomWidth:1,
     borderColor: '#ccc',
-  },
-  dishSection:{
-    // flex:1,
-    // borderTopWidth: 1,
-    // borderColor: '#ccc',
-    backgroundColor:"pink"
+    // backgroundColor:"pink"
+    alignItems:"center",
+    justifyContent:"space-between"
   },
   sectionHeader:{
     flexDirection: 'row',
@@ -131,6 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
+    width:"100%"
   },
   itemHeader: {
     flex: 1,
@@ -157,7 +165,20 @@ const styles = StyleSheet.create({
     width: 70,
     textAlign: 'right',
   },
+  timeText:{
+    borderTopWidth: 1,
+    borderBottomWidth:1,
+    borderColor: '#ccc',   
+    alignSelf:"flex-end"
+  },
+  separator:{
+    paddingTop:5,
+    color:"#ccc"
+  },
   footer: {
+    // justifyContent:"flex-end",
+    // alignItems:"flex-end",
+    alignSelf:"flex-end",
     marginTop: 20,
     borderTopWidth: 1,
     borderColor: '#ccc',
