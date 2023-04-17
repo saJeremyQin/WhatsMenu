@@ -1,11 +1,15 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
 import { selectOngoingDishesSections } from '../redux/slices/ordersSlice';
-import { Divider } from '@rneui/themed';
+import { Divider, Button } from '@rneui/themed';
+import { Pressable } from 'react-native';
+import { AntDesign } from "@expo/vector-icons";
 
 const ReceiptView = () => {
+
+  const [returningDish, setReturningDish] = useState(false);
 
   const logo_img = require("../assets/restaurant_logo.png");
   const restaurant = {
@@ -31,13 +35,19 @@ const ReceiptView = () => {
     subtotal = subtotal + dishSection.dishesOngoing.reduce(
       (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
     );
-    console.log("subtotal inside is", subtotal);
+    // console.log("subtotal inside is", subtotal);
   })
   
-  console.log("receipt subtotal is", subtotal);
+  // console.log("receipt subtotal is", subtotal);
   
   const tax = subtotal * 0.1 ;
   const total = subtotal + tax;
+
+  const btnReturnDishHandler = () => {
+    setReturningDish(true);
+    console.log("return Dish here");
+
+  };
 
   return (
     <View style={styles.container}>
@@ -67,6 +77,11 @@ const ReceiptView = () => {
                         <Text style={styles.name}>{dish.name}</Text>
                         <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
                         <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
+                        { returningDish && (
+                          <Pressable style={styles.delete_container} >
+                            <AntDesign name="minus" size={22} color="white"/>
+                          </Pressable>
+                        )}  
                       </View>                     
                   )
                 })
@@ -83,7 +98,22 @@ const ReceiptView = () => {
         <Text style={styles.tax}>Tax: {tax}</Text>
         <Text style={styles.total}>Total: {total}</Text>
       </View>
-      {/* <Text>This is Receipt</Text> */}
+      <Button
+        title="Return Dish"
+        buttonStyle={{
+            backgroundColor: 'rgba(111, 202, 186, 1)',
+            borderRadius: 5,
+        }}
+        // disabled={orderPlaced}
+        titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+        containerStyle={{
+            marginVertical: 10,
+            alignSelf: 'center', // center the button horizontally
+            position:"absolute",
+            bottom:30
+        }}
+        onPress={btnReturnDishHandler}
+      />  
     </View>
   );
 };
@@ -164,6 +194,15 @@ const styles = StyleSheet.create({
   price: {
     width: 70,
     textAlign: 'right',
+  },
+  delete_container:{
+    width:24,
+    height:24,
+    borderRadius:12,
+    backgroundColor:"#f00",
+    marginLeft:20,
+    justifyContent:"center",
+    alignItems:"center"
   },
   timeText:{
     borderTopWidth: 1,
