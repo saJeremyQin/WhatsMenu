@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
 import { selectOngoingDishesSections } from '../redux/slices/ordersSlice';
@@ -51,53 +51,58 @@ const ReceiptView = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image style={styles.logo} source={restaurant.logo} />
-        <Text style={styles.company}>{restaurant.company}</Text>
-        <Text style={styles.address}>{restaurant.address}</Text>
-      </View>
-      <View style={styles.dishesSections}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.itemHeader}>Item</Text>
-          <Text style={styles.quantityHeader}>Qty</Text>
-          <Text style={styles.priceHeader}>Price</Text>
+      <ScrollView style={styles.receiptContainer}>
+        <View style={styles.header}>
+          <Image style={styles.logo} source={restaurant.logo} />
+          <Text style={styles.company}>{restaurant.company}</Text>
+          <Text style={styles.address}>{restaurant.address}</Text>
         </View>
-        {
-          dishesSections.map((dishSection, indexS) => {
-            const placedTime = dishSection.placedTime;
-            const formattedTimestamp = new Date(placedTime).toLocaleString();
-            return (
-              <React.Fragment key={indexS}>
-              {
-                dishSection.dishesOngoing.map((dishItem,indexD) => {
-                  const dish = getDishById(dishItem.dishId);
-                  {/* console.log("dish inside is",dish); */}
-                  return (            
-                      <View key={`line-${indexS}-${indexD}`} style={styles.dishItem}>
-                        <Text style={styles.name}>{dish.name}</Text>
-                        <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
-                        <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
-                        { returningDish && (
-                          <Pressable style={styles.delete_container} >
-                            <AntDesign name="minus" size={22} color="white"/>
-                          </Pressable>
-                        )}  
-                      </View>                     
-                  )
-                })
-              }
-              <Text style={styles.timeText}>placed on {formattedTimestamp}</Text>
-              {indexS < dishesSections.length-1  && <Divider width={1} color={"#ccc"} />}
-              </React.Fragment>
-            )
-          })
-        }
-      </View>
-      <View style={styles.footer}>
-        <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
-        <Text style={styles.tax}>Tax: {tax}</Text>
-        <Text style={styles.total}>Total: {total}</Text>
-      </View>
+        <View style={styles.dishesSections}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.itemHeader}>Item</Text>
+            <Text style={styles.quantityHeader}>Qty</Text>
+            <Text style={styles.priceHeader}>Price</Text>
+            { returningDish && (
+              <Text style={styles.optHeader}>Opt</Text>
+            )}  
+          </View>
+          {
+            dishesSections.map((dishSection, indexS) => {
+              const placedTime = dishSection.placedTime;
+              const formattedTimestamp = new Date(placedTime).toLocaleString();
+              return (
+                <React.Fragment key={indexS}>
+                {
+                  dishSection.dishesOngoing.map((dishItem,indexD) => {
+                    const dish = getDishById(dishItem.dishId);
+                    {/* console.log("dish inside is",dish); */}
+                    return (            
+                        <View key={`line-${indexS}-${indexD}`} style={[styles.dishItem, {height: returningDish ? 50 : 30}]}>
+                          <Text style={styles.name}>{dish.name}</Text>
+                          <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
+                          <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
+                          { returningDish && (
+                            <Pressable style={styles.delete_container} >
+                              <AntDesign name="minus" size={24} color="white"/>
+                            </Pressable>
+                          )}  
+                        </View>                     
+                    )
+                  })
+                }
+                <Text style={styles.timeText}>placed on {formattedTimestamp}</Text>
+                {indexS < dishesSections.length-1  && <Divider width={1} color={"#ccc"} />}
+                </React.Fragment>
+              )
+            })
+          }
+        </View>
+        <View style={styles.footer}>
+          <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
+          <Text style={styles.tax}>Tax: {tax}</Text>
+          <Text style={styles.total}>Total: {total}</Text>
+        </View>
+      </ScrollView>
       <Button
         title="Return Dish"
         buttonStyle={{
@@ -128,8 +133,11 @@ const styles = StyleSheet.create({
     margin: 10,
     // backgroundColor:"pink",
     width:"100%",
-    alignItems:"center",
+    // alignItems:"center",
     // justifyContent:"space-between"
+  },
+  receiptContainer:{
+
   },
   logo: {
     width: 100,
@@ -155,7 +163,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth:1,
     borderColor: '#ccc',
-    // backgroundColor:"pink"
     alignItems:"center",
     justifyContent:"space-between"
   },
@@ -168,7 +175,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
-    width:"100%"
+    alignItems:"center",
+    width:"100%",
+    // height:80,
+    // backgroundColor:"pink"
   },
   itemHeader: {
     flex: 1,
@@ -184,6 +194,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'right',
   },  
+  optHeader:{
+    width: 60,
+    fontWeight: 'bold',
+    textAlign: 'right',
+  },
   name: {
     flex: 1,
   },
@@ -196,11 +211,13 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   delete_container:{
-    width:24,
-    height:24,
-    borderRadius:12,
+    width:30,
+    height:30,
+    borderRadius:15,
     backgroundColor:"#f00",
-    marginLeft:20,
+    marginLeft:40,
+    // marginRight:10,
+    // backgroundColor:"pink",
     justifyContent:"center",
     alignItems:"center"
   },
@@ -215,8 +232,6 @@ const styles = StyleSheet.create({
     color:"#ccc"
   },
   footer: {
-    // justifyContent:"flex-end",
-    // alignItems:"flex-end",
     alignSelf:"flex-end",
     marginTop: 20,
     borderTopWidth: 1,
