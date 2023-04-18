@@ -41,7 +41,7 @@ const TablesScreen = () => {
 
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);
-    console.log("dishprice is",dish.price);
+    // console.log("dishprice is",dish.price);
     return dish;
   }
 

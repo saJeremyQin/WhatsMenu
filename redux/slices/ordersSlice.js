@@ -177,7 +177,16 @@ const ordersSlice = createSlice({
 
         //if curLength=0, delete current section, or update dishesArray
         if(curLength == 0) {
-          return ;
+          // delete the current section
+          const updatedOngoingDishesSections = [      
+            ...state.orders[orderIndex].ongoingDishesSections.slice(0, indexS),
+            ...state.orders[orderIndex].ongoingDishesSections.slice(indexS + 1)
+          ];
+
+          updatedOrder = {
+            ...state.orders[orderIndex],
+            ongoingDishesSections: updatedOngoingDishesSections
+          };        
         } else {
           //update specified section
           const updatedDishesSection = {
