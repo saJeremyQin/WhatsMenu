@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Card, Icon } from "react-native-elements";
-import { View, Image, Text, StyleSheet, Pressable } from "react-native";
-import { Button } from '@rneui/themed';
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Button, Image } from '@rneui/themed';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
 import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
@@ -48,11 +48,11 @@ const DishCard = props => {
   },[]);
 
   // check initial state, then setAdded
-  useEffect(()=>{
-    //iterate the tobeAddedDishes Array, if we find the dishId equals, then setAdded
-    CheckAdded();  
-    // console.log("I am in checkAdded");
-  },[curOrder]);
+  // useEffect(()=>{
+  //   //iterate the tobeAddedDishes Array, if we find the dishId equals, then setAdded
+  //   CheckAdded();  
+  //   // console.log("I am in checkAdded");
+  // },[curOrder]);
 
 
   const addDishToChart = () => {
@@ -155,42 +155,3 @@ const styles = StyleSheet.create({
 
 export default DishCard;
 
-
-
-// <View style={styles.container}>
-// <TouchableOpacity
-//   onPress={() => navigation.navigate("SingleDish", { dish, setAdded })}
-//   activeOpacity={0.7}
-//   style={[
-//     styles.bottom_container,
-//     { backgroundColor: colors.dish.background },
-//   ]}
-// >
-//   <Image
-//     source={{
-//       uri: image || blankImage,
-//     }}
-//     style={styles.image}
-//   />
-//   <Text style={[styles.title, { color: colors.dish.title }]}>
-//     {dishTitle || "N/A"}
-//   </Text>
-//   <Text style={[styles.description, { color: colors.dish.description }]}>
-//     {dishDescription || "N/A"}
-//   </Text>
-//   <Text style={[styles.price, { color: colors.dish.price }]}>
-//     {currency.sign} {price || "N/A"}
-//   </Text>
-//   <TouchableOpacity
-//     activeOpacity={0.5}
-//     style={[styles.add_circle, { backgroundColor: colors.accent }]}
-//     onPress={handleAddClick}
-//   >
-//     {added ? (
-//       <MaterialIcons name="done" size={18} />
-//     ) : (
-//       <AntDesign name="plus" size={18} />
-//     )}
-//   </TouchableOpacity>
-// </TouchableOpacity>
-// </View>
