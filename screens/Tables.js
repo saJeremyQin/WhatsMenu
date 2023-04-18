@@ -114,17 +114,22 @@ const TablesScreen = () => {
         renderItem={renderTableItem}
         keyExtractor={(item) => item.toString()}
       />
-       <Overlay isVisible={showDialog} onBackdropPress={() => setShowDialog(false)}>
+       <Overlay 
+        isVisible={showDialog} 
+        onBackdropPress={() => setShowDialog(false)}
+        overlayStyle={styles.overlayStyle}
+      >
         <View style={styles.dialogContainer}>
           <Text style={styles.dialogTitle}>Enter Number of Diners for Table {tableNumber}</Text>
           <Input
             placeholder="Number of Diners"
             keyboardType="number-pad"
             onChangeText={value => setNumberOfDiners(value)}
+            style={styles.input}
           />
           <View style={styles.dialogButtonsContainer}>
-            <Button title="Cancel" onPress={() => setShowDialog(false)} />
-            <Button title="Ok" onPress={handleDialogSubmit} />
+            <Button title="Cancel" onPress={() => setShowDialog(false)} style={styles.cancelButton}/>
+            <Button title="Ok" onPress={handleDialogSubmit} style={styles.okButton}/>
           </View>
         </View>
       </Overlay>
@@ -135,7 +140,7 @@ const TablesScreen = () => {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"white",
+    backgroundColor:"#f1f1f1",
     justifyContent:"center",
   },
   headContainer:{
@@ -159,20 +164,57 @@ const styles=StyleSheet.create({
     lineHeight:60,
     color: "#f31282"
   },
-  dialogContainer: {
-    alignItems: 'center',
+  overlayStyle: {
+    backgroundColor: 'white',
+    borderRadius: 20,
     padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  dialogContainer: {
+    // alignItems: 'center',
+    // padding: 20,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    // elevation:5
   },
   dialogTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  input:{
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginBottom: 20,
+  },
   dialogButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    // marginTop: 20,
   },
+  cancelButton: {
+    backgroundColor: '#ccc',
+  },
+  okButton: {
+    backgroundColor: '#007bff',
+  },
+  // overlayBackground: {
+  //   position: 'absolute',
+  //   top: 0,
+  //   bottom: 0,
+  //   left: 0,
+  //   right: 0,
+  //   backgroundColor: 'rgba(0, 0, 0, 0.5)', // Add a transparent background for the overlay
+  // },
   tableCard: {
     backgroundColor: 'white',
     borderRadius: 5,
