@@ -113,6 +113,10 @@ const TablesScreen = () => {
         numColumns={5}
         renderItem={renderTableItem}
         keyExtractor={(item) => item.toString()}
+        style={{ backgroundColor: '#F5FCFF', padding: 16 }}
+        contentContainerStyle={{ paddingBottom: 32 }}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        itemStyle={{ backgroundColor: '#FFFFFF', borderRadius: 8, padding: 16 }}
       />
        <Overlay 
         isVisible={showDialog} 
