@@ -127,7 +127,7 @@ const ordersSlice = createSlice({
         if (orderIndex === -1) return;
 
         let { tobeAddedDishes } = state.orders[orderIndex];
-        console.log("tobeAddedDishes are",tobeAddedDishes);
+        // console.log("tobeAddedDishes are",tobeAddedDishes);
 
         //add one section each time 
         const currentTime = new Date();
@@ -162,14 +162,37 @@ const ordersSlice = createSlice({
         console.log("indexS is", indexS);
         console.log("indexD is", indexD);
 
-        const tempDishesArray = [...state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing];
+        let tempDishesArray = [...state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing];
+        console.log("tempDishesArray is", tempDishesArray);
+
+        let updatedOngoingDishes=null;
+
+        //check whether the dishquantity is 1 before update
+        const curDishQuantity = tempDishesArray[indexD].dishQuantity;
+        if( curDishQuantity > 1) {
+          //delete dishQuantity to 1 first.
+          const updatedDish = {
+            ...tempDishesArray[indexD],
+            dishQuantity:curDishQuantity-1
+          };
+          updatedOngoingDishes = [
+            ...tempDishesArray.slice(0, indexD),
+            updatedDish,
+            ...tempDishesArray.slice(indexD+1)
+          ];
+        } else {
+          //dishQuantity=1, delete current dish
+          updatedOngoingDishes = [
+            ...tempDishesArray.slice(0, indexD),
+            ...tempDishesArray.slice(indexD + 1)
+          ];
+        }
+
+        console.log("updatedOngoingDishes are", updatedOngoingDishes);
 
         //remove the dishesOngoing[indexD], but operate on copied data.
-        // const updatedOngoingDishes = tempDishesArray.splice(indexD,1);
-        const updatedOngoingDishes = [
-          ...tempDishesArray.slice(0, indexD),
-          ...tempDishesArray.slice(indexD + 1)
-        ];
+        //const updatedOngoingDishes = tempDishesArray.splice(indexD,1);
+         
         //check whether the length is 0 after update.
         const curLength = updatedOngoingDishes.length;
 

@@ -33,7 +33,7 @@ const ReceiptView = () => {
   // Calculate the total money of all sections.
   let subtotal = 0;
   dishesSections.map((dishSection) => {
-    console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
+    // console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
     subtotal = subtotal + dishSection.dishesOngoing.reduce(
       (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
     );

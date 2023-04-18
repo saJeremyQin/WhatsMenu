@@ -12,7 +12,7 @@ const CartView = (props) => {
     const dispatch = useDispatch();
     const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
     const numOfShoppingCartDishes = shoppingCartDishes.length;
-    console.log("shopping dishes are", shoppingCartDishes);
+    // console.log("shopping dishes are", shoppingCartDishes);
 
     const btnPlaceOrderHandler = () => {
         dispatch(placeOrder());

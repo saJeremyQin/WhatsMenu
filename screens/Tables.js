@@ -81,7 +81,7 @@ const TablesScreen = () => {
           (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
         );
       }
-      console.log("totalAmount is", totalAmount);
+      // console.log("totalAmount is", totalAmount);
     };
     return (
       <TableCard 
