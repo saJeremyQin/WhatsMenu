@@ -1,15 +1,17 @@
 import React,{ useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
-import { selectOngoingDishesSections } from '../redux/slices/ordersSlice';
+import { selectOngoingDishesSections, deleteDishInOngoingDishes } from '../redux/slices/ordersSlice';
 import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 
 const ReceiptView = () => {
 
+
   const [returningDish, setReturningDish] = useState(false);
+  const dispatch = useDispatch();
 
   const logo_img = require("../assets/restaurant_logo.png");
   const restaurant = {
@@ -46,7 +48,14 @@ const ReceiptView = () => {
   const btnReturnDishHandler = () => {
     setReturningDish(true);
     console.log("return Dish here");
+  };
 
+  const btnDeleteDishHandler = (indexS, indexD) => {
+    // console.log("delete indexS", indexS);
+    dispatch(deleteDishInOngoingDishes({
+      indexS:indexS,
+      indexD:indexD
+    }));
   };
 
   return (
@@ -82,7 +91,7 @@ const ReceiptView = () => {
                           <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
                           <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
                           { returningDish && (
-                            <Pressable style={styles.delete_container} >
+                            <Pressable style={styles.delete_container} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
                               <AntDesign name="minus" size={24} color="white"/>
                             </Pressable>
                           )}  

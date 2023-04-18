@@ -123,16 +123,11 @@ const ordersSlice = createSlice({
       placeOrder:(state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
 
-
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
         if (orderIndex === -1) return;
 
         let { tobeAddedDishes } = state.orders[orderIndex];
         console.log("tobeAddedDishes are",tobeAddedDishes);
-
-        //dishesPlacedArray1:[{dishId:3, quantity:1}, {dishId:5,quantity:2}]
-        //dishesOngoingSection1:  {dishesOngoing:[dishesPlacedArray1], placedTime:currentTime}
-        //dishesOngoingSections:  [{[dishesPlacedArray1], time1}, {[dishesPlacedArray2],time2}]
 
         //add one section each time 
         const currentTime = new Date();
@@ -142,9 +137,6 @@ const ordersSlice = createSlice({
           dishesOngoing: tobeAddedDishes,
           placedTime: currentTimestamp
         }];
-
-        // const haveBeenPlacedDishes = [...state.orders[orderIndex].haveBeenPlacedDishes, ...tobeAddedDishes];
-        // console.log("haveBeenPlacedDishes are",haveBeenPlacedDishes);
 
         const updatedOrder = {
           ...state.orders[orderIndex],
@@ -158,6 +150,59 @@ const ordersSlice = createSlice({
           ...state.orders.slice(orderIndex + 1),
         ];
         // console.log("updatedOrder after placeOrder is",updatedOrder);
+      },
+      deleteDishInOngoingDishes:(state,action) => {
+
+        const { currentOrderId: orderId, currentTable } = state;
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
+        if (orderIndex === -1) return;
+
+        const indexS=action.payload.indexS;
+        const indexD=action.payload.indexD;
+        console.log("indexS is", indexS);
+        console.log("indexD is", indexD);
+
+        const tempDishesArray = [...state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing];
+
+        //remove the dishesOngoing[indexD], but operate on copied data.
+        // const updatedOngoingDishes = tempDishesArray.splice(indexD,1);
+        const updatedOngoingDishes = [
+          ...tempDishesArray.slice(0, indexD),
+          ...tempDishesArray.slice(indexD + 1)
+        ];
+        //check whether the length is 0 after update.
+        const curLength = updatedOngoingDishes.length;
+
+        let updatedOrder = null;
+
+        //if curLength=0, delete current section, or update dishesArray
+        if(curLength == 0) {
+          return ;
+        } else {
+          //update specified section
+          const updatedDishesSection = {
+            ...state.orders[orderIndex].ongoingDishesSections[indexS],
+            dishesOngoing: updatedOngoingDishes
+          };
+
+          //update sections
+          const updatedOngoingDishesSections = [
+            ...state.orders[orderIndex].ongoingDishesSections.slice(0,indexS),
+            updatedDishesSection,
+            ...state.orders[orderIndex].ongoingDishesSections.slice(indexS+1)
+          ];
+          updatedOrder = {
+            ...state.orders[orderIndex],
+            ongoingDishesSections: updatedOngoingDishesSections
+          };   
+        }
+        console.log("updatedOrder after delete is", updatedOrder);
+        //how to update orders?, the same
+        state.orders=[
+          ...state.orders.slice(0, orderIndex),
+          updatedOrder,
+          ...state.orders.slice(orderIndex+1)
+        ];
       }
     }
   });
@@ -167,7 +212,8 @@ export const {
   addDishToShoppingCart, 
   removeDishFromShoppingCart,
   changeDishQuantityInShoppingCart,
-  placeOrder 
+  placeOrder,
+  deleteDishInOngoingDishes 
 } = ordersSlice.actions;
 
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
