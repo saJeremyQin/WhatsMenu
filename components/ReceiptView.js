@@ -24,7 +24,7 @@ const ReceiptView = () => {
   const dishes = useSelector(selectDishes);
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);
-    console.log("dishprice is",dish.price);
+    // console.log("dishprice is",dish.price);
     return dish;
   };
 
@@ -46,8 +46,8 @@ const ReceiptView = () => {
   const total = subtotal + tax;
 
   const btnReturnDishHandler = () => {
-    setReturningDish(true);
-    console.log("return Dish here");
+    setReturningDish(!returningDish);
+    // console.log("return Dish here");
   };
 
   const btnDeleteDishHandler = (indexS, indexD) => {
@@ -113,7 +113,7 @@ const ReceiptView = () => {
         </View>
       </ScrollView>
       <Button
-        title="Return Dish"
+        title={ returningDish ? "Finish":"ReturnDish" }
         buttonStyle={{
             backgroundColor: 'rgba(111, 202, 186, 1)',
             borderRadius: 5,
