@@ -91,9 +91,11 @@ const ReceiptView = () => {
                           <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
                           <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
                           { returningDish && (
-                            <Pressable style={styles.delete_container} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
-                              <AntDesign name="minus" size={24} color="white"/>
-                            </Pressable>
+                            <View style={styles.delete_container}>
+                              <Pressable style={styles.delete_btn} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
+                                <AntDesign name="minus" size={24} color="white"/>
+                              </Pressable>
+                            </View>
                           )}  
                         </View>                     
                     )
@@ -192,41 +194,52 @@ const styles = StyleSheet.create({
   itemHeader: {
     flex: 1,
     fontWeight: 'bold',
+    // backgroundColor:"red"
   },
   quantityHeader: {
     width: 50,
     fontWeight: 'bold',
     textAlign: 'center',
+    // backgroundColor:"blue"
   },
   priceHeader: {
     width: 70,
     fontWeight: 'bold',
-    textAlign: 'right',
+    textAlign: 'center',
+    // backgroundColor:"green"
   },  
   optHeader:{
     width: 60,
     fontWeight: 'bold',
-    textAlign: 'right',
+    textAlign: 'center',
+    // backgroundColor:"purple"
   },
   name: {
     flex: 1,
+    // backgroundColor:"red"
   },
   quantity: {
     width: 50,
     textAlign: 'center',
+    // backgroundColor:"blue"
   },
   price: {
     width: 70,
-    textAlign: 'right',
+    textAlign: 'center',
+    // backgroundColor:"green"
   },
-  delete_container:{
+  delete_container: {
+    width:60,
+    justifyContent:"center",
+    alignItems:"center",
+    // backgroundColor:"purple"
+  },
+  delete_btn:{
     width:30,
     height:30,
     borderRadius:15,
     backgroundColor:"#f00",
-    marginLeft:40,
-    // marginRight:10,
-    // backgroundColor:"pink",
+    // marginLeft:40,
     justifyContent:"center",
     alignItems:"center"
   },
