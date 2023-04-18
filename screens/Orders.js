@@ -19,6 +19,7 @@ const OrdersScreen = () => {
   // Write the logic of menuScreen
   const dispatch = useDispatch();
   const [curDishType, setCurDishType] = useState("main");
+  console.log("111 is",Dimensions.get('window').width);
 
   // Get the dishes by current dishType
   const dishesByType = useSelector(selectDishesByTypeWrapper(curDishType));
