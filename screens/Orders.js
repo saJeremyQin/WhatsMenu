@@ -6,7 +6,13 @@ import { useSelector, useDispatch } from "react-redux";
 import CartDish from "../components/CartDish";
 import ReceiptView from "../components/ReceiptView";
 import DishCard from "../components/DishCard";
-import { placeOrder, selectCurrentOrder, selectCurrentTable,selectNumberOfDiners } from "../redux/slices/ordersSlice";
+import { 
+  placeOrder, 
+  checkOutOrder,
+  selectCurrentOrder, 
+  selectCurrentTable,
+  selectNumberOfDiners
+} from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DISH_TYPES } from "../Gloabls/constants";
@@ -29,10 +35,11 @@ const OrdersScreen = ({navigation}) => {
   // console.log("dishesByType are", dishesByType);
 
   const currentTableNum = useSelector(selectCurrentTable);
-  const dishesCountInShoppingCart = (useSelector(selectCurrentOrder)).tobeAddedDishes.length;
-  const dinersNum =  useSelector(selectNumberOfDiners);
+  console.log("current table is",currentTableNum);
+  const dishesCountInShoppingCart = (useSelector(selectCurrentOrder))?.tobeAddedDishes.length;
+  const dinersNum = useSelector(selectNumberOfDiners);
 
-  const ongoingDishes = (useSelector(selectCurrentOrder)).haveBeenPlacedDishes;
+  // const ongoingDishes = (useSelector(selectCurrentOrder)).haveBeenPlacedDishes;
 
   // const bill = {
   //   subtotal:70,
@@ -73,7 +80,9 @@ const OrdersScreen = ({navigation}) => {
   };
 
   const handleReceiptCheckout = () => {
-    console.log("I am checkout!");
+    dispatch(checkOutOrder());
+    // send to printer
+    navigation.navigate("Tables");
   };
 
   return (

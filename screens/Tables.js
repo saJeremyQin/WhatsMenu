@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from "react";
 import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder, selectOrders } from "../redux/slices/ordersSlice";
+import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
 import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
 import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-elements";
@@ -52,8 +52,11 @@ const TablesScreen = () => {
       setTableNumber(tableNumber);
       setShowDialog(true);
     } else {
-      //if tableOrder exists, setCurTable...
-      setTableNumber(tableNumber);
+      //if tableOrder exists, should dispatch resumeOrder, payload 'curTableNumber'
+      // setTableNumber(tableNumber);   //it is a localpage state, not enough.
+      dispatch(resumeOrder({
+        tableNumber
+      }))
       navigation.navigate("Orders");
     }
   };

@@ -259,6 +259,19 @@ const ordersSlice = createSlice({
           updatedOrder,
           ...state.orders.slice(orderIndex+1)
         ];
+      },
+      checkOutOrder: (state, action) => {
+        const { currentOrderId, currentTable } = state;
+        state.orders = state.orders.filter((order) => !(order.id === currentOrderId && order.tableNumber === currentTable));
+        state.currentOrderId = null;
+        state.currentTable = 0;
+        console.log("orders are", state.orders);
+      },
+      resumeOrder: (state, action) => {
+        state.currentTable = action.payload.tableNumber;
+        const orderId = state.orders.find((order) => order.tableNumber === state.currentTable)?.id;
+        console.log("orderId is", orderId);
+        state.currentOrderId = orderId;
       }
     }
   });
@@ -269,7 +282,9 @@ export const {
   removeDishFromShoppingCart,
   changeDishQuantityInShoppingCart,
   placeOrder,
-  deleteDishInOngoingDishes 
+  deleteDishInOngoingDishes,
+  checkOutOrder,
+  resumeOrder
 } = ordersSlice.actions;
 
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
