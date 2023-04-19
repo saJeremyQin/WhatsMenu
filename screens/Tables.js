@@ -51,6 +51,10 @@ const TablesScreen = () => {
     if (!tableOrder) {
       setTableNumber(tableNumber);
       setShowDialog(true);
+    } else {
+      //if tableOrder exists, setCurTable...
+      setTableNumber(tableNumber);
+      navigation.navigate("Orders");
     }
   };
 
