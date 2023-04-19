@@ -39,27 +39,50 @@ const ordersSlice = createSlice({
           // console.log("State after creating order:", state);
       },
       addDishToShoppingCart: (state, action) => {
+        const { currentOrderId: orderId, currentTable } = state;
+        const { dishId } = action.payload;
 
-        const dishId=action.payload.dishId;
-        const curTable=action.payload.currentTable;
-        const orderId = state.currentOrderId;
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
+        if (orderIndex === -1) return;
 
-        // find the index of the order in orders array 
-        const orderIndex = state.orders.findIndex((order) => order.id === orderId );
+        let updatedOrder = null;
+        const { tobeAddedDishes } = state.orders[orderIndex];
+        const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
+        console.log("tobeAdded is", tobeAddedDishes);
+        console.log("dish index is", dishIndex);
 
-        // create a new array of tobeAddedDishes for the updated order, add a new object.
-        const tobeAddedDishes = [...state.orders[orderIndex].tobeAddedDishes, {
-          dishId:dishId,
-          dishQuantity:1
-        }];
+        if (dishIndex === -1) {
+          // create a new array of tobeAddedDishes for the updated order, add a new object.
+          const tobeAddedDishes = [...state.orders[orderIndex].tobeAddedDishes, {
+            dishId:dishId,
+            dishQuantity:1
+          }];
         
-        // create a new object representing the updated order.
-        const updatedOrder = {
-          ...state.orders[orderIndex],
-          tobeAddedDishes,
-        };
+          // create a new object representing the updated order.
+          updatedOrder = {
+            ...state.orders[orderIndex],
+            tobeAddedDishes,
+          };
 
-        state.currentOrderId = orderId;
+          state.currentOrderId = orderId;
+        } else {
+          // How to complete the code?
+          const tobeAddedDishes = state.orders[orderIndex].tobeAddedDishes;
+          const dish = tobeAddedDishes[dishIndex];
+          const updatedDish = {
+            ...dish,
+            dishQuantity: dish.quantity+1
+          };
+          const updatedToBeAddedDishes = [
+            ...tobeAddedDishes.slice(0,dishIndex),
+            updatedDish,
+            ...tobeAddedDishes.slice(dishIndex+1)
+          ];
+          updatedOrder = {
+            ...state.orders[orderIndex],
+            tobeAddedDishes:updatedToBeAddedDishes,
+          };
+        }
 
         // update order in orders
         state.orders=[
