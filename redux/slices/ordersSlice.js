@@ -69,9 +69,10 @@ const ordersSlice = createSlice({
           // How to complete the code?
           const tobeAddedDishes = state.orders[orderIndex].tobeAddedDishes;
           const dish = tobeAddedDishes[dishIndex];
+          const curDishQuantity = dish.dishQuantity;
           const updatedDish = {
             ...dish,
-            dishQuantity: dish.quantity+1
+            dishQuantity: curDishQuantity+1
           };
           const updatedToBeAddedDishes = [
             ...tobeAddedDishes.slice(0,dishIndex),
@@ -90,7 +91,7 @@ const ordersSlice = createSlice({
           updatedOrder,
           ...state.orders.slice(orderIndex+1)
         ];
-        //console.log("State after creating order:", state.orders[orderIndex]);
+        console.log("State after creating order:", state.orders[orderIndex]);
       },
       removeDishFromShoppingCart:(state, action) => {
    

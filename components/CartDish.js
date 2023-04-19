@@ -4,8 +4,11 @@ import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDishByIdWrapper } from "../redux/slices/dishesSlice";
 import { AntDesign } from "@expo/vector-icons";
-import { selectDishQuantityByIdWrapper } from "../redux/slices/ordersSlice";
-import { changeDishQuantityInShoppingCart } from "../redux/slices/ordersSlice";
+import { 
+  changeDishQuantityInShoppingCart,
+  selectDishQuantityByIdWrapper,
+  removeDishFromShoppingCart
+ } from "../redux/slices/ordersSlice";
 
 const CartDish = props => {
 
@@ -35,7 +38,19 @@ const CartDish = props => {
     }));  
   }; 
 
-
+  const btnDeleteDishHandler = () => {
+    console.log("I am deleted one");
+    if(dishQuantity > 1) {
+      dispatch(changeDishQuantityInShoppingCart({
+        dishId: dishId,
+        slug:"minus"
+      }));
+    } else {
+      dispatch(removeDishFromShoppingCart({
+        dishId:dishId
+      }));
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -60,8 +75,8 @@ const CartDish = props => {
         </View>
       </View>
       <View style={styles.delete_container}>
-        <Pressable style={styles.delete_btn}>
-          <AntDesign name="minus" size={24} color="white"/>
+        <Pressable style={styles.delete_btn} onPress={() =>btnDeleteDishHandler() }>
+          <AntDesign name="minus" size={28} color="white"/>
         </Pressable>
       </View>
     </View>
