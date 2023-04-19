@@ -49,18 +49,16 @@ const TablesScreen = () => {
   const handleTableCardClick = (tableNumber) => {
     const tableOrder = orders.find(order => order.tableNumber === tableNumber);
     if (!tableOrder) {
-      // dispatch(showDialog(tableNumber));
       setTableNumber(tableNumber);
       setShowDialog(true);
-      // console.log("the show is", showDialog);
     }
   };
 
   const handleDialogSubmit = () => {
     dispatch(
       createOrder({
-        tableNumber: tableNumber,
-        numberOfDiners: numberOfDiners
+        tableNumber,
+        numberOfDiners
       })
     );
     setShowDialog(false);
@@ -73,13 +71,19 @@ const TablesScreen = () => {
     let totalAmount=0;
     if(tableOrder) {
       // console.log("tableOrder here are",tableOrder.ongoingDishesSections);
-      if(tableOrder.ongoingDishesSections.length == 0)
+      if(tableOrder?.ongoingDishesSections.length == 0)
         totalAmount = 0;
       else {
         // write pesudo logic here now, revise later
-        totalAmount = tableOrder.ongoingDishesSections[0].dishesOngoing.reduce(
-          (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
-        );
+        // totalAmount = tableOrder.ongoingDishesSections[0].dishesOngoing.reduce(
+        //   (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
+        // );
+        tableOrder?.ongoingDishesSections.map((dishSection) => {
+          // console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
+          totalAmount = totalAmount + dishSection.dishesOngoing.reduce(
+            (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
+          );
+        })
       }
       // console.log("totalAmount is", totalAmount);
     };
@@ -127,7 +131,7 @@ const TablesScreen = () => {
           <Text style={styles.dialogTitle}>Enter Number of Diners for Table {tableNumber}</Text>
           <Input
             placeholder="Number of Diners"
-            keyboardType="number-pad"
+            keyboardType="numeric"
             onChangeText={value => setNumberOfDiners(value)}
             style={styles.input}
           />
@@ -155,7 +159,8 @@ const styles=StyleSheet.create({
     marginBottom:40,
     justifyContent:"flex-start",
     alignItems:"center",
-    height:100
+    // height:100   redundant - flexDirection: "row" property already ensures that the container
+    // will have a height that fits its content
   },
   headerImage:{
     aspectRatio: 1,
@@ -182,8 +187,9 @@ const styles=StyleSheet.create({
     elevation: 5,
   },
   dialogContainer: {
-    // alignItems: 'center',
-    // padding: 20,
+    // flex:1,
+    // justifyContent:"center",
+    // alignItems:"center",
     padding: 20,
     borderRadius: 10,
     backgroundColor: '#fff',
@@ -199,6 +205,7 @@ const styles=StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     marginBottom: 20,
+    // backgroundColor:"pink"
   },
   dialogButtonsContainer: {
     flexDirection: 'row',

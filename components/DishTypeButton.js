@@ -11,7 +11,7 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
         styles.dish_type_btn,
         {
           backgroundColor: active
-            ? "#000"
+            ? "#2089dc"
             : "#fff"
         },
       ]}

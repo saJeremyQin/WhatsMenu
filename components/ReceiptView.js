@@ -50,7 +50,7 @@ const ReceiptView = ({edit}) => {
   // console.log("receipt subtotal is", subtotal);
   
   const tax = subtotal * 0.1 ;
-  const total = subtotal + tax;
+  const total = subtotal;
 
   const btnReturnDishHandler = () => {
     setReturningDish(!returningDish);
