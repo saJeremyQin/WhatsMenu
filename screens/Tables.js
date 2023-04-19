@@ -118,7 +118,7 @@ const TablesScreen = () => {
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         itemStyle={{ backgroundColor: '#FFFFFF', borderRadius: 8, padding: 16 }}
       />
-       <Overlay 
+      <Overlay 
         isVisible={showDialog} 
         onBackdropPress={() => setShowDialog(false)}
         overlayStyle={styles.overlayStyle}

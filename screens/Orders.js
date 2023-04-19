@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Image, Dimensions } from "react-native";
-import { Button, Divider } from "react-native-elements";
+import { Button, Divider, Overlay } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 // import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
@@ -11,15 +11,18 @@ import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesS
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DISH_TYPES } from "../Gloabls/constants";
 import { DishTypeButton } from "../components/DishTypeButton";
+// import ReceiptView from "../components/ReceiptView";
 
 
 
 const OrdersScreen = ({navigation}) => {
 
+  const [showDialog, setShowDialog] = useState(false);
+
   // Write the logic of menuScreen
   const dispatch = useDispatch();
   const [curDishType, setCurDishType] = useState("main");
-  console.log("111 is",Dimensions.get('window').width);
+  // console.log("111 is",Dimensions.get('window').width);
 
   // Get the dishes by current dishType
   const dishesByType = useSelector(selectDishesByTypeWrapper(curDishType));
@@ -41,10 +44,16 @@ const OrdersScreen = ({navigation}) => {
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => console.log("I am clicked!")} title="CheckOut" style={{color:"#f31282"}} />
+        <Button onPress={() => btnCheckOutHandler() } title="CheckOut" style={{color:"#f31282"}} />
       ),
     });
   }, [navigation]);
+
+  const btnCheckOutHandler = () => {
+    // console.log("i am clicked inside");
+    setShowDialog(true);
+
+  };
 
   const handleDishTypeClick = (slug, id) => {
     console.log("slug is", slug);
@@ -61,6 +70,10 @@ const OrdersScreen = ({navigation}) => {
     return (
       <DishCard dish={item} />
     );
+  };
+
+  const handleReceiptCheckout = () => {
+    console.log("I am checkout!");
   };
 
   return (
@@ -119,6 +132,19 @@ const OrdersScreen = ({navigation}) => {
         {/* </View> */}
         <OrdersTabView style={{flex:1,backgroundColor:"pink"}}/>
       </View>
+      <Overlay 
+        isVisible={showDialog} 
+        onBackdropPress={() => setShowDialog(false)}
+        overlayStyle={styles.overlayStyle}
+      >
+        <View style={styles.dialogContainer}>
+          <ReceiptView edit={false} style={styles.receiptView}/>
+        </View>
+        <View style={styles.dialogButtonsContainer}>
+          <Button title="Cancel" onPress={() => setShowDialog(false)} style={styles.cancelButton}/>
+          <Button title="Print" onPress={handleReceiptCheckout} style={styles.checkOutButton}/>
+        </View>
+      </Overlay>
     </View>
   );
 }
@@ -185,7 +211,49 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     backgroundColor:"green"
-  }
+  },
+  overlayStyle:{
+    width:512,
+    height:680,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  dialogContainer:{
+    height:600,
+    padding: 10,
+    borderRadius: 10,
+    // backgroundColor: 'pink',
+    elevation:5
+  },  
+  // dialogTitle: {
+  //   fontSize: 18,
+  //   fontWeight: 'bold',
+  //   marginBottom: 20,
+  // },
+  receiptView:{
+    flex:1
+  },
+  dialogButtonsContainer: {
+    marginTop:10,
+    height:40,
+    flexDirection: 'row',
+    justifyContent: "space-evenly",
+  },
+  cancelButton: {
+    backgroundColor: '#ccc',
+  },
+  checkOutButton: {
+    backgroundColor: '#007bff',
+  },
 });
 
 export default OrdersScreen;

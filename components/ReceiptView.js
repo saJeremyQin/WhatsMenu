@@ -12,8 +12,7 @@ import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 
-const ReceiptView = () => {
-
+const ReceiptView = ({edit}) => {
 
   const [returningDish, setReturningDish] = useState(false);
 
@@ -96,7 +95,6 @@ const ReceiptView = () => {
                 {
                   dishSection.dishesOngoing.map((dishItem,indexD) => {
                     const dish = getDishById(dishItem.dishId);
-                    {/* console.log("dish inside is",dish); */}
                     return (            
                         <View key={`line-${indexS}-${indexD}`} style={[styles.dishItem, {height: returningDish ? 50 : 30}]}>
                           <Text style={styles.name}>{dish.name}</Text>
@@ -126,22 +124,26 @@ const ReceiptView = () => {
           <Text style={styles.total}>Total: {total}</Text>
         </View>
       </ScrollView>
-      <Button
-        title={ returningDish ? "Finish":"ReturnDish" }
-        buttonStyle={{
-            backgroundColor: 'rgba(111, 202, 186, 1)',
-            borderRadius: 5,
-        }}
-        // disabled={orderPlaced}
-        titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
-        containerStyle={{
-            marginVertical: 10,
-            alignSelf: 'center', // center the button horizontally
-            position:"absolute",
-            bottom:30
-        }}
-        onPress={btnReturnDishHandler}
-      />  
+      {
+        edit ? (     
+          <Button
+            title={ returningDish ? "Finish":"ReturnDish" }
+            buttonStyle={{
+                backgroundColor: 'rgba(111, 202, 186, 1)',
+                borderRadius: 5,
+            }}
+            // disabled={orderPlaced}
+            titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+            containerStyle={{
+                marginVertical: 10,
+                alignSelf: 'center', // center the button horizontally
+                position:"absolute",
+                bottom:30
+            }}
+            onPress={btnReturnDishHandler}
+          />
+        ) : null
+      }
     </View>
   );
 };
