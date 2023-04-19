@@ -14,7 +14,7 @@ import { DishTypeButton } from "../components/DishTypeButton";
 
 
 
-const OrdersScreen = () => {
+const OrdersScreen = ({navigation}) => {
 
   // Write the logic of menuScreen
   const dispatch = useDispatch();
@@ -36,23 +36,32 @@ const OrdersScreen = () => {
   //   tax:7,
   //   total:77
   // }
+  useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => console.log("I am clicked!")} title="CheckOut" style={{color:"#f31282"}} />
+      ),
+    });
+  }, [navigation]);
 
   const handleDishTypeClick = (slug, id) => {
     console.log("slug is", slug);
     setCurDishType(slug);
     console.log("the dishes array is,", dishesByType);
-  }
+  };
 
   const setClass = (slug) => {
     if (curDishType === slug) return true;
     else return false;
-  }
+  };
 
   const renderDishItem = ({item}) => {
     return (
       <DishCard dish={item} />
     );
-  }
+  };
 
   return (
     <View style={styles.container}> 
@@ -119,6 +128,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     // backgroundColor:"#5e0a9c"
+  },
+  checkOutBtn:{
+    backgroundColor:"#5e0a9c"
   },
   leftColumn: {
     flex: 3,
