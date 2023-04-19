@@ -2,7 +2,12 @@ import React,{ useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
-import { selectOngoingDishesSections, deleteDishInOngoingDishes } from '../redux/slices/ordersSlice';
+import { 
+  selectOngoingDishesSections, 
+  deleteDishInOngoingDishes, 
+  selectCurrentTable,
+  selectNumberOfDiners 
+} from '../redux/slices/ordersSlice';
 import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
@@ -11,6 +16,9 @@ const ReceiptView = () => {
 
 
   const [returningDish, setReturningDish] = useState(false);
+
+  const curTable = useSelector(selectCurrentTable);
+  const diners = useSelector(selectNumberOfDiners);
   const dispatch = useDispatch();
 
   const logo_img = require("../assets/restaurant_logo.png");
@@ -61,10 +69,14 @@ const ReceiptView = () => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.receiptContainer}>
-        <View style={styles.header}>
+        <View style={styles.restaurantHeader}>
           <Image style={styles.logo} source={restaurant.logo} />
           <Text style={styles.company}>{restaurant.company}</Text>
           <Text style={styles.address}>{restaurant.address}</Text>
+        </View>
+        <View style={styles.orderInfo}>
+          <Text style={styles.tableNumber}>Table {curTable}</Text>
+          <Text style={styles.numberOfDiners}>Diners: {diners}</Text>
         </View>
         <View style={styles.dishesSections}>
           <View style={styles.sectionHeader}>
@@ -150,14 +162,29 @@ const styles = StyleSheet.create({
   receiptContainer:{
 
   },
+  orderInfo: {
+    borderTopWidth:1,
+    borderColor:"#ccc",
+    marginTop:10
+    // backgroundColor:"pink"   
+  },
+  tableNumber:{
+    alignSelf:"center",
+    fontSize:26
+  },
+  numberOfDiners:{
+    alignSelf:"flex-end",
+    fontSize:20,
+    marginRight:10
+  },
+  restaurantHeader: {
+    marginTop: 20,
+    alignItems:"center"
+  },
   logo: {
     width: 100,
     height: 100,
     resizeMode: 'contain',
-  },
-  header: {
-    marginTop: 20,
-    alignItems:"center"
   },
   company: {
     fontSize: 18,
