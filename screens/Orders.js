@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, View, Text, FlatList, Image, Dimensions } from "react-native";
 import { Button, Divider, Overlay } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 // import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
-import ReceiptView from "../components/ReceiptView";
+import ReceiptView,{ generateReceiptHTML } from "../components/ReceiptView";
 import DishCard from "../components/DishCard";
+import * as Print from 'expo-print';
+
 import { 
   placeOrder, 
   checkOutOrder,
@@ -17,6 +19,7 @@ import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesS
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DISH_TYPES } from "../Gloabls/constants";
 import { DishTypeButton } from "../components/DishTypeButton";
+// import { generateReceiptHTML } from './ReceiptView';
 // import ReceiptView from "../components/ReceiptView";
 
 
@@ -24,6 +27,8 @@ import { DishTypeButton } from "../components/DishTypeButton";
 const OrdersScreen = ({navigation}) => {
 
   const [showDialog, setShowDialog] = useState(false);
+
+  const receiptViewRef = useRef(null);
 
   // Write the logic of menuScreen
   const dispatch = useDispatch();
@@ -35,7 +40,7 @@ const OrdersScreen = ({navigation}) => {
   // console.log("dishesByType are", dishesByType);
 
   const currentTableNum = useSelector(selectCurrentTable);
-  console.log("current table is",currentTableNum);
+  // console.log("current table is",currentTableNum);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder))?.tobeAddedDishes.length;
   const dinersNum = useSelector(selectNumberOfDiners);
 
@@ -79,11 +84,11 @@ const OrdersScreen = ({navigation}) => {
     );
   };
 
-  const printReceipt= async () => {
-
-    // const receiptContent = generateReceiptHTML();
-    const reeiptContent = "Welcome";
+  const printReceipt = async({receiptContent}) => {
+    // const reeiptContent = "Welcome";
     try {
+      // const receiptContent = receiptViewRef.current.generateReceiptHTML();
+      console.log(receiptContent);
       await Print.printAsync({
         html: receiptContent,
       })
@@ -93,11 +98,29 @@ const OrdersScreen = ({navigation}) => {
     }
   }
   
+  // const handleReceiptCheckout = async () => {
+  //   if(receiptViewRef.current) {
+  //     const receiptContent = await receiptViewRef.current.generateReceiptHTML();
+
+  //     console.log("checkout receiptViewRef is", receiptViewRef);
+  //     await printReceipt(receiptContent).then(
+  //       dispatch(checkOutOrder()),
+  //       navigation.navigate("Tables")
+  //     );
+  //   }   
+  // };
+
   const handleReceiptCheckout = async () => {
-    dispatch(checkOutOrder());
-    navigation.navigate("Tables");
-    await printReceipt();
+    if (receiptViewRef.current) {
+      const receiptContent = await receiptViewRef.current.generateReceiptHTML();
+      await Print.printAsync({
+        html: receiptContent,
+      });
+    } else {
+      console.log('receiptViewRef.current is null or undefined');
+    }
   };
+  
   
 
   return (
@@ -148,11 +171,14 @@ const OrdersScreen = ({navigation}) => {
         overlayStyle={styles.overlayStyle}
       >
         <View style={styles.dialogContainer}>
-          <ReceiptView edit={false} style={styles.receiptView}/>
+        {/* {
+          console.log("Overlay receiptViewRef is", receiptViewRef)
+        } */}
+          <ReceiptView ref={receiptViewRef} edit={false} style={styles.receiptView}/>
         </View>
         <View style={styles.dialogButtonsContainer}>
           <Button title="Cancel" onPress={() => setShowDialog(false)} style={styles.cancelButton}/>
-          <Button title="Print" onPress={handleReceiptCheckout} style={styles.checkOutButton}/>
+          <Button title="Print" onPress={() => handleReceiptCheckout()} style={styles.checkOutButton}/>
         </View>
       </Overlay>
     </View>

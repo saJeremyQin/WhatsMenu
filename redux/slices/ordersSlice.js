@@ -91,7 +91,7 @@ const ordersSlice = createSlice({
           updatedOrder,
           ...state.orders.slice(orderIndex+1)
         ];
-        console.log("State after creating order:", state.orders[orderIndex]);
+        // console.log("State after creating order:", state.orders[orderIndex]);
       },
       removeDishFromShoppingCart:(state, action) => {
    

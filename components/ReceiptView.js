@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
@@ -12,7 +12,8 @@ import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 
-const ReceiptView = ({edit}) => {
+const ReceiptView = forwardRef((props, ref) => {
+  const htmlRef = useRef(null);
 
   const [returningDish, setReturningDish] = useState(false);
 
@@ -64,6 +65,21 @@ const ReceiptView = ({edit}) => {
       indexD:indexD
     }));
   };
+
+  useImperativeHandle(ref, () => ({
+    generateReceiptHTML: () => {
+      htmlRef.current.generateReceiptHTML();
+    }
+  }));
+
+  const generateReceiptHTML =  () => {
+
+    // Generate the HTML markup of the receipt
+    return "<h1>single</h1>";
+    // return receiptHTML;
+   
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -125,7 +141,7 @@ const ReceiptView = ({edit}) => {
         </View>
       </ScrollView>
       {
-        edit ? (     
+        props.edit ? (     
           <Button
             title={ returningDish ? "Finish":"ReturnDish" }
             buttonStyle={{
@@ -146,7 +162,7 @@ const ReceiptView = ({edit}) => {
       }
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

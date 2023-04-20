@@ -81,7 +81,7 @@ const TablesScreen = () => {
           ),
         0
       );
-      console.log("totalAmount is", totalAmount);
+      // console.log("totalAmount is", totalAmount);
     };
 
     return (
