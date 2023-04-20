@@ -79,28 +79,29 @@ const OrdersScreen = ({navigation}) => {
     );
   };
 
-  const handleReceiptCheckout = () => {
+  const printReceipt= async () => {
+
+    // const receiptContent = generateReceiptHTML();
+    const reeiptContent = "Welcome";
+    try {
+      await Print.printAsync({
+        html: receiptContent,
+      })
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  const handleReceiptCheckout = async () => {
     dispatch(checkOutOrder());
-    // send to printer
     navigation.navigate("Tables");
+    await printReceipt();
   };
+  
 
   return (
     <View style={styles.container}> 
-      {
-        /* Header will be put in the header of Stack Screen.
-        <View style={styles.headerContainer}>
-          <Image
-            source={require("../assets/table.png")}
-            resizeMode="contain"
-            style={styles.headerImage}
-          />
-          <Text style={styles.headerText}>
-            Table:{currentTableNum} | Diners: {dinersNum}
-          </Text>
-        </View>
-        <Divider width={1.5} color={"white"} /> */
-      }
       <View style={styles.leftColumn}>
         <View style={styles.dishesByTypeButtonContainer}> 
           <FlatList

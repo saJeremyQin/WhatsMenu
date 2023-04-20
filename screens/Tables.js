@@ -10,9 +10,11 @@ import { DISH_TYPES } from "../Gloabls/constants";
 import { Overlay, Button, Input } from "react-native-elements";
 import TableCard from "../components/TableCard";
 
+
+const numOfTables = 30;
+
 const TablesScreen = () => {
 
-  const numOfTables = 30;
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
 
   const [showDialog, setShowDialog] = useState(false);
@@ -48,17 +50,9 @@ const TablesScreen = () => {
   // This is the function pass down to child component and invoked by TableCard.
   const handleTableCardClick = (tableNumber) => {
     const tableOrder = orders.find(order => order.tableNumber === tableNumber);
-    if (!tableOrder) {
-      setTableNumber(tableNumber);
-      setShowDialog(true);
-    } else {
-      //if tableOrder exists, should dispatch resumeOrder, payload 'curTableNumber'
-      // setTableNumber(tableNumber);   //it is a localpage state, not enough.
-      dispatch(resumeOrder({
-        tableNumber
-      }))
-      navigation.navigate("Orders");
-    }
+    !tableOrder 
+      ? (setTableNumber(tableNumber), setShowDialog(true))
+      : (dispatch(resumeOrder({tableNumber})), navigation.navigate("Orders"))
   };
 
   const handleDialogSubmit = () => {
@@ -77,23 +71,19 @@ const TablesScreen = () => {
     const tableOrder = orders.find(order => order.tableNumber === item);
     let totalAmount=0;
     if(tableOrder) {
-      // console.log("tableOrder here are",tableOrder.ongoingDishesSections);
-      if(tableOrder?.ongoingDishesSections.length == 0)
-        totalAmount = 0;
-      else {
-        // write pesudo logic here now, revise later
-        // totalAmount = tableOrder.ongoingDishesSections[0].dishesOngoing.reduce(
-        //   (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity, 0
-        // );
-        tableOrder?.ongoingDishesSections.map((dishSection) => {
-          // console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
-          totalAmount = totalAmount + dishSection.dishesOngoing.reduce(
-            (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
-          );
-        })
-      }
-      // console.log("totalAmount is", totalAmount);
+      totalAmount = tableOrder?.ongoingDishesSections.reduce(
+        (acc, section) =>
+          acc + 
+          section.dishesOngoing.reduce(
+            (acc, dish) =>
+              acc + getDishById(dish.dishId)?.price * dish.dishQuantity,
+              0
+          ),
+        0
+      );
+      console.log("totalAmount is", totalAmount);
     };
+
     return (
       <TableCard 
         tableNumber={item} 
