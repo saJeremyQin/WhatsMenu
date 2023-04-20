@@ -110,12 +110,9 @@ const OrdersScreen = ({navigation}) => {
   //   }   
   // };
 
-  const handleReceiptCheckout = async () => {
+  const handleReceiptCheckout = () => {
     if (receiptViewRef.current) {
-      const receiptContent = await receiptViewRef.current.generateReceiptHTML();
-      await Print.printAsync({
-        html: receiptContent,
-      });
+      receiptViewRef.current.printReceipt();
     } else {
       console.log('receiptViewRef.current is null or undefined');
     }

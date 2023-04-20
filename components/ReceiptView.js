@@ -11,8 +11,10 @@ import {
 import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
+import * as Print from 'expo-print';
 
-const ReceiptView = forwardRef((props, ref) => {
+
+const ReceiptView = React.forwardRef((props, ref) => {
   const htmlRef = useRef(null);
 
   const [returningDish, setReturningDish] = useState(false);
@@ -67,10 +69,15 @@ const ReceiptView = forwardRef((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    generateReceiptHTML: () => {
-      htmlRef.current.generateReceiptHTML();
-    }
+    printReceipt: printReceipt  
   }));
+
+  const printReceipt = async () => {
+    const receiptData = await generateReceiptHTML();
+    await Print.printAsync({
+      html: receiptData,
+    });
+  };
 
   const generateReceiptHTML =  () => {
 
