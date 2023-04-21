@@ -82,8 +82,148 @@ const ReceiptView = React.forwardRef((props, ref) => {
   const generateReceiptHTML =  () => {
 
     // Generate the HTML markup of the receipt
-    return "<h1>single</h1>";
-    // return receiptHTML;
+    const receiptHTML = `
+      <html>
+        <head>
+        <style>
+        .container {
+          width: 512px;
+          display: flex;
+          flex-wrap: wrap;
+          //background: pink;  
+          margin: 0 auto;
+        }
+        .restaurantInfo {
+          width: 100%;
+          margin-top: 10px;
+          text-align: center;
+        }
+        .logo {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+        }      
+        .company {
+          font-size: 24px;
+          font-weight: bold;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+        .address {
+          margin-top: 5px;
+          font-size: 16px;
+          text-align: center; 
+        }
+        .orderInfo {
+          width: 100%;
+          border-top: 1px solid #ccc;
+          margin-top: 10px;
+        }
+        .curTable {
+          text-align: center;
+          font-size: 26px;
+        }
+        .diners {
+          text-align: right;
+          font-size: 20px;
+          margin-right: 10px;
+        }
+        .dishesInfo {
+          width: 100%;
+          border-top: 1px solid #ccc;
+          // background: purple;
+          display:flex;
+        }
+        table {
+          flex:1;
+          margin-top: 5px;
+        }
+        table th {
+          font-weight: bold;
+          font-size: 24px;
+        }
+        table td {
+          font-size: 22px;
+          padding: 2px;
+        }
+        table th:nth-child(1) {
+          width: 60%;
+          text-align: left;
+          padding-left:5px;
+        }
+        table th:nth-child(2) {
+          width: 15%;
+          text-align: right;
+        }
+        table th:nth-child(3) {
+          width: 25%;
+          text-align: right;
+          padding-right: 5px;
+        }
+        table td:nth-child(1) {
+          width: 60%;
+          text-align: left;
+          padding-left:5px;
+        }
+        table td:nth-child(2) {
+          width: 15%;
+          text-align: right;
+        }
+        table td:nth-child(3) {
+          width: 25%;
+          text-align: right;
+          padding-right: 5px;
+        }
+        </style>
+        </head>
+        <body>
+        <div class="container">
+          <div class="restaurantInfo">
+            <img class="logo" src="../assets/restaurant_logo.png" alt="Restaurant Logo">
+            <p class="company">${restaurant.company}</p>
+            <p class="address">${restaurant.address}</p>
+          </div>
+          <div class="orderInfo">
+            <p class="curTable">Table ${curTable}<p>
+            <p class="diners">Diners ${diners}</p>
+          </div>
+          <div class="dishesInfo">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>       
+                ${dishesSections.map((dishSection, indexS) => {
+        
+                  return (   
+                    dishSection.dishesOngoing.map((dishItem, indexD) => {
+                      const dish = getDishById(dishItem.dishId);
+                      return (`
+                        <tr>
+                          <td>${dish.name}</td>
+                          <td>${dishItem.dishQuantity}</td>
+                          <td>${dish.price}</td>
+                        </tr>
+                      `)
+                    }) 
+                  )
+                })
+            }
+            </tbody>
+            </table>
+          </div>
+          <div class="totoalAmount">
+          </div>
+        </div>
+        </body>
+      </html>
+  `;  
+
+    return receiptHTML;
    
   };
   

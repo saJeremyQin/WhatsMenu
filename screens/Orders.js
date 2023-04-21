@@ -168,14 +168,11 @@ const OrdersScreen = ({navigation}) => {
         overlayStyle={styles.overlayStyle}
       >
         <View style={styles.dialogContainer}>
-        {/* {
-          console.log("Overlay receiptViewRef is", receiptViewRef)
-        } */}
           <ReceiptView ref={receiptViewRef} edit={false} style={styles.receiptView}/>
         </View>
         <View style={styles.dialogButtonsContainer}>
           <Button title="Cancel" onPress={() => setShowDialog(false)} style={styles.cancelButton}/>
-          <Button title="Print" onPress={() => handleReceiptCheckout()} style={styles.checkOutButton}/>
+          <Button title="CheckOut" onPress={() => handleReceiptCheckout()} style={styles.checkOutButton}/>
         </View>
       </Overlay>
     </View>

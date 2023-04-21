@@ -48,8 +48,8 @@ const ordersSlice = createSlice({
         let updatedOrder = null;
         const { tobeAddedDishes } = state.orders[orderIndex];
         const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
-        console.log("tobeAdded is", tobeAddedDishes);
-        console.log("dish index is", dishIndex);
+        // console.log("tobeAdded is", tobeAddedDishes);
+        // console.log("dish index is", dishIndex);
 
         if (dishIndex === -1) {
           // create a new array of tobeAddedDishes for the updated order, add a new object.
