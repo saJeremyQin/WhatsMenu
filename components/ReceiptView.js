@@ -147,32 +147,33 @@ const ReceiptView = React.forwardRef((props, ref) => {
           padding: 2px;
         }
         table th:nth-child(1) {
-          width: 60%;
+          width: 42%;
           text-align: left;
           padding-left:5px;
         }
         table th:nth-child(2) {
-          width: 15%;
+          width: 8%;
           text-align: right;
         }
         table th:nth-child(3) {
-          width: 25%;
+          width: 50%;
           text-align: right;
           padding-right: 5px;
         }
         table td:nth-child(1) {
-          width: 60%;
+          width: 42%;
           text-align: left;
           padding-left:5px;
         }
         table td:nth-child(2) {
-          width: 15%;
+          width: 8%;
           text-align: right;
         }
         table td:nth-child(3) {
-          width: 25%;
+          width: 50%;
           text-align: right;
           padding-right: 5px;
+          // background:red;
         }
         </style>
         </head>
@@ -198,9 +199,10 @@ const ReceiptView = React.forwardRef((props, ref) => {
               </thead>
               <tbody>       
                 ${dishesSections.map((dishSection, indexS) => {
-        
-                  return (   
-                    dishSection.dishesOngoing.map((dishItem, indexD) => {
+                  {console.log("placed time is,",dishSection.placedTime)}
+                  const formattedTimestamp = dishSection.placedTime ? new Date(dishSection.placedTime).toLocaleString() : '';
+                  {console.log("formattedTime is", formattedTimestamp)}
+                  return dishSection.dishesOngoing.map((dishItem, indexD) => {
                       const dish = getDishById(dishItem.dishId);
                       return (`
                         <tr>
@@ -208,11 +210,16 @@ const ReceiptView = React.forwardRef((props, ref) => {
                           <td>${dishItem.dishQuantity}</td>
                           <td>${dish.price}</td>
                         </tr>
-                      `)
-                    }) 
-                  )
-                })
-            }
+                      `);
+                    }).concat(`
+                    <tr>
+                    <td></td>
+                    <td></td>
+                    <td>${formattedTimestamp}</td>
+                    </tr>
+                    `);
+                  })
+                }
             </tbody>
             </table>
           </div>
