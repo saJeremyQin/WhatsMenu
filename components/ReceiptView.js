@@ -41,10 +41,10 @@ const ReceiptView = React.forwardRef((props, ref) => {
   const dishesSections = useSelector(selectOngoingDishesSections);
 
   // Calculate the total money of all sections.
-  let subtotal = 0;
+  let total = 0;
   dishesSections.map((dishSection) => {
     // console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
-    subtotal = subtotal + dishSection.dishesOngoing.reduce(
+    total = total + dishSection.dishesOngoing.reduce(
       (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
     );
     // console.log("subtotal inside is", subtotal);
@@ -52,8 +52,8 @@ const ReceiptView = React.forwardRef((props, ref) => {
   
   // console.log("receipt subtotal is", subtotal);
   
-  const tax = subtotal * 0.1 ;
-  const total = subtotal;
+  const tax = total * 0.1 ;
+  const subtotal = total-tax;
 
   const btnReturnDishHandler = () => {
     setReturningDish(!returningDish);
@@ -173,7 +173,26 @@ const ReceiptView = React.forwardRef((props, ref) => {
           width: 50%;
           text-align: right;
           padding-right: 5px;
-          // background:red;
+        }
+        .totalInfo {
+          width: 100%;
+          border-top: 1px solid #ccc;
+          justify-content: flex-end; 
+        }
+        .subTotal {
+          text-align: right;
+          font-size:20px;
+          margin-right:10px;
+        }
+        .tax {
+          text-align: right;
+          font-size:20px;
+          margin-right: 10px;
+        }
+        .totalAmount {
+          text-align: right;
+          font-size: 22px;
+          margin-right: 10px;
         }
         </style>
         </head>
@@ -223,7 +242,10 @@ const ReceiptView = React.forwardRef((props, ref) => {
             </tbody>
             </table>
           </div>
-          <div class="totoalAmount">
+          <div class="totalInfo">
+            <p class="subTotal">SubTotal:${subtotal}</p>
+            <p class="tax">Tax:${tax}</p>
+            <p class="totalAmount">Total: ${total}</p>
           </div>
         </div>
         </body>
