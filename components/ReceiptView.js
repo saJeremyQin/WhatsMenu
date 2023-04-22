@@ -1,4 +1,4 @@
-import React,{ useState, useRef, useImperativeHandle, forwardRef } from 'react';
+import React,{ useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
@@ -12,11 +12,13 @@ import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import * as Print from 'expo-print';
+import { WebView } from 'react-native-webview';
+
 
 
 const ReceiptView = React.forwardRef((props, ref) => {
-  const htmlRef = useRef(null);
-
+  // const htmlRef = useRef(null);
+  const [htmlContent, setHtmlContent] = useState('');
   const [returningDish, setReturningDish] = useState(false);
 
   const curTable = useSelector(selectCurrentTable);
@@ -29,6 +31,12 @@ const ReceiptView = React.forwardRef((props, ref) => {
     address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
     logo:logo_img
   };
+
+  useEffect(()=> {
+    const receiptHTML = generateReceiptHTML();
+    // console.log("receiptHtml is",receiptHTML);
+    setHtmlContent(receiptHTML);
+  },[]);
 
   // dishSections, [{[dishesPlaced1], time1}, {[dishesPlaced2],time2}]
   const dishes = useSelector(selectDishes);
@@ -73,14 +81,13 @@ const ReceiptView = React.forwardRef((props, ref) => {
   }));
 
   const printReceipt = async () => {
-    const receiptData = await generateReceiptHTML();
+    // const receiptData = await generateReceiptHTML();
     await Print.printAsync({
-      html: receiptData,
+      html: htmlContent,
     });
   };
 
   const generateReceiptHTML =  () => {
-
     // Generate the HTML markup of the receipt
     const receiptHTML = `
       <html>
@@ -95,7 +102,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
         }
         .restaurantInfo {
           width: 100%;
-          margin-top: 10px;
+          margin-top: 30px;
           text-align: center;
         }
         .logo {
@@ -199,7 +206,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
         <body>
         <div class="container">
           <div class="restaurantInfo">
-            <img class="logo" src="../assets/restaurant_logo.png" alt="Restaurant Logo">
+            <img class="logo" src="https://studentserver.com.au/daqin/images/restaurant_logo.png" alt="Restaurant Logo">
             <p class="company">${restaurant.company}</p>
             <p class="address">${restaurant.address}</p>
           </div>
@@ -221,7 +228,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
                   {console.log("placed time is,",dishSection.placedTime)}
                   const formattedTimestamp = dishSection.placedTime ? new Date(dishSection.placedTime).toLocaleString() : '';
                   {console.log("formattedTime is", formattedTimestamp)}
-                  return dishSection.dishesOngoing.map((dishItem, indexD) => {
+                  const sectionRows = dishSection.dishesOngoing.map((dishItem, indexD) => {
                       const dish = getDishById(dishItem.dishId);
                       return (`
                         <tr>
@@ -230,15 +237,16 @@ const ReceiptView = React.forwardRef((props, ref) => {
                           <td>${dish.price}</td>
                         </tr>
                       `);
-                    }).concat(`
+                    });
+                  const timestampRow = (`
                     <tr>
                     <td></td>
                     <td></td>
                     <td>${formattedTimestamp}</td>
-                    </tr>
-                    `);
-                  })
-                }
+                    </tr>`
+                  );
+                  return sectionRows.join('') + timestampRow;
+                }).join('')}
             </tbody>
             </table>
           </div>
@@ -258,7 +266,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
   
 
   return (
-    <View style={styles.container}>
+    props.edit ? ( <View style={styles.container}>
       <ScrollView style={styles.receiptContainer}>
         <View style={styles.restaurantHeader}>
           <Image style={styles.logo} source={restaurant.logo} />
@@ -336,7 +344,13 @@ const ReceiptView = React.forwardRef((props, ref) => {
           />
         ) : null
       }
-    </View>
+    </View> ) : (
+      <WebView 
+        source={{html:htmlContent}}
+        style={{flex:1}} 
+         originWhitelist={['file://*']}
+        />
+      )
   );
 });
 
