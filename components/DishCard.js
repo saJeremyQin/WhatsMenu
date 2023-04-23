@@ -123,6 +123,14 @@ const styles = StyleSheet.create({
     borderColor:"#52f",
     borderTopLeftRadius:5,
     borderTopRightRadius:5,
+    shadowColor: '#52f',
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 9,
     // width: cardSize,
     // height:cardSize/1.25
     
