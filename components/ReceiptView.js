@@ -186,6 +186,11 @@ const ReceiptView = React.forwardRef((props, ref) => {
           border-top: 1px solid #ccc;
           justify-content: flex-end; 
         }
+        .placedTime {
+          background: pink;
+          white-space: nowrap;
+          margin-left: auto;
+        }
         .subTotal {
           text-align: right;
           font-size:20px;
@@ -225,9 +230,8 @@ const ReceiptView = React.forwardRef((props, ref) => {
               </thead>
               <tbody>       
                 ${dishesSections.map((dishSection, indexS) => {
-                  {console.log("placed time is,",dishSection.placedTime)}
                   const formattedTimestamp = dishSection.placedTime ? new Date(dishSection.placedTime).toLocaleString() : '';
-                  {console.log("formattedTime is", formattedTimestamp)}
+                    {console.log("formattedTime is", formattedTimestamp)}
                   const sectionRows = dishSection.dishesOngoing.map((dishItem, indexD) => {
                       const dish = getDishById(dishItem.dishId);
                       return (`
@@ -239,10 +243,8 @@ const ReceiptView = React.forwardRef((props, ref) => {
                       `);
                     });
                   const timestampRow = (`
-                    <tr>
-                    <td></td>
-                    <td></td>
-                    <td>${formattedTimestamp}</td>
+                    <tr style="display:flex; background:pink">
+                      <td colSpan="3" class="placedTime">placed on ${formattedTimestamp}</td>
                     </tr>`
                   );
                   return sectionRows.join('') + timestampRow;
