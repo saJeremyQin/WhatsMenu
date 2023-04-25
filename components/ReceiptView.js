@@ -187,7 +187,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
           justify-content: flex-end; 
         }
         .placedTime {
-          background: pink;
+          // background: pink;
           white-space: nowrap;
           margin-left: auto;
         }
@@ -243,7 +243,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
                       `);
                     });
                   const timestampRow = (`
-                    <tr style="display:flex; background:pink">
+                    <tr style="display:flex;">
                       <td colSpan="3" class="placedTime">placed on ${formattedTimestamp}</td>
                     </tr>`
                   );

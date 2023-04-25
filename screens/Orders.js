@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     // backgroundColor: 'pink',
-    elevation:5
+    // elevation:5
   },  
   // dialogTitle: {
   //   fontSize: 18,

@@ -40,7 +40,8 @@ const RootNavigator = () => {
                         headerShown:true,
                         title:"Orders",
                         headerStyle:{
-                            backgroundColor:"#7855be",
+                            // backgroundColor:"#7855be",
+                            backgroundColor:"#f0f0f0"
                         },
                         headerTintColor: "#2089dc",
                         headerRight:() => {
