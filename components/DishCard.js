@@ -7,14 +7,14 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
 import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
 import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slices/ordersSlice";
+import { CURRENCY } from "../Gloabls/constants";
 
 const cardSize = 180;
-
+const blankImage =
+  "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
 
 const DishCard = props => {
 
-  // set the flag of if this dish is added
-  const [added, setAdded] = useState(false);
   const [dishName, setDishName] = useState();
   const [dishDescription, setDishDescription] = useState();
   
@@ -36,23 +36,9 @@ const DishCard = props => {
       setDishDescription(dish.description);
   }
 
-  function CheckAdded() {
-    curOrder.tobeAddedDishes.map((dishInChart)=> {
-      if(dishInChart.id == dish.id)
-        setAdded(true);
-    });
-  }
-
   useEffect(()=>{
     TrimText();
   },[]);
-
-  // check initial state, then setAdded
-  // useEffect(()=>{
-  //   //iterate the tobeAddedDishes Array, if we find the dishId equals, then setAdded
-  //   CheckAdded();  
-  //   // console.log("I am in checkAdded");
-  // },[curOrder]);
 
 
   const addDishToChart = () => {
@@ -62,103 +48,100 @@ const DishCard = props => {
     }));
   };
   
-  const toggleAddDishToChart = () => {
-    // console.log("added is", added);
-    setAdded((flag) => !flag);
-
-    if(!added) {
-
-      dispatch(addDishToShoppingCart({
-        dishId: dish.id,
-        currentTable: curTable
-      }));
-    } else {
-      dispatch(removeDishFromShoppingCart({
-        dishId: dish.id,
-        currentTable: curTable
-      }));
-    }
-  };
   
   return (
-      <Card containerStyle={styles.container} wrapperStyle={{alignItems:"center"}}>
-        <Card.Title style={styles.title}>{dishName}</Card.Title>
-        <Card.Divider />
+      // <Card containerStyle={styles.container} wrapperStyle={{alignItems:"center"}}>
+      //   <Card.Title style={styles.title}>{dishName}</Card.Title>
+      //   <Card.Divider />
+      //   <Pressable
+      //     style={{
+      //       position: "relative",
+      //     }}
+      //     onPress={addDishToChart}
+      //   >
+      //     <Image
+      //       style={styles.image}
+      //       resizeMode="contain"
+      //       source={{
+      //         uri:dish.image 
+      //       }}
+      //     />
+      //     <Text>{dishDescription}</Text>
+      //     <Text style={styles.price}>${dish.price}</Text>
+      //   </Pressable>
+      // </Card>
+      <View style={styles.container}>
         <Pressable
-          style={{
-            position: "relative",
-            // alignItems: "center"
-          }}
-          onPress={addDishToChart}
+          onPress={() => addDishToChart()}
+          activeOpacity={0.7}
+          style={[
+            styles.bottom_container,
+            { backgroundColor: "#2089dc" },
+          ]}
         >
-          <Image
-            style={styles.image}
-            resizeMode="contain"
-            source={{
-              uri:dish.image 
-            }}
-          />
-          <Text>{dishDescription}</Text>
-          <Text style={styles.price}>${dish.price}</Text>
-          {/* <Pressable
-            activeOpacity={0.5}
-            style={[styles.add_circle, { backgroundColor:"#EA5755" }]}
-            onPress={toggleAddDishToChart}
-          >
-            {added ? (
-              <MaterialIcons name="done" size={18} />
-            ) : (
-              <AntDesign name="plus" size={18} />
-            )}
-          </Pressable> */}
-        </Pressable>
-      </Card>
+        <Image
+          source={{
+            uri: dish.image || blankImage,
+          }}
+          style={styles.image}
+        />
+        <Text style={[styles.title, { color: "#0FF" }]}>
+          {dishName || "N/A"}
+        </Text>
+        {/* <Text style={[styles.description, { color: "#F0F0F0" }]}>
+          {dishDescription || "N/A"}
+        </Text> */}
+        <Text style={[styles.price, { color: "#F0F0F0" }]}>
+          {CURRENCY.sign} {dish.price || "N/A"}
+        </Text>
+      </Pressable>
+    </View>
   );
 }
 
 
 const styles = StyleSheet.create({
-  container:{
-    borderWidth: 1,
-    borderColor:"#52f",
-    borderTopLeftRadius:5,
-    borderTopRightRadius:5,
-    shadowColor: '#52f',
-    shadowOffset: {
-      width: 5,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-    elevation: 9,
-    // width: cardSize,
-    // height:cardSize/1.25
-    
-    // paddingHorizontal:0       //can be used to make image occupy the whole width of the card.
-  },
-  title:{
-    fontSize:22
-  },
-  image:{
-    width: cardSize,
-    height:cardSize/1.25
-  },
-  description:{
-    fontSize:20
-  },
-  price:{
-    fontSize:22
-  },
-  add_circle:{
-    position:"absolute",
-    bottom:2,
-    right:2,
+  container: {
     justifyContent: "center",
     alignItems: "center",
-    width:cardSize/6,
-    height:cardSize/6,
-    borderRadius:cardSize/3
-  }
+    margin: 20,
+  },
+  image: {
+    width: cardSize,
+    height: cardSize / 1.25,
+  },
+  bottom_container: {
+    alignItems: "flex-start",
+    width: cardSize,
+    paddingBottom: cardSize / 15,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: cardSize / 10,
+    paddingLeft: cardSize / 15,
+    marginTop: cardSize / 15,
+  },
+  description: {
+    paddingLeft: cardSize / 15,
+    fontSize: cardSize / 12,
+    color: "#595959",
+  },
+  price: {
+    fontWeight: "bold",
+    fontSize: cardSize / 9.5,
+    paddingLeft: cardSize / 15,
+  },
 });
 
 export default DishCard;

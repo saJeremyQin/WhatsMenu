@@ -1,4 +1,5 @@
-
+// Currency
+export const CURRENCY = { name: "AUD", sign: "$" };
 
 // Dish Types
 export const DISH_TYPES = [
