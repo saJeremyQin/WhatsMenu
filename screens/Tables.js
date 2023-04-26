@@ -1,5 +1,5 @@
 import React,{ useEffect,useState } from "react";
-import { StyleSheet, View, Text, Image, FlatList } from "react-native";
+import { StyleSheet, View, Text, Image, FlatList, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
 import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
@@ -22,25 +22,28 @@ const TablesScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   // should use [dispatch] or []?
+  // useEffect(() => {
+  //   client.request(DISHES_QUERY).then((data) => {
+  //       dispatch(addDishes(data.dishes));
+  //     }).catch ((error) => {
+  //       Alert.alert("Warning", "network Error...", error);
+  //     }); 
+  // }, []);     //because dispatch doesn't change during the lifetime of the component
   useEffect(() => {
-    try {
-      client.request(DISHES_QUERY).then((data) => {
-        dispatch(addDishes(data.dishes));
-      });
-      
-    } catch (error) {
-      console.log(error);
-    }
-
-  }, [dispatch]);
+    client.request(DISHES_QUERY).then((data) => {
+      dispatch(addDishes(data.dishes));
+    }).catch((error) => {
+      console.log('API call failed:', error);
+      Alert.alert('Network Error', 'There was an issue fetching data from the server. Please check your internet connection and try again.', [{ text: 'OK' }]);
+    });
+  }, []);
+  
   
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);
-  // console.log("dishes in tables are", dishes);
 
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);
-    // console.log("dishprice is",dish.price);
     return dish;
   }
 
@@ -60,7 +63,6 @@ const TablesScreen = ({navigation}) => {
       })
     );
     setShowDialog(false);
-    // navigation.navigate("Menu");
     navigation.navigate("Orders");
   };
 
