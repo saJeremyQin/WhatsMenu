@@ -22,18 +22,24 @@ const OrdersTabView = () => {
       indicatorStyle={{
         backgroundColor: 'white',
         height: 3,
+        // width: '50%',
+        // marginLeft: '25%',
+        // marginTop: 5,
+        // borderRadius: 10,
       }}
       variant="primary"
     >
       <Tab.Item
         title="Cart"
-        titleStyle={{ fontSize: 16 }}
-        icon={{ name: 'cart', type: 'ionicon', color: 'white' }}
+        titleStyle={{ fontSize: 16, fontWeight: index === 0 ? 'bold' : 'normal',color: index === 0 ? 'blue' : 'white'}}     
+        icon={{ name: 'cart', type: 'ionicon', color: index === 0 ? 'blue' : 'white' }}
+        style={{ backgroundColor: index === 0 ? 'blue' : '#333333' }}
       />
       <Tab.Item
         title="Receipt"
-        titleStyle={{ fontSize: 16 }}
-        icon={{ name: 'heart', type: 'ionicon', color: 'white' }}
+        titleStyle={{ fontSize: 16, fontWeight: index === 1 ? 'bold' : 'normal',color: index === 1 ? 'green' : 'white'}}
+        icon={{ name: 'receipt', type: 'ionicon', color: index === 1 ? 'green' : 'white' }}
+        style={{ backgroundColor: index === 1 ? 'green' : '#333333' }}
       />
     </Tab>
 
