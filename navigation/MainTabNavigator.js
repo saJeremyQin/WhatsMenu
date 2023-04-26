@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TablesScreen from '../screens/Tables';
-import MenuScreen from '../screens/Menu';
 import AboutUsScreen from '../screens/AboutUs';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
@@ -12,15 +11,11 @@ const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
   const currentOrder = useSelector(selectCurrentOrder);
-  // console.log("currentOrder in main is", currentOrder);
   return (
     <Tab.Navigator
       initialRouteName="Tables"
       activeColor='#f0f'
       inactiveColor='#555'
-      // barStyle={{
-      //     backgroundColor:"#5e0acc"
-      // }}
       screenOptions={({route}) => ({
           headerShown: false,
           tabBarActiveTintColor:"#320952",          //Text color of TarBarItem, Active
@@ -49,11 +44,6 @@ const MainTabNavigator = () => {
       })}
     >
       <Tab.Screen name="Tables" component={TablesScreen} />
-      {/* <Tab.Screen 
-        name="Menu" 
-        component={MenuScreen}
-        disabled={!currentOrder}
-      /> */}
       <Tab.Screen name="AboutUs" component={AboutUsScreen} />
     </Tab.Navigator>
   );

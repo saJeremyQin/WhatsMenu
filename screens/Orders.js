@@ -63,9 +63,7 @@ const OrdersScreen = ({navigation}) => {
   };
 
   const handleDishTypeClick = (slug, id) => {
-    console.log("slug is", slug);
     setCurDishType(slug);
-    console.log("the dishes array is,", dishesByType);
   };
 
   const setClass = (slug) => {
@@ -144,7 +142,6 @@ const OrdersScreen = ({navigation}) => {
         <FlatList
           data={dishesByType}
           numColumns={3}
-          // width={(Dimensions.get('window').width)/2}
           contentContainerStyle={{ alignSelf: 'center' }}
           style={styles.dishesList}
           alignItems={dishesByType.length > 1 ? "flex-start":"center"}
@@ -155,9 +152,6 @@ const OrdersScreen = ({navigation}) => {
       <View 
         style={styles.rightColumn}
       >
-        {/* <View style={styles.receipt_container}> */}
-          {/* <Receipt lineItems={ongoingDishes} header={restaurant} footer={bill}  /> */}
-        {/* </View> */}
         <OrdersTabView style={{flex:1,backgroundColor:"pink"}}/>
       </View>
       <Overlay 
