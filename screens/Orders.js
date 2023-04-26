@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { StyleSheet, View, Text, FlatList, Image, Dimensions } from "react-native";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { StyleSheet, View, Text, FlatList, Image, Dimensions, Alert } from "react-native";
 import { Button, Divider, Overlay } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
-// import { placeOrder,selectCurrentOrder } from "../redux/slices/ordersSlice";
 import CartDish from "../components/CartDish";
 import ReceiptView,{ generateReceiptHTML } from "../components/ReceiptView";
 import DishCard from "../components/DishCard";
 import * as Print from 'expo-print';
+import { isReturningDishContext } from "../context/appContext";
 
 import { 
   placeOrder, 
@@ -19,12 +19,11 @@ import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesS
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DISH_TYPES } from "../Gloabls/constants";
 import { DishTypeButton } from "../components/DishTypeButton";
-// import { generateReceiptHTML } from './ReceiptView';
-// import ReceiptView from "../components/ReceiptView";
 
 
 
 const OrdersScreen = ({navigation}) => {
+  const {isReturningDish} = useContext(isReturningDishContext);
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -33,7 +32,6 @@ const OrdersScreen = ({navigation}) => {
   // Write the logic of menuScreen
   const dispatch = useDispatch();
   const [curDishType, setCurDishType] = useState("main");
-  // console.log("111 is",Dimensions.get('window').width);
 
   // Get the dishes by current dishType
   const dishesByType = useSelector(selectDishesByTypeWrapper(curDishType));
@@ -44,27 +42,24 @@ const OrdersScreen = ({navigation}) => {
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder))?.tobeAddedDishes.length;
   const dinersNum = useSelector(selectNumberOfDiners);
 
-  // const ongoingDishes = (useSelector(selectCurrentOrder)).haveBeenPlacedDishes;
-
-  // const bill = {
-  //   subtotal:70,
-  //   tax:7,
-  //   total:77
-  // }
   useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => btnCheckOutHandler() } title="CheckOut" style={{color:"#f31282"}} />
+        <Button onPress={ btnCheckOutHandler } title="CheckOut" style={{color:"#f31282"}} />
       ),
     });
-  }, [navigation]);
+  }, [isReturningDish]);
 
   const btnCheckOutHandler = () => {
     // console.log("i am clicked inside");
-    setShowDialog(true);
-
+    console.log("isReturningDish in Orders is", isReturningDish);
+    if(!isReturningDish) {
+      setShowDialog(true);
+    } else {
+        Alert.alert("Warning", "You are returning dish, can't check out!");
+    }
   };
 
   const handleDishTypeClick = (slug, id) => {
@@ -112,7 +107,10 @@ const OrdersScreen = ({navigation}) => {
 
   const handleReceiptCheckout = () => {
     if (receiptViewRef.current) {
-      receiptViewRef.current.printReceipt();
+ 
+        receiptViewRef.current.printReceipt();
+    
+   
     } else {
       console.log('receiptViewRef.current is null or undefined');
     }

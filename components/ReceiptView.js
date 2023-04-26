@@ -1,4 +1,4 @@
-import React,{ useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
+import React,{ useState, useRef, useImperativeHandle, forwardRef, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
@@ -13,13 +13,15 @@ import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import * as Print from 'expo-print';
 import { WebView } from 'react-native-webview';
-
+import { isReturningDishContext } from '../context/appContext';
 
 
 const ReceiptView = React.forwardRef((props, ref) => {
+  const {isReturningDish, setIsReturningDish} = useContext(isReturningDishContext);
+  // console.log("is Returning Dish ", isReturningDish);
   // const htmlRef = useRef(null);
   const [htmlContent, setHtmlContent] = useState('');
-  const [returningDish, setReturningDish] = useState(false);
+  // const [returningDish, setReturningDish] = useState(false);
 
   const curTable = useSelector(selectCurrentTable);
   const diners = useSelector(selectNumberOfDiners);
@@ -64,8 +66,8 @@ const ReceiptView = React.forwardRef((props, ref) => {
   const subtotal = total-tax;
 
   const btnReturnDishHandler = () => {
-    setReturningDish(!returningDish);
-    // console.log("return Dish here");
+    setIsReturningDish(s => !s);
+    console.log("isReturningDish in ReceiptView is", isReturningDish);
   };
 
   const btnDeleteDishHandler = (indexS, indexD) => {
@@ -284,7 +286,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
             <Text style={styles.itemHeader}>Item</Text>
             <Text style={styles.quantityHeader}>Qty</Text>
             <Text style={styles.priceHeader}>Price</Text>
-            { returningDish && (
+            { isReturningDish && (
               <Text style={styles.optHeader}>Opt</Text>
             )}  
           </View>
@@ -298,11 +300,11 @@ const ReceiptView = React.forwardRef((props, ref) => {
                   dishSection.dishesOngoing.map((dishItem,indexD) => {
                     const dish = getDishById(dishItem.dishId);
                     return (            
-                        <View key={`line-${indexS}-${indexD}`} style={[styles.dishItem, {height: returningDish ? 50 : 30}]}>
+                        <View key={`line-${indexS}-${indexD}`} style={[styles.dishItem, {height: isReturningDish ? 50 : 30}]}>
                           <Text style={styles.name}>{dish.name}</Text>
                           <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
                           <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
-                          { returningDish && (
+                          { isReturningDish && (
                             <View style={styles.delete_container}>
                               <Pressable style={styles.delete_btn} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
                                 <AntDesign name="minus" size={24} color="white"/>
@@ -329,7 +331,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
       {
         props.edit ? (     
           <Button
-            title={ returningDish ? "Finish":"ReturnDish" }
+            title={ isReturningDish ? "Finish":"ReturnDish" }
             buttonStyle={{
                 backgroundColor: 'rgba(111, 202, 186, 1)',
                 borderRadius: 5,
