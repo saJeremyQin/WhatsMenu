@@ -17,7 +17,7 @@ import {
 } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
 import OrdersTabView from "../navigation/OrdersTabView";
-import { DISH_TYPES } from "../Gloabls/constants";
+import { DISH_TYPES } from "../gloabls/constants";
 import { DishTypeButton } from "../components/DishTypeButton";
 
 
@@ -139,14 +139,22 @@ const OrdersScreen = ({navigation}) => {
             }}
           />
         </View>
-        <FlatList
-          data={dishesByType}
-          numColumns={3}
-          contentContainerStyle={{ alignSelf: 'center' }}
-          style={styles.dishesList}
-          alignItems={dishesByType.length > 1 ? "flex-start":"center"}
-          renderItem={renderDishItem}
-        />    
+        <View style={styles.flatListContainer}>
+        {
+          dishesByType.length === 0 ? (
+            <Text style={{fontSize:26}}>There are no dishes for current type!</Text>
+          ) : (
+            <FlatList
+              data={dishesByType}
+              numColumns={3}
+              contentContainerStyle={{ alignSelf: 'center' }}
+              style={styles.dishesList}
+              alignItems={dishesByType.length > 1 ? "flex-start":"center"}
+              renderItem={renderDishItem}
+            />  
+          )
+        }
+        </View>
       </View>
       <Divider orientation="vertical" width={2} />
       <View 
@@ -188,6 +196,7 @@ const styles = StyleSheet.create({
   dishesByTypeButtonContainer:{
     width:"100%",
     height:80,
+    // flexGrow:0,
   },
   dishesByTypeContainer:{
     width:"100%",
@@ -196,10 +205,13 @@ const styles = StyleSheet.create({
     marginLeft:30,
     paddingTop: 25,  
   },
-  // flatlistContainer:{
-  //   paddingTop: 20,
-  //   backgroundColor:"#f0f0f0"
-  // },
+  flatListContainer:{
+    flex:1,
+    // paddingTop: 20,
+    backgroundColor:"#f0f0f0",
+    justifyContent:"center",
+    alignItems:"center"
+  },
   dishesList: {
     // height: 700,
     // flexGrow: 0,

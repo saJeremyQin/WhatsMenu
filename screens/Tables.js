@@ -1,19 +1,17 @@
-import React,{useEffect,useState} from "react";
+import React,{ useEffect,useState } from "react";
 import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
 import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
-import { useNavigation } from "@react-navigation/native";
-import { Divider } from "react-native-elements";
-import { client, DISHES_QUERY } from "../Gloabls/netRequest";
-import { DISH_TYPES } from "../Gloabls/constants";
-import { Overlay, Button, Input } from "react-native-elements";
+import { Overlay, Button, Input, Divider } from "react-native-elements";
+import { client, DISHES_QUERY } from "../gloabls/netRequest";
+import { DISH_TYPES } from "../gloabls/constants";
 import TableCard from "../components/TableCard";
 
-
+// Keep it a pure function, varibale read only is ok.
 const numOfTables = 30;
 
-const TablesScreen = () => {
+const TablesScreen = ({navigation}) => {
 
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
 
@@ -22,7 +20,6 @@ const TablesScreen = () => {
   const [numberOfDiners, setNumberOfDiners] = useState(null);
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   // should use [dispatch] or []?
   useEffect(() => {

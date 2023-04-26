@@ -7,7 +7,7 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
 import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
 import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slices/ordersSlice";
-import { CURRENCY } from "../Gloabls/constants";
+import { CURRENCY } from "../gloabls/constants";
 
 const cardSize = 180;
 const blankImage =
