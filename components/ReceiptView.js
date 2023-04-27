@@ -6,7 +6,8 @@ import {
   selectOngoingDishesSections, 
   deleteDishInOngoingDishes, 
   selectCurrentTable,
-  selectNumberOfDiners 
+  selectNumberOfDiners,
+  selectTotalAmountByTableNumber 
 } from '../redux/slices/ordersSlice';
 import { Divider, Button } from '@rneui/themed';
 import { Pressable } from 'react-native';
@@ -18,10 +19,7 @@ import { isReturningDishContext } from '../context/appContext';
 
 const ReceiptView = React.forwardRef((props, ref) => {
   const {isReturningDish, setIsReturningDish} = useContext(isReturningDishContext);
-  // console.log("is Returning Dish ", isReturningDish);
-  // const htmlRef = useRef(null);
   const [htmlContent, setHtmlContent] = useState('');
-  // const [returningDish, setReturningDish] = useState(false);
 
   const curTable = useSelector(selectCurrentTable);
   const diners = useSelector(selectNumberOfDiners);
@@ -49,19 +47,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
   };
 
   const dishesSections = useSelector(selectOngoingDishesSections);
-
-  // Calculate the total money of all sections.
-  let total = 0;
-  dishesSections.map((dishSection) => {
-    // console.log("dishSection.dishesOngoing is",dishSection.dishesOngoing);
-    total = total + dishSection.dishesOngoing.reduce(
-      (acc, dish) => acc + getDishById(dish.dishId).price * dish.dishQuantity,0
-    );
-    // console.log("subtotal inside is", subtotal);
-  })
-  
-  // console.log("receipt subtotal is", subtotal);
-  
+  const total = useSelector(selectTotalAmountByTableNumber(curTable));  
   const tax = total * 0.1 ;
   const subtotal = total-tax;
 
@@ -270,91 +256,98 @@ const ReceiptView = React.forwardRef((props, ref) => {
   
 
   return (
-    props.edit ? ( <View style={styles.container}>
-      <ScrollView style={styles.receiptContainer}>
-        <View style={styles.restaurantHeader}>
-          <Image style={styles.logo} source={restaurant.logo} />
-          <Text style={styles.company}>{restaurant.company}</Text>
-          <Text style={styles.address}>{restaurant.address}</Text>
-        </View>
-        <View style={styles.orderInfo}>
-          <Text style={styles.tableNumber}>Table {curTable}</Text>
-          <Text style={styles.numberOfDiners}>Diners: {diners}</Text>
-        </View>
-        <View style={styles.dishesSections}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.itemHeader}>Item</Text>
-            <Text style={styles.quantityHeader}>Qty</Text>
-            <Text style={styles.priceHeader}>Price</Text>
-            { isReturningDish && (
-              <Text style={styles.optHeader}>Opt</Text>
-            )}  
+    total === 0 ? (
+      <Text style={styles.noPlacedDishesText}>
+        Have no placed dishes yet!
+      </Text>
+    ) : (
+      props.edit ? ( <View style={styles.container}>
+        <ScrollView style={styles.receiptContainer}>
+          <View style={styles.restaurantHeader}>
+            <Image style={styles.logo} source={restaurant.logo} />
+            <Text style={styles.company}>{restaurant.company}</Text>
+            <Text style={styles.address}>{restaurant.address}</Text>
           </View>
-          {
-            dishesSections.map((dishSection, indexS) => {
-              const placedTime = dishSection.placedTime;
-              const formattedTimestamp = new Date(placedTime).toLocaleString();
-              return (
-                <React.Fragment key={indexS}>
-                {
-                  dishSection.dishesOngoing.map((dishItem,indexD) => {
-                    const dish = getDishById(dishItem.dishId);
-                    return (            
-                        <View key={`line-${indexS}-${indexD}`} style={[styles.dishItem, {height: isReturningDish ? 50 : 30}]}>
-                          <Text style={styles.name}>{dish.name}</Text>
-                          <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
-                          <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
-                          { isReturningDish && (
-                            <View style={styles.delete_container}>
-                              <Pressable style={styles.delete_btn} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
-                                <AntDesign name="minus" size={24} color="white"/>
-                              </Pressable>
-                            </View>
-                          )}  
-                        </View>                     
-                    )
-                  })
-                }
-                <Text style={styles.timeText}>placed on {formattedTimestamp}</Text>
-                {indexS < dishesSections.length-1  && <Divider width={1} color={"#ccc"} />}
-                </React.Fragment>
-              )
-            })
-          }
-        </View>
-        <View style={styles.footer}>
-          <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
-          <Text style={styles.tax}>Tax: {tax}</Text>
-          <Text style={styles.total}>Total: {total}</Text>
-        </View>
-      </ScrollView>
-      {
-        props.edit ? (     
-          <Button
-            title={ isReturningDish ? "Finish":"ReturnDish" }
-            buttonStyle={{
-                backgroundColor: 'rgba(111, 202, 186, 1)',
-                borderRadius: 5,
-            }}
-            // disabled={orderPlaced}
-            titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
-            containerStyle={{
-                marginVertical: 10,
-                alignSelf: 'center', // center the button horizontally
-                position:"absolute",
-                bottom:30
-            }}
-            onPress={btnReturnDishHandler}
+          <View style={styles.orderInfo}>
+            <Text style={styles.tableNumber}>Table {curTable}</Text>
+            <Text style={styles.numberOfDiners}>Diners: {diners}</Text>
+          </View>
+          <View style={styles.dishesSections}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.itemHeader}>Item</Text>
+              <Text style={styles.quantityHeader}>Qty</Text>
+              <Text style={styles.priceHeader}>Price</Text>
+              { isReturningDish && (
+                <Text style={styles.optHeader}>Opt</Text>
+              )}  
+            </View>
+            {
+              dishesSections.map((dishSection, indexS) => {
+                const placedTime = dishSection.placedTime;
+                const formattedTimestamp = new Date(placedTime).toLocaleString();
+                return (
+                  <React.Fragment key={indexS}>
+                  {
+                    dishSection.dishesOngoing.map((dishItem,indexD) => {
+                      const dish = getDishById(dishItem.dishId);
+                      return (            
+                          <View key={`line-${indexS}-${indexD}`} style={[styles.dishItem, {height: isReturningDish ? 50 : 30}]}>
+                            <Text style={styles.name}>{dish.name}</Text>
+                            <Text style={styles.quantity}>{dishItem.dishQuantity}</Text>
+                            <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
+                            { isReturningDish && (
+                              <View style={styles.delete_container}>
+                                <Pressable style={styles.delete_btn} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
+                                  <AntDesign name="minus" size={24} color="white"/>
+                                </Pressable>
+                              </View>
+                            )}  
+                          </View>                     
+                      )
+                    })
+                  }
+                  <Text style={styles.timeText}>placed on {formattedTimestamp}</Text>
+                  {indexS < dishesSections.length-1  && <Divider width={1} color={"#ccc"} />}
+                  </React.Fragment>
+                )
+              })
+            }
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.subtotal}>Subtotal: {subtotal}</Text>
+            <Text style={styles.tax}>Tax: {tax}</Text>
+            <Text style={styles.total}>Total: {total}</Text>
+          </View>
+        </ScrollView>
+        {
+          props.edit ? (     
+            <Button
+              title={ isReturningDish ? "Finish":"ReturnDish" }
+              buttonStyle={{
+                  backgroundColor: 'rgba(111, 202, 186, 1)',
+                  borderRadius: 5,
+              }}
+              // disabled={orderPlaced}
+              titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+              containerStyle={{
+                  marginVertical: 10,
+                  alignSelf: 'center', // center the button horizontally
+                  position:"absolute",
+                  bottom:30
+              }}
+              onPress={btnReturnDishHandler}
+            />
+          ) : null
+        }
+      </View> ) : (
+        <WebView 
+          source={{html:htmlContent}}
+          style={{flex:1}} 
+           originWhitelist={['file://*']}
           />
-        ) : null
-      }
-    </View> ) : (
-      <WebView 
-        source={{html:htmlContent}}
-        style={{flex:1}} 
-         originWhitelist={['file://*']}
-        />
-      )
+        )
+    )
+    
   );
 });
 
@@ -370,6 +363,12 @@ const styles = StyleSheet.create({
     width:"100%",
     // alignItems:"center",
     // justifyContent:"space-between"
+  },
+  noPlacedDishesText: {
+    flex:1,
+    alignSelf:"center",
+    textAlignVertical: "center",
+    fontSize: 20
   },
   receiptContainer:{
 

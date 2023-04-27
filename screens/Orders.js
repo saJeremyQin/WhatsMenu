@@ -13,7 +13,8 @@ import {
   checkOutOrder,
   selectCurrentOrder, 
   selectCurrentTable,
-  selectNumberOfDiners
+  selectNumberOfDiners,
+  selectTotalAmountByTableNumber
 } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
 import OrdersTabView from "../navigation/OrdersTabView";
@@ -41,6 +42,7 @@ const OrdersScreen = ({navigation}) => {
   // console.log("current table is",currentTableNum);
   const dishesCountInShoppingCart = (useSelector(selectCurrentOrder))?.tobeAddedDishes.length;
   const dinersNum = useSelector(selectNumberOfDiners);
+  const total = useSelector(selectTotalAmountByTableNumber(currentTableNum));
 
   useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
@@ -50,11 +52,13 @@ const OrdersScreen = ({navigation}) => {
         <Button onPress={ btnCheckOutHandler } title="CheckOut" style={{color:"#f31282"}} />
       ),
     });
-  }, [isReturningDish]);
+  }, [isReturningDish, total]);
 
   const btnCheckOutHandler = () => {
-    // console.log("i am clicked inside");
     console.log("isReturningDish in Orders is", isReturningDish);
+    if(total === 0) {
+      return Alert.alert("Warning", "No placed dishes to check out");
+    }
     if(!isReturningDish) {
       setShowDialog(true);
     } else {

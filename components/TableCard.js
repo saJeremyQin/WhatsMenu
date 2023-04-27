@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    marginVertical:20
+    marginVertical:20,
+    marginHorizontal:5,
   },
   amount:{
     fontSize:22,
@@ -72,12 +73,15 @@ const styles = StyleSheet.create({
   },
   defaultCard: {
     // borderColor: '#dddddd',
+    // backgroundColor:'#ddd'
     // borderWidth: 1,
   },
   highlightedCard: {
     // borderColor: '#f31282',
     // borderWidth: 1,
     // elevation: 5,
+    backgroundColor:'#d3d3d3',
+    borderRadius:5,
   },
  
 });
