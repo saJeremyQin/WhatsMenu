@@ -26,7 +26,7 @@ import { DishTypeButton } from "../components/DishTypeButton";
 const OrdersScreen = ({navigation}) => {
   const {isReturningDish} = useContext(ReturningDishContext);
 
-  const [showDialog, setShowDialog] = useState(false);
+  const [showReceiptDialog, setShowReceiptDialog] = useState(false);
 
   const receiptViewRef = useRef(null);
 
@@ -49,7 +49,7 @@ const OrdersScreen = ({navigation}) => {
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={ btnCheckOutHandler } title="CheckOut" style={{color:"#f31282"}} />
+        <Button onPress={ btnCheckOutHandler } title="CheckOut" buttonStyle={{backgroundColor:"#5e0a9c"}} />
       ),
     });
   }, [isReturningDish, total]);
@@ -60,7 +60,7 @@ const OrdersScreen = ({navigation}) => {
       return Alert.alert("Warning", "No placed dishes to check out");
     }
     if(!isReturningDish) {
-      setShowDialog(true);
+      setShowReceiptDialog(true);
     } else {
         Alert.alert("Warning", "You are returning dish, can't check out!");
     }
@@ -93,9 +93,12 @@ const OrdersScreen = ({navigation}) => {
   }
   
 
-  const handleReceiptCheckout = () => {
+  const handleReceiptCheckout = async () => {
     if (receiptViewRef.current) {
-      receiptViewRef.current.printReceipt();   
+      await receiptViewRef.current.printReceipt().then(
+        dispatch(checkOutOrder()),
+        navigation.navigate("Tables")
+      )
     } else {
       console.log('receiptViewRef.current is null or undefined');
     }
@@ -150,15 +153,15 @@ const OrdersScreen = ({navigation}) => {
         <OrdersTabView style={{flex:1,backgroundColor:"pink"}}/>
       </View>
       <Overlay 
-        isVisible={showDialog} 
-        onBackdropPress={() => setShowDialog(false)}
+        isVisible={showReceiptDialog} 
+        onBackdropPress={() => setShowReceiptDialog(false)}
         overlayStyle={styles.overlayStyle}
       >
         <View style={styles.dialogContainer}>
           <ReceiptView ref={receiptViewRef} edit={false} style={styles.receiptView}/>
         </View>
         <View style={styles.dialogButtonsContainer}>
-          <Button title="Cancel" onPress={() => setShowDialog(false)} style={styles.cancelButton}/>
+          <Button title="Cancel" onPress={() => setShowReceiptDialog(false)} style={styles.cancelButton}/>
           <Button title="CheckOut" onPress={() => handleReceiptCheckout()} style={styles.checkOutButton}/>
         </View>
       </Overlay>
