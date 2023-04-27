@@ -6,7 +6,7 @@ import CartDish from "../components/CartDish";
 import ReceiptView,{ generateReceiptHTML } from "../components/ReceiptView";
 import DishCard from "../components/DishCard";
 import * as Print from 'expo-print';
-import { isReturningDishContext } from "../context/appContext";
+import { ReturningDishContext } from "../context/appContext";
 
 import { 
   placeOrder, 
@@ -24,7 +24,7 @@ import { DishTypeButton } from "../components/DishTypeButton";
 
 
 const OrdersScreen = ({navigation}) => {
-  const {isReturningDish} = useContext(isReturningDishContext);
+  const {isReturningDish} = useContext(ReturningDishContext);
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -66,13 +66,12 @@ const OrdersScreen = ({navigation}) => {
     }
   };
 
-  const handleDishTypeClick = (slug, id) => {
+  const handleDishTypeClick = (slug) => {
     setCurDishType(slug);
   };
 
   const setClass = (slug) => {
-    if (curDishType === slug) return true;
-    else return false;
+    return curDishType === slug ; 
   };
 
   const renderDishItem = ({item}) => {
@@ -82,9 +81,7 @@ const OrdersScreen = ({navigation}) => {
   };
 
   const printReceipt = async({receiptContent}) => {
-    // const reeiptContent = "Welcome";
     try {
-      // const receiptContent = receiptViewRef.current.generateReceiptHTML();
       console.log(receiptContent);
       await Print.printAsync({
         html: receiptContent,
@@ -95,24 +92,10 @@ const OrdersScreen = ({navigation}) => {
     }
   }
   
-  // const handleReceiptCheckout = async () => {
-  //   if(receiptViewRef.current) {
-  //     const receiptContent = await receiptViewRef.current.generateReceiptHTML();
-
-  //     console.log("checkout receiptViewRef is", receiptViewRef);
-  //     await printReceipt(receiptContent).then(
-  //       dispatch(checkOutOrder()),
-  //       navigation.navigate("Tables")
-  //     );
-  //   }   
-  // };
 
   const handleReceiptCheckout = () => {
     if (receiptViewRef.current) {
- 
-        receiptViewRef.current.printReceipt();
-    
-   
+      receiptViewRef.current.printReceipt();   
     } else {
       console.log('receiptViewRef.current is null or undefined');
     }

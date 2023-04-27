@@ -1,11 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-
 import NotFound from "../screens/NotFound";
 import MainTabNavigator from "./MainTabNavigator";
 import OrdersScreen from "../screens/Orders";
 import { Button } from "react-native-elements";
-import { isReturningDishContext } from "../context/appContext";
+import { ReturningDishContext } from "../context/appContext";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { useState } from "react";
 
@@ -15,7 +14,7 @@ const RootNavigator = () => {
     const [isReturningDish, setIsReturningDish] = useState(false);
     const isReturningDishContextValue = {isReturningDish,setIsReturningDish};
     return (
-        <isReturningDishContext.Provider value={isReturningDishContextValue}>
+        <ReturningDishContext.Provider value={isReturningDishContextValue}>
             <NavigationContainer>
                 <Stack.Navigator 
                     // screenOptions={{ headerShown: false }}
@@ -56,7 +55,7 @@ const RootNavigator = () => {
                     />
                 </Stack.Navigator>
             </NavigationContainer>
-        </isReturningDishContext.Provider>
+        </ReturningDishContext.Provider>
     );
 }
 

@@ -14,11 +14,11 @@ import { Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import * as Print from 'expo-print';
 import { WebView } from 'react-native-webview';
-import { isReturningDishContext } from '../context/appContext';
+import { ReturningDishContext } from '../context/appContext';
 
 
 const ReceiptView = React.forwardRef((props, ref) => {
-  const {isReturningDish, setIsReturningDish} = useContext(isReturningDishContext);
+  const {isReturningDish, setIsReturningDish} = useContext(ReturningDishContext);
   const [htmlContent, setHtmlContent] = useState('');
 
   const curTable = useSelector(selectCurrentTable);
