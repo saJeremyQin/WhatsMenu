@@ -1,5 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
+import { selectDishByIdWrapper } from "./dishesSlice";
 
 const initialState = {
     orders: [],
@@ -319,4 +320,27 @@ export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
 
 export const selectOngoingDishesSections = (state) => 
   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).ongoingDishesSections;
+
+
+export const selectTotalAmountByTableNumber = (tableNumber) => (state) => {
+  const orders = selectOrders(state);
+  const tableOrder = orders.find((order) => order.tableNumber === tableNumber);
+
+  let totalAmount = 0;
+  if (tableOrder) {
+    totalAmount = tableOrder.ongoingDishesSections.reduce(
+      (acc, section) =>
+        acc +
+        section.dishesOngoing.reduce(
+          (acc, dish) =>
+            acc + selectDishByIdWrapper(dish.dishId)(state)?.price * dish.dishQuantity,
+          0
+        ),
+      0
+    );
+  }
+
+  return totalAmount;
+};
+  
 export default ordersSlice.reducer;

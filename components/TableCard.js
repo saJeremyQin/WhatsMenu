@@ -1,22 +1,22 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Card, Icon } from "react-native-elements";
 import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import { Button } from '@rneui/themed';
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
-import { createOrder } from "../redux/slices/ordersSlice";
+import { createOrder, selectOrders, selectTotalAmountByTableNumber } from "../redux/slices/ordersSlice";
 import { useNavigation } from "@react-navigation/native";
-
 
 const cardSize = 180;
 
 const TableCard = props => {
 
   const tableNumber = props.tableNumber;
-  const totalAmount = props.totalAmount;
-  const navigation = useNavigation();
+  const totalAmount = useSelector(selectTotalAmountByTableNumber(tableNumber));
+  // totalAmount!==0 && console.log("totalAmount is", totalAmount);
+  const cardStyle = totalAmount > 0 ? styles.highlightedCard : styles.defaultCard;
 
+
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const tableCardClickHandler = () => {
@@ -25,7 +25,8 @@ const TableCard = props => {
   
   return (
     <Pressable 
-      style={styles.container} 
+      // style={styles.container} 
+      style={[styles.container,cardStyle]}
       onPress={tableCardClickHandler}
     >
         <Text style={styles.amount}>${totalAmount}</Text>
@@ -57,7 +58,27 @@ const styles = StyleSheet.create({
   },
   number:{
     fontSize:22,
-  }
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    elevation: 2,
+    marginBottom: 15,
+  },
+  defaultCard: {
+    // borderColor: '#dddddd',
+    // borderWidth: 1,
+  },
+  highlightedCard: {
+    // borderColor: '#f31282',
+    // borderWidth: 1,
+    // elevation: 5,
+  },
  
 });
 

@@ -13,22 +13,17 @@ const numOfTables = 30;
 
 const TablesScreen = ({navigation}) => {
 
+  const dispatch = useDispatch();
+
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
 
   const [showDialog, setShowDialog] = useState(false);
   const [tableNumber, setTableNumber] = useState(null);
   const [numberOfDiners, setNumberOfDiners] = useState(null);
 
-  const dispatch = useDispatch();
+  const orders = useSelector(selectOrders);
+  const dishes = useSelector(selectDishes);
 
-  // should use [dispatch] or []?
-  // useEffect(() => {
-  //   client.request(DISHES_QUERY).then((data) => {
-  //       dispatch(addDishes(data.dishes));
-  //     }).catch ((error) => {
-  //       Alert.alert("Warning", "network Error...", error);
-  //     }); 
-  // }, []);     //because dispatch doesn't change during the lifetime of the component
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
       dispatch(addDishes(data.dishes));
@@ -38,10 +33,6 @@ const TablesScreen = ({navigation}) => {
     });
   }, []);
   
-  
-  const orders = useSelector(selectOrders);
-  const dishes = useSelector(selectDishes);
-
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);
     return dish;
@@ -55,6 +46,7 @@ const TablesScreen = ({navigation}) => {
       : (dispatch(resumeOrder({tableNumber})), navigation.navigate("Orders"))
   };
 
+  // Open one new table after input numberOfDiners
   const handleDialogSubmit = () => {
     dispatch(
       createOrder({
@@ -67,29 +59,28 @@ const TablesScreen = ({navigation}) => {
   };
 
   const renderTableItem = ({item}) => {
-    const tableOrder = orders.find(order => order.tableNumber === item);
-    let totalAmount=0;
-    if(tableOrder) {
-      totalAmount = tableOrder?.ongoingDishesSections.reduce(
-        (acc, section) =>
-          acc + 
-          section.dishesOngoing.reduce(
-            (acc, dish) =>
-              acc + getDishById(dish.dishId)?.price * dish.dishQuantity,
-              0
-          ),
-        0
-      );
-      // console.log("totalAmount is", totalAmount);
-    };
+    // const tableOrder = orders.find(order => order.tableNumber === item);
+    // let totalAmount=0;
+    // if(tableOrder) {
+    //   // calculate the ongoing order totalAmount, this can be encapsulated in a function.
+    //   totalAmount = tableOrder?.ongoingDishesSections.reduce(
+    //     (acc, section) =>
+    //       acc + 
+    //       section.dishesOngoing.reduce(
+    //         (acc, dish) =>
+    //           acc + getDishById(dish.dishId)?.price * dish.dishQuantity,
+    //           0
+    //       ),
+    //     0
+    //   );
+    // };
 
     return (
       <TableCard 
         tableNumber={item} 
-        totalAmount={totalAmount} 
-        tableStatus={Boolean(tableOrder)}
+        // totalAmount={totalAmount} 
+        // tableStatus={Boolean(tableOrder)}
         onTableCardClick={()=> handleTableCardClick(item)} 
-        // style={styles.tableCard}
       />    
     )
   };
@@ -113,10 +104,10 @@ const TablesScreen = ({navigation}) => {
         numColumns={5}
         renderItem={renderTableItem}
         keyExtractor={(item) => item.toString()}
-        style={{ backgroundColor: '#F5FCFF', padding: 16 }}
-        contentContainerStyle={{ paddingBottom: 32 }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        itemStyle={{ backgroundColor: '#FFFFFF', borderRadius: 8, padding: 16 }}
+        style={styles.flatList}
+        // contentContainerStyle={{ paddingBottom: 32 }}
+        // columnWrapperStyle={{ justifyContent: 'space-between' }}
+        // itemStyle={{ backgroundColor: 'pink', borderRadius: 8, padding: 16 }}
       />
       <Overlay 
         isVisible={showDialog} 
@@ -130,10 +121,11 @@ const TablesScreen = ({navigation}) => {
             keyboardType="numeric"
             onChangeText={value => setNumberOfDiners(value)}
             style={styles.input}
+            inputContainerStyle={{borderBottomWidth: 0}} // add this line
           />
           <View style={styles.dialogButtonsContainer}>
-            <Button title="Cancel" onPress={() => setShowDialog(false)} style={styles.cancelButton}/>
-            <Button title="Ok" onPress={handleDialogSubmit} style={styles.okButton}/>
+            <Button title="Cancel" onPress={() => setShowDialog(false)} buttonStyle={styles.cancelButton}/>
+            <Button title="Ok" onPress={handleDialogSubmit} buttonStyle={styles.okButton}/>
           </View>
         </View>
       </Overlay>
@@ -144,7 +136,7 @@ const TablesScreen = ({navigation}) => {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"#f1f1f1",
+    backgroundColor:"#f0f0f0",
     justifyContent:"center",
   },
   headContainer:{
@@ -169,10 +161,14 @@ const styles=StyleSheet.create({
     lineHeight:60,
     color: "#f31282"
   },
+  flatList:{ 
+    backgroundColor: '#f0f0f0', 
+    padding: 16 
+  },
   overlayStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#f0f0f0',
     borderRadius: 20,
-    padding: 20,
+    padding: 15,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -183,13 +179,12 @@ const styles=StyleSheet.create({
     elevation: 5,
   },
   dialogContainer: {
-    // flex:1,
-    // justifyContent:"center",
-    // alignItems:"center",
     padding: 20,
-    borderRadius: 10,
-    backgroundColor: '#fff',
-    elevation:5
+    borderRadius: 15,
+    backgroundColor: 'white',
+    elevation:5,
+    // borderColor: 'red', // add this line to confirm if the line is the border
+    // borderWidth: 1, 
   },
   dialogTitle: {
     fontSize: 18,
@@ -198,39 +193,19 @@ const styles=StyleSheet.create({
   },
   input:{
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#D3D3D3',
     borderRadius: 5,
-    marginBottom: 20,
-    // backgroundColor:"pink"
+    paddingLeft:5,
   },
   dialogButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    // marginTop: 20,
+    justifyContent: "space-evenly",
   },
   cancelButton: {
-    backgroundColor: '#ccc',
+    width:80,
   },
   okButton: {
-    backgroundColor: '#007bff',
-  },
-  // overlayBackground: {
-  //   position: 'absolute',
-  //   top: 0,
-  //   bottom: 0,
-  //   left: 0,
-  //   right: 0,
-  //   backgroundColor: 'rgba(0, 0, 0, 0.5)', // Add a transparent background for the overlay
-  // },
-  tableCard: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 10,
-    margin: 5,
-    shadowOpacity: 0.5, // add this line to create a shadow effect on iOS
-    shadowRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    width:80
   },
 });
 
