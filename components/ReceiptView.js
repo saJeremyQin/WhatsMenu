@@ -25,16 +25,15 @@ const ReceiptView = React.forwardRef((props, ref) => {
   const diners = useSelector(selectNumberOfDiners);
   const dispatch = useDispatch();
 
-  const logo_img = require("../assets/restaurant_logo.png");
+  // const logo_img = require("../assets/restaurant_logo.png");
   const restaurant = {
     company:"Forks and Chopsticks Asian Restaurant",
     address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
-    logo:logo_img
+    logo:"https://studentserver.com.au/daqin/images/restaurant_logo.png"
   };
 
   useEffect(()=> {
     const receiptHTML = generateReceiptHTML();
-    // console.log("receiptHtml is",receiptHTML);
     setHtmlContent(receiptHTML);
   },[]);
 
@@ -199,7 +198,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
         <body>
         <div class="container">
           <div class="restaurantInfo">
-            <img class="logo" src="https://studentserver.com.au/daqin/images/restaurant_logo.png" alt="Restaurant Logo">
+            <img class="logo" src=${restaurant.logo} alt="Restaurant Logo">
             <p class="company">${restaurant.company}</p>
             <p class="address">${restaurant.address}</p>
           </div>
@@ -264,7 +263,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
       props.edit ? ( <View style={styles.container}>
         <ScrollView style={styles.receiptContainer}>
           <View style={styles.restaurantHeader}>
-            <Image style={styles.logo} source={restaurant.logo} />
+            <Image style={styles.logo} source={{uri:restaurant.logo}} />
             <Text style={styles.company}>{restaurant.company}</Text>
             <Text style={styles.address}>{restaurant.address}</Text>
           </View>
