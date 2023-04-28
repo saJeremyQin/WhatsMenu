@@ -57,13 +57,14 @@ const OrdersScreen = ({navigation}) => {
   const btnCheckOutHandler = () => {
     console.log("isReturningDish in Orders is", isReturningDish);
     if(total === 0) {
-      return Alert.alert("Warning", "No placed dishes to check out");
+      Alert.alert("Warning", "No placed dishes to check out");
+      return ;
     }
-    if(!isReturningDish) {
-      setShowReceiptDialog(true);
-    } else {
-        Alert.alert("Warning", "You are returning dish, can't check out!");
-    }
+    if(isReturningDish) {
+      Alert.alert("Warning", "You are returning dish, can't check out!");
+      return ;
+    } 
+    setShowReceiptDialog(true); 
   };
 
   const handleDishTypeClick = (slug) => {
@@ -92,7 +93,6 @@ const OrdersScreen = ({navigation}) => {
     }
   }
   
-
   const handleReceiptCheckout = async () => {
     if (receiptViewRef.current) {
       await receiptViewRef.current.printReceipt().then(

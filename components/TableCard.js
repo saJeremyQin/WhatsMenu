@@ -1,34 +1,32 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { View, Image, Text, StyleSheet, Pressable } from "react-native";
-import { Button } from '@rneui/themed';
 import { useSelector,useDispatch } from "react-redux";
-import { createOrder, selectOrders, selectTotalAmountByTableNumber } from "../redux/slices/ordersSlice";
+import { selectTotalAmountByTableNumber } from "../redux/slices/ordersSlice";
 import { useNavigation } from "@react-navigation/native";
+import HighlightedTable from "./HighlightedTable";
 
 const cardSize = 180;
 
-const TableCard = props => {
+// React.memo to prevent unnecessary re-renders if the parent component re-renders but the props of TableCard component do not change.
+const TableCard = React.memo(({tableNumber,onTableCardClick}) => {
 
-  const tableNumber = props.tableNumber;
   const totalAmount = useSelector(selectTotalAmountByTableNumber(tableNumber));
-  // totalAmount!==0 && console.log("totalAmount is", totalAmount);
   const cardStyle = totalAmount > 0 ? styles.highlightedCard : styles.defaultCard;
-
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const tableCardClickHandler = () => {
-    props.onTableCardClick(tableNumber);
+    onTableCardClick(tableNumber);
   };
   
   return (
     <Pressable 
-      // style={styles.container} 
       style={[styles.container,cardStyle]}
       onPress={tableCardClickHandler}
     >
+        {totalAmount > 0 && <HighlightedTable style={styles.tableStyle} />}
         <Text style={styles.amount}>${totalAmount}</Text>
         <Image
             style={styles.image}
@@ -38,7 +36,7 @@ const TableCard = props => {
         <Text style={styles.number}>{tableNumber}</Text>
     </Pressable>
   );
-};
+});
 
 
 const styles = StyleSheet.create({
@@ -48,6 +46,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     marginVertical:20,
     marginHorizontal:5,
+    borderRadius: 10,
   },
   amount:{
     fontSize:22,
@@ -60,30 +59,16 @@ const styles = StyleSheet.create({
   number:{
     fontSize:22,
   },
-  cardContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-    elevation: 2,
-    marginBottom: 15,
-  },
   defaultCard: {
-    // borderColor: '#dddddd',
-    // backgroundColor:'#ddd'
-    // borderWidth: 1,
+    // because of transparent
   },
   highlightedCard: {
-    // borderColor: '#f31282',
-    // borderWidth: 1,
-    // elevation: 5,
-    backgroundColor:'#d3d3d3',
-    borderRadius:5,
+    borderRadius:10,
+    overflow: "hidden"
   },
- 
+  tableStyle: {
+    //some styles want to pass down to HighlightedTable
+  }
 });
 
 export default TableCard;
