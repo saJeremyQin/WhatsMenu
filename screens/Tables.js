@@ -79,8 +79,6 @@ const TablesScreen = ({navigation}) => {
     return (
       <TableCard 
         tableNumber={item} 
-        // totalAmount={totalAmount} 
-        // tableStatus={Boolean(tableOrder)}
         onTableCardClick={()=> handleTableCardClick(item)} 
       />    
     )

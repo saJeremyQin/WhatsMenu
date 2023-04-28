@@ -184,11 +184,8 @@ const ordersSlice = createSlice({
 
         const indexS=action.payload.indexS;
         const indexD=action.payload.indexD;
-        console.log("indexS is", indexS);
-        console.log("indexD is", indexD);
 
         let tempDishesArray = [...state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing];
-        console.log("tempDishesArray is", tempDishesArray);
 
         let updatedOngoingDishes=null;
 
@@ -212,11 +209,6 @@ const ordersSlice = createSlice({
             ...tempDishesArray.slice(indexD + 1)
           ];
         }
-
-        console.log("updatedOngoingDishes are", updatedOngoingDishes);
-
-        //remove the dishesOngoing[indexD], but operate on copied data.
-        //const updatedOngoingDishes = tempDishesArray.splice(indexD,1);
          
         //check whether the length is 0 after update.
         const curLength = updatedOngoingDishes.length;
