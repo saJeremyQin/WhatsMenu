@@ -1,5 +1,5 @@
 import { Pressable, Text, StyleSheet } from "react-native";
-import { THEME } from "../gloabls/constants";
+import { THEME } from "../globals/constants";
 
 export function DishTypeButton({ title, slug, onPress, id, active }) {
   const {colors} = THEME;

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Animated, StyleSheet } from "react-native";
-import { THEME } from "../gloabls/constants";
+import { THEME } from "../globals/constants";
 
 const HighlightedTable = ({ style }) => {
   const {colors} = THEME;

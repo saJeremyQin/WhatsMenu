@@ -253,7 +253,7 @@ const ordersSlice = createSlice({
             ongoingDishesSections: updatedOngoingDishesSections
           };   
         }
-        console.log("updatedOrder after delete is", updatedOrder);
+        // console.log("updatedOrder after delete is", updatedOrder);
         //how to update orders?, the same
         state.orders=[
           ...state.orders.slice(0, orderIndex),

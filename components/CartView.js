@@ -4,7 +4,7 @@ import CartDish from "./CartDish";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentOrder, placeOrder } from "../redux/slices/ordersSlice";
 import { Button } from "react-native-elements";
-import { THEME } from "../gloabls/constants";
+import { THEME } from "../globals/constants";
 
 const CartView = (props) => {
     const {colors} = THEME;

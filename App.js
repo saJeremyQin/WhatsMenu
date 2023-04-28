@@ -5,7 +5,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import RootNavigator from './navigation/RootNavigator';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { THEME } from './gloabls/constants';
+import { THEME } from './globals/constants';
 
 
 

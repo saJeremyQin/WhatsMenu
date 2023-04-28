@@ -1,4 +1,4 @@
-import React,{ useState, useRef, useImperativeHandle, forwardRef, useEffect, useContext } from 'react';
+import React,{ useState, useImperativeHandle, forwardRef, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectDishes } from '../redux/slices/dishesSlice';
@@ -15,30 +15,22 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Print from 'expo-print';
 import { WebView } from 'react-native-webview';
 import { ReturningDishContext } from '../context/appContext';
-import { THEME } from '../gloabls/constants';
+import { THEME, restaurant } from '../globals/constants';
 
-const ReceiptView = React.forwardRef((props, ref) => {
+const ReceiptView = React.forwardRef(({edit}, ref) => {
   const {colors} = THEME;
   const {isReturningDish, setIsReturningDish} = useContext(ReturningDishContext);
-  const [htmlContent, setHtmlContent] = useState('');
+  // const [htmlContent, setHtmlContent] = useState('');
 
   const curTable = useSelector(selectCurrentTable);
   const diners = useSelector(selectNumberOfDiners);
   const dispatch = useDispatch();
 
-  // const logo_img = require("../assets/restaurant_logo.png");
-  const restaurant = {
-    company:"Forks and Chopsticks Asian Restaurant",
-    address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
-    logo:"https://studentserver.com.au/daqin/images/restaurant_logo.png"
-  };
+  // useEffect(()=> {
+  //   const receiptHTML = generateReceiptHTML();
+  //   setHtmlContent(receiptHTML);
+  // },[]);
 
-  useEffect(()=> {
-    const receiptHTML = generateReceiptHTML();
-    setHtmlContent(receiptHTML);
-  },[]);
-
-  // dishSections, [{[dishesPlaced1], time1}, {[dishesPlaced2],time2}]
   const dishes = useSelector(selectDishes);
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);
@@ -53,7 +45,6 @@ const ReceiptView = React.forwardRef((props, ref) => {
 
   const btnReturnDishHandler = () => {
     setIsReturningDish(s => !s);
-    console.log("isReturningDish in ReceiptView is", isReturningDish);
   };
 
   const btnDeleteDishHandler = (indexS, indexD) => {
@@ -69,9 +60,8 @@ const ReceiptView = React.forwardRef((props, ref) => {
   }));
 
   const printReceipt = async () => {
-    // const receiptData = await generateReceiptHTML();
     await Print.printAsync({
-      html: htmlContent,
+      html: generateReceiptHTML(),
     });
   };
 
@@ -219,7 +209,6 @@ const ReceiptView = React.forwardRef((props, ref) => {
               <tbody>       
                 ${dishesSections.map((dishSection, indexS) => {
                   const formattedTimestamp = dishSection.placedTime ? new Date(dishSection.placedTime).toLocaleString() : '';
-                    {console.log("formattedTime is", formattedTimestamp)}
                   const sectionRows = dishSection.dishesOngoing.map((dishItem, indexD) => {
                       const dish = getDishById(dishItem.dishId);
                       return (`
@@ -261,7 +250,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
         Have no placed dishes yet!
       </Text>
     ) : (
-      props.edit ? ( <View style={styles.container}>
+      edit ? ( <View style={styles.container}>
         <ScrollView style={styles.receiptContainer}>
           <View style={styles.restaurantHeader}>
             <Image style={styles.logo} source={{uri:restaurant.logo}} />
@@ -320,7 +309,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
           </View>
         </ScrollView>
         {
-          props.edit ? (     
+          edit ? (     
             <Button
               title={ isReturningDish ? "Finish":"Return Dish" }
               buttonStyle={{
@@ -341,7 +330,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
         }
       </View> ) : (
         <WebView 
-          source={{html:htmlContent}}
+          source={{html:generateReceiptHTML()}}
           style={{flex:1}} 
            originWhitelist={['file://*']}
           />

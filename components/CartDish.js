@@ -9,7 +9,7 @@ import {
   selectDishQuantityByIdWrapper,
   removeDishFromShoppingCart
  } from "../redux/slices/ordersSlice";
-import { THEME } from "../gloabls/constants";
+import { THEME } from "../globals/constants";
 
 const CartDish = props => {
   const {colors} = THEME;

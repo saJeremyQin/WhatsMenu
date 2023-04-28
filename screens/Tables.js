@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
 import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
 import { Overlay, Button, Input, Divider, colors } from "react-native-elements";
-import { client, DISHES_QUERY } from "../gloabls/netRequest";
-import { DISH_TYPES } from "../gloabls/constants";
+import { client, DISHES_QUERY } from "../globals/netRequest";
+import { DISH_TYPES } from "../globals/constants";
 import TableCard from "../components/TableCard";
-import { THEME } from '../gloabls/constants';
+import { THEME } from '../globals/constants';
 
 // Keep it a pure function, variable read only is ok.
 const numOfTables = 30;
@@ -102,7 +102,7 @@ const TablesScreen = ({navigation}) => {
       <Divider width={1} color="#333" />
       <FlatList
         data={tableNumbers}
-        numColumns={5}
+        numColumns={4}
         renderItem={renderTableItem}
         keyExtractor={(item) => item.toString()}
         style={[styles.flatList,{backgroundColor: colors.background}]}

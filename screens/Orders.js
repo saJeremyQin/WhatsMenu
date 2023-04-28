@@ -18,9 +18,8 @@ import {
 } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
 import OrdersTabView from "../navigation/OrdersTabView";
-import { DISH_TYPES } from "../gloabls/constants";
 import { DishTypeButton } from "../components/DishTypeButton";
-import { THEME } from "../gloabls/constants";
+import { THEME, DISH_TYPES } from "../globals/constants";
 
 
 

@@ -5,7 +5,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { selectTotalAmountByTableNumber } from "../redux/slices/ordersSlice";
 import { useNavigation } from "@react-navigation/native";
 import HighlightedTable from "./HighlightedTable";
-import { THEME } from "../gloabls/constants";
+import { THEME } from "../globals/constants";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const cardSize = 180;
@@ -48,12 +48,11 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     marginVertical:20,
-    marginHorizontal:5,
+    marginHorizontal:15,
     borderRadius: 10,
   },
   amount:{
     fontSize:22,
-    // color: "#f31282"
   },
   image:{
     width: 128,

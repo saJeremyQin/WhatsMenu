@@ -3,7 +3,7 @@ import React,{ useState} from 'react';
 import CartView from '../components/CartView';
 import { Tab, Text, TabView } from '@rneui/themed';
 import ReceiptView from '../components/ReceiptView';
-import { THEME } from '../gloabls/constants';
+import { THEME } from '../globals/constants';
 
 
 const OrdersTabView = () => {
@@ -22,8 +22,8 @@ const OrdersTabView = () => {
       value={index}
       onChange={(e) => setIndex(e)}
       indicatorStyle={{
-        backgroundColor: 'white',
-        height: 3,
+        backgroundColor: colors.accent,
+        height: 1,
       }}
       variant="primary"
     >
@@ -61,7 +61,7 @@ const OrdersTabView = () => {
       />
     </Tab>
 
-    <TabView value={orderPlaced ? 1:index} onChange={setIndex} animationType="spring">
+    <TabView value={orderPlaced ? 1:index} onChange={setIndex} animationType="timing">
       <TabView.Item style={{ backgroundColor: colors.background, width: '100%' }}>
         <CartView onOrderPlaced={onOrderPlaced} />
       </TabView.Item>

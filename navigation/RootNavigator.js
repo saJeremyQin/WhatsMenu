@@ -7,7 +7,7 @@ import { Button } from "react-native-elements";
 import { ReturningDishContext } from "../context/appContext";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { useState } from "react";
-import { THEME } from "../gloabls/constants";
+import { THEME } from "../globals/constants";
 
 const Stack = createNativeStackNavigator();
 
