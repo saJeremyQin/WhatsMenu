@@ -2,7 +2,7 @@ import React,{ useState} from "react";
 import { processColor } from "react-native";
 import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { selectDishByIdWrapper } from "../redux/slices/dishesSlice";
+import { selectDishById } from "../redux/slices/dishesSlice";
 import { AntDesign } from "@expo/vector-icons";
 import { 
   changeDishQuantityInShoppingCart,
@@ -17,7 +17,7 @@ const CartDish = props => {
   const dispatch = useDispatch();
 
   const dishId = props.dishId;
-  const dish = useSelector(selectDishByIdWrapper(dishId));
+  const dish = useSelector(selectDishById(dishId));
   const dishQuantity = useSelector(selectDishQuantityByIdWrapper(dishId));
   const changeDishQuantity = slug => {
     if(dishQuantity === 1 && slug ==="minus") 

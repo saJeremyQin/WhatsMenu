@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { selectDishByIdWrapper } from "./dishesSlice";
+import { selectDishById } from "./dishesSlice";
 
 const initialState = {
     orders: [],
@@ -333,7 +333,7 @@ export const selectTotalAmountByTableNumber = (tableNumber) => (state) => {
         acc +
         section.dishesOngoing.reduce(
           (acc, dish) =>
-            acc + selectDishByIdWrapper(dish.dishId)(state)?.price * dish.dishQuantity,
+            acc + selectDishById(dish.dishId)(state)?.price * dish.dishQuantity,
           0
         ),
       0

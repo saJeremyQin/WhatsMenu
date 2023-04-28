@@ -16,7 +16,7 @@ import {
   selectNumberOfDiners,
   selectTotalAmountByTableNumber
 } from "../redux/slices/ordersSlice";
-import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesSlice";
+import { selectDishes, selectDishesByType } from "../redux/slices/dishesSlice";
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DishTypeButton } from "../components/DishTypeButton";
 import { THEME, DISH_TYPES } from "../globals/constants";
@@ -32,8 +32,7 @@ const OrdersScreen = ({navigation}) => {
   const [curDishType, setCurDishType] = useState("main");
 
   // Get the dishes by current dishType
-  const dishesByType = useSelector(selectDishesByTypeWrapper(curDishType));
-  // console.log("dishesByType are", dishesByType);
+  const dishesByType = useSelector(selectDishesByType(curDishType));
 
   const currentTableNum = useSelector(selectCurrentTable);
   // console.log("current table is",currentTableNum);

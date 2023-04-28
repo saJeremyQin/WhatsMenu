@@ -23,7 +23,8 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
       </Text>
     </Pressable>
   );
-}
+};
+
 const styles = StyleSheet.create({
   dishTypeBtn: {
     marginHorizontal: 10,

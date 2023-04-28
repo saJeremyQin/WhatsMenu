@@ -344,14 +344,8 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     paddingHorizontal: 20,
-    // borderWidth: 1,
-    // borderColor: '#ccc',
-    // borderRadius: 10,
     margin: 10,
-    // backgroundColor:"pink",
     width:"100%",
-    // alignItems:"center",
-    // justifyContent:"space-between"
   },
   noPlacedDishesText: {
     flex:1,
@@ -366,7 +360,6 @@ const styles = StyleSheet.create({
     borderTopWidth:1,
     borderColor:"#ccc",
     marginTop:10
-    // backgroundColor:"pink"   
   },
   tableNumber:{
     alignSelf:"center",

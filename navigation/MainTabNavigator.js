@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TablesScreen from '../screens/Tables';
-import AboutUsScreen from '../screens/AboutUs';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
-import { selectCurrentOrder } from '../redux/slices/ordersSlice';
-import { current } from '@reduxjs/toolkit';
 import { THEME } from '../globals/constants';
+import TablesScreen from '../screens/Tables';
+import AboutUsScreen from '../screens/AboutUs';
+import { selectCurrentOrder } from '../redux/slices/ordersSlice';
+
 
 const Tab = createBottomTabNavigator();
 

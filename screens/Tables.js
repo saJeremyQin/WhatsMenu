@@ -2,7 +2,7 @@ import React,{ useEffect,useState } from "react";
 import { StyleSheet, View, Text, Image, FlatList, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
-import { addDishes, selectDishes } from "../redux/slices/dishesSlice";
+import { setDishes, selectDishes } from "../redux/slices/dishesSlice";
 import { Overlay, Button, Input, Divider, colors } from "react-native-elements";
 import { client, DISHES_QUERY } from "../globals/netRequest";
 import { DISH_TYPES } from "../globals/constants";
@@ -27,7 +27,7 @@ const TablesScreen = ({navigation}) => {
 
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
-      dispatch(addDishes(data.dishes));
+      dispatch(setDishes(data.dishes));
     }).catch((error) => {
       console.log('API call failed:', error);
       Alert.alert('Network Error', 'There was an issue fetching data from the server. Please check your internet connection and try again.', [{ text: 'OK' }]);
