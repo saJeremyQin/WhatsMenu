@@ -5,9 +5,12 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import RootNavigator from './navigation/RootNavigator';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { THEME } from './gloabls/constants';
+
 
 
 export default function App() {
+  const {colors} = THEME;
 
   // useEffect(() => {
   //   try {
@@ -23,6 +26,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
+      <StatusBar backgroundColor={colors.darkBG} />
       <View style={styles.container}>    
         <RootNavigator />
       </View>
@@ -35,6 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // flexDirection:"row"
   },
+
 });
 
 

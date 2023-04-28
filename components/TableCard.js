@@ -5,11 +5,14 @@ import { useSelector,useDispatch } from "react-redux";
 import { selectTotalAmountByTableNumber } from "../redux/slices/ordersSlice";
 import { useNavigation } from "@react-navigation/native";
 import HighlightedTable from "./HighlightedTable";
+import { THEME } from "../gloabls/constants";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const cardSize = 180;
 
 // React.memo to prevent unnecessary re-renders if the parent component re-renders but the props of TableCard component do not change.
 const TableCard = React.memo(({tableNumber,onTableCardClick}) => {
+  const { colors } = THEME;
 
   const totalAmount = useSelector(selectTotalAmountByTableNumber(tableNumber));
   const cardStyle = totalAmount > 0 ? styles.highlightedCard : styles.defaultCard;
@@ -27,13 +30,13 @@ const TableCard = React.memo(({tableNumber,onTableCardClick}) => {
       onPress={tableCardClickHandler}
     >
         {totalAmount > 0 && <HighlightedTable style={styles.tableStyle} />}
-        <Text style={styles.amount}>${totalAmount}</Text>
+        <Text style={[styles.amount, {color: colors.text}]}>${totalAmount}</Text>
         <Image
             style={styles.image}
             resizeMode="contain"
             source={require("../assets/table.png")}
         />
-        <Text style={styles.number}>{tableNumber}</Text>
+        <Text style={[styles.number, {color:colors.darkText}]}>{tableNumber}</Text>
     </Pressable>
   );
 });
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
   },
   amount:{
     fontSize:22,
-    color: "#f31282"
+    // color: "#f31282"
   },
   image:{
     width: 128,

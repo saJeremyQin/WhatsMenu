@@ -12,19 +12,23 @@ export const DISH_TYPES = [
   // Theme
   export const THEME = {
     colors: {
-      text: "#000",
-      accent: "#FD9228",
-      background: "#FFF",
-      headerText: "#000",
-      searchBarBackground: "#F6F6F6",
+      text: "#F05801",
+      darkText: "#703e22",
+      background: "#d3d3d3",
+      brightBackground:"#ccc",
+      dialogPrimary:"#f28749",
+      accent:"#BD4500",
+      darkBG:"#333",
+      headerText: "#702900",
       cartDish: {
         border: "#000",
         background: "#FFF",
       },
       bottomTab: {
-        background: "#000",
-        active: "#FFF",
-        inactive: "#454545",
+        background: "#333",
+        inactivebackground:"#222",
+        active: "#F05801",
+        inactive: "#702900",
       },
       dishType: {
         active: "#000",

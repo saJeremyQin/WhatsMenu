@@ -20,16 +20,16 @@ import { selectDishes, selectDishesByTypeWrapper } from "../redux/slices/dishesS
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DISH_TYPES } from "../gloabls/constants";
 import { DishTypeButton } from "../components/DishTypeButton";
+import { THEME } from "../gloabls/constants";
 
 
 
 const OrdersScreen = ({navigation}) => {
+  const {colors} = THEME;
   const {isReturningDish} = useContext(ReturningDishContext);
-
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
 
   const receiptViewRef = useRef(null);
-
   // Write the logic of menuScreen
   const dispatch = useDispatch();
   const [curDishType, setCurDishType] = useState("main");
@@ -49,7 +49,7 @@ const OrdersScreen = ({navigation}) => {
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={ btnCheckOutHandler } title="CheckOut" buttonStyle={{backgroundColor:"#5e0a9c"}} />
+        <Button onPress={ btnCheckOutHandler } title="CheckOut" buttonStyle={{backgroundColor:colors.accent}} />
       ),
     });
   }, [isReturningDish, total]);

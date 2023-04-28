@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { Animated, StyleSheet } from "react-native";
+import { THEME } from "../gloabls/constants";
 
 const HighlightedTable = ({ style }) => {
+  const {colors} = THEME;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const HighlightedTable = ({ style }) => {
 
   const interpolatedColor = fadeAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ["#d3d3d3", "#888"],
+    outputRange: [colors.background, colors.accent],
   });
 
   return (
