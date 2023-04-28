@@ -7,8 +7,9 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
     <Pressable
       onPress={() => onPress(slug, id)}
       style={[
-        styles.dish_type_btn,
+        styles.dishTypeBtn,
         {
+          borderColor:colors.accent,
           backgroundColor: active
             ? colors.dialogPrimary
             : colors.brightBackground
@@ -16,7 +17,7 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
       ]}
     >
       <Text
-        style={[styles.dish_type_text, { color: active ? "#FFF" : "#000" }]}
+        style={[styles.dishTypeText, { color: active ?  colors.background : colors.accent}]}
       >
         {title}
       </Text>
@@ -24,18 +25,17 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
   );
 }
 const styles = StyleSheet.create({
-  dish_type_btn: {
-    backgroundColor: "#fff",
+  dishTypeBtn: {
     marginHorizontal: 10,
     height: 35,
     paddingHorizontal: 15,
     borderRadius: 30,
-    borderColor: "#000",
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  dish_type_text: {
+  dishTypeText: {
     fontWeight: "300",
+    fontSize:20
   },
 });

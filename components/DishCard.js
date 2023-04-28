@@ -7,19 +7,17 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
 import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
 import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slices/ordersSlice";
-import { CURRENCY, THEME } from "../globals/constants";
+import { CURRENCY, THEME, blankImage } from "../globals/constants";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const cardSize = 180;
-const blankImage =
-  "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
 
-const DishCard = props => {
+const DishCard = ({dish}) => {
   const {colors} = THEME;
   const [dishName, setDishName] = useState();
   const [dishDescription, setDishDescription] = useState(); 
 
-  const dish = props.dish;
+  // const dish = props.dish;
   const curOrder = useSelector(selectCurrentOrder);
   const curTable = useSelector(selectCurrentTable);
   const dispatch = useDispatch();
@@ -50,26 +48,6 @@ const DishCard = props => {
   
   
   return (
-      // <Card containerStyle={styles.container} wrapperStyle={{alignItems:"center"}}>
-      //   <Card.Title style={styles.title}>{dishName}</Card.Title>
-      //   <Card.Divider />
-      //   <Pressable
-      //     style={{
-      //       position: "relative",
-      //     }}
-      //     onPress={addDishToChart}
-      //   >
-      //     <Image
-      //       style={styles.image}
-      //       resizeMode="contain"
-      //       source={{
-      //         uri:dish.image 
-      //       }}
-      //     />
-      //     <Text>{dishDescription}</Text>
-      //     <Text style={styles.price}>${dish.price}</Text>
-      //   </Pressable>
-      // </Card>
       <View style={styles.container}>
         <Pressable
           onPress={() => addDishToChart()}

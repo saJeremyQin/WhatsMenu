@@ -21,8 +21,6 @@ import OrdersTabView from "../navigation/OrdersTabView";
 import { DishTypeButton } from "../components/DishTypeButton";
 import { THEME, DISH_TYPES } from "../globals/constants";
 
-
-
 const OrdersScreen = ({navigation}) => {
   const {colors} = THEME;
   const {isReturningDish} = useContext(ReturningDishContext);
@@ -54,7 +52,7 @@ const OrdersScreen = ({navigation}) => {
   }, [isReturningDish, total]);
 
   const btnCheckOutHandler = () => {
-    console.log("isReturningDish in Orders is", isReturningDish);
+    // console.log("isReturningDish in Orders is", isReturningDish);
     if(total === 0) {
       Alert.alert("Warning", "No placed dishes to check out");
       return ;
@@ -103,8 +101,6 @@ const OrdersScreen = ({navigation}) => {
     }
   };
   
-  
-
   return (
     <View style={styles.container}> 
       <View style={[styles.leftColumn,{backgroundColor:colors.background}]}>
@@ -131,7 +127,14 @@ const OrdersScreen = ({navigation}) => {
         <View style={styles.flatListContainer}>
         {
           dishesByType.length === 0 ? (
-            <Text style={{fontSize:26}}>There are no dishes for current type!</Text>
+            <Text 
+              style={{
+                fontSize:24,
+                color:colors.dialogPrimary
+              }}
+            >
+              There are no dishes for current type!
+            </Text>
           ) : (
             <FlatList
               data={dishesByType}
@@ -160,7 +163,7 @@ const OrdersScreen = ({navigation}) => {
           <ReceiptView ref={receiptViewRef} edit={false} style={styles.receiptView}/>
         </View>
         <View style={styles.dialogButtonsContainer}>
-          <Button title="Cancel" onPress={() => setShowReceiptDialog(false)} buttonStyle={[styles.cancelButton,{backgroundColor:colors.darkText}]}/>
+          <Button title="Cancel" onPress={() => setShowReceiptDialog(false)} buttonStyle={[styles.cancelBtn,{backgroundColor:colors.darkText}]}/>
           <Button title="CheckOut" onPress={() => handleReceiptCheckout()}buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}/>
         </View>
       </Overlay>
@@ -174,7 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   checkOutBtn:{
-    backgroundColor:"#5e0a9c"
+    // backgroundColor:"#5e0a9c"
   },
   leftColumn: {
     flex: 3,
@@ -190,7 +193,7 @@ const styles = StyleSheet.create({
     width:"100%",
   },
   dishTypeButtonList:{
-    marginLeft:30,
+    marginLeft:"8%",
     paddingTop: 25,  
   },
   flatListContainer:{
@@ -270,11 +273,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: "space-evenly",
   },
-  cancelButton: {
-    backgroundColor: '#ccc',
+  cancelBtn: {
+    width:100
   },
-  checkOutButton: {
-    backgroundColor: '#007bff',
+  checkOutBtn: {
+    width:100
   },
 });
 

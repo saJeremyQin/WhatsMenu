@@ -20,10 +20,6 @@ export const THEME = {
     dialogPrimary:"#f28749",
     accent:"#BD4500",
     darkBG:"#333",
-    cartDish: {
-      border: "#000",
-      background: "#FFF",
-    },
     bottomTab: {
       background: "#333",
       inactivebackground:"#222",
@@ -46,10 +42,13 @@ export const THEME = {
     },
   },
 };
-//restaurantInfo
+
+//restaurant Info
 export const restaurant = {
   company:"Forks and Chopsticks Asian Restaurant",
   address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
   logo:"https://studentserver.com.au/daqin/images/restaurant_logo.png"
 };
 
+export const blankImage =
+  "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
