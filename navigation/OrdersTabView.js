@@ -3,9 +3,11 @@ import React,{ useState} from 'react';
 import CartView from '../components/CartView';
 import { Tab, Text, TabView } from '@rneui/themed';
 import ReceiptView from '../components/ReceiptView';
+import { THEME } from '../gloabls/constants';
 
 
 const OrdersTabView = () => {
+  const {colors} = THEME;
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [index, setIndex] = useState(0);
 
@@ -22,32 +24,48 @@ const OrdersTabView = () => {
       indicatorStyle={{
         backgroundColor: 'white',
         height: 3,
-        // width: '50%',
-        // marginLeft: '25%',
-        // marginTop: 5,
-        // borderRadius: 10,
       }}
       variant="primary"
     >
       <Tab.Item
         title="Cart"
-        titleStyle={{ fontSize: 16, fontWeight: index === 0 ? 'bold' : 'normal',color: index === 0 ? 'blue' : 'white'}}     
-        icon={{ name: 'cart', type: 'ionicon', color: index === 0 ? 'blue' : 'white' }}
-        style={{ backgroundColor: index === 0 ? 'blue' : '#333333' }}
+        titleStyle={{ 
+          fontSize: 16, 
+          fontWeight: index === 0 ? 'bold' : 'normal',
+          color: index === 0 ? colors.bottomTab.active : colors.bottomTab.inactive
+        }}     
+        icon={{ 
+          name: 'cart', 
+          type: 'ionicon', 
+          color: index === 0 ? colors.bottomTab.active : colors.bottomTab.inactive 
+        }}
+        containerStyle={{
+          backgroundColor: index === 0 ? colors.bottomTab.inactivebackground : colors.bottomTab.background
+        }}
       />
       <Tab.Item
         title="Receipt"
-        titleStyle={{ fontSize: 16, fontWeight: index === 1 ? 'bold' : 'normal',color: index === 1 ? 'green' : 'white'}}
-        icon={{ name: 'receipt', type: 'ionicon', color: index === 1 ? 'green' : 'white' }}
-        style={{ backgroundColor: index === 1 ? 'green' : '#333333' }}
+        titleStyle={{ 
+          fontSize: 16, 
+          fontWeight: index === 1 ? 'bold' : 'normal',
+          color: index === 1 ? colors.bottomTab.active : colors.bottomTab.inactive
+        }}
+        icon={{ 
+          name: 'receipt', 
+          type: 'ionicon', 
+          color: index === 1 ? colors.bottomTab.active : colors.bottomTab.inactive
+        }}
+        containerStyle={{ 
+          backgroundColor: index === 1 ? colors.bottomTab.inactivebackground : colors.bottomTab.background
+        }}
       />
     </Tab>
 
     <TabView value={orderPlaced ? 1:index} onChange={setIndex} animationType="spring">
-      <TabView.Item style={{ backgroundColor: '#f0f0f0', width: '100%' }}>
+      <TabView.Item style={{ backgroundColor: colors.background, width: '100%' }}>
         <CartView onOrderPlaced={onOrderPlaced} />
       </TabView.Item>
-      <TabView.Item style={{ backgroundColor: '#f0f0f0', width: '100%' }}>
+      <TabView.Item style={{ backgroundColor: colors.background, width: '100%' }}>
         <ReceiptView edit={true}/>
       </TabView.Item>
     </TabView>

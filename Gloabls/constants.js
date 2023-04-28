@@ -14,12 +14,12 @@ export const DISH_TYPES = [
     colors: {
       text: "#F05801",
       darkText: "#703e22",
+      headerText: "#702900",
       background: "#d3d3d3",
       brightBackground:"#ccc",
       dialogPrimary:"#f28749",
       accent:"#BD4500",
       darkBG:"#333",
-      headerText: "#702900",
       cartDish: {
         border: "#000",
         background: "#FFF",

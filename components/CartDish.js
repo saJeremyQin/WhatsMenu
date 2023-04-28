@@ -9,8 +9,10 @@ import {
   selectDishQuantityByIdWrapper,
   removeDishFromShoppingCart
  } from "../redux/slices/ordersSlice";
+import { THEME } from "../gloabls/constants";
 
 const CartDish = props => {
+  const {colors} = THEME;
 
   const [isdelete, setIsDelete] = useState(false);
   const dispatch = useDispatch();
@@ -21,14 +23,6 @@ const CartDish = props => {
   const dish = useSelector(selectDishByIdWrapper(dishId));
   const dishQuantity = useSelector(selectDishQuantityByIdWrapper(dishId));
   // console.log("dish quantity is", dishQuantity);
-
-  // function changeDishQuantity(slug) {
-  //   if(dishQuantity == 1 && slug =="minus") return;
-  //   dispatch(changeDishQuantityInShoppingCart({
-  //     dishId: dishId,
-  //     slug:slug
-  //   }));   
-  // };
   const changeDishQuantity = (slug) => {
     if(dishQuantity == 1 && slug =="minus") 
       return;
@@ -54,7 +48,7 @@ const CartDish = props => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.main_container}>
+      <View style={[styles.main_container, {borderColor:colors.accent}]}>
         <Image source={{ uri: dish.image || "" }} style={styles.dish_img} />
         <View style={styles.dishInfo_container}>
           <Text style={styles.text}>
@@ -64,18 +58,12 @@ const CartDish = props => {
             $ {dish.price || "price"}
           </Text>
         </View>
-        <View style={styles.quantity_container}>
-          {/* <Pressable style={styles.quantity_btn} onPress={()=>changeDishQuantity("plus")} >
-            <AntDesign name="plus" size={20} color="black" />
-          </Pressable> */}
-          <Text style={{fontSize:16}}>{dishQuantity}</Text>
-          {/* <Pressable style={styles.quantity_btn} onPress={()=>changeDishQuantity("minus")}>
-            <AntDesign name="minus" size={20} color="black" />
-          </Pressable> */}
+        <View style={[styles.quantity_container,{backgroundColor:colors.dialogPrimary}]}>
+          <Text style={{fontSize:16}}>{dishQuantity}</Text>   
         </View>
       </View>
       <View style={styles.delete_container}>
-        <Pressable style={styles.delete_btn} onPress={() =>btnDeleteDishHandler() }>
+        <Pressable style={[styles.delete_btn, {backgroundColor:colors.text}]} onPress={() =>btnDeleteDishHandler() }>
           <AntDesign name="minus" size={28} color="white"/>
         </Pressable>
       </View>
@@ -105,8 +93,6 @@ const styles = StyleSheet.create({
       height: 90,
       width: "80%",
   
-      // borderColor: "#000",
-      borderColor:"#52f",
       borderWidth: 1,
       borderRadius: 15,
       // backgroundColor:"red"
@@ -122,18 +108,16 @@ const styles = StyleSheet.create({
       paddingLeft: 10,
     },
     delete_container: {
-      // position:"absolute",
-      // right:20,
       width:60,
       justifyContent:"center",
       alignItems:"center",
       // backgroundColor:"purple"
     },
     delete_btn:{
-      width:40,
-      height:40,
-      borderRadius:20,
-      backgroundColor:"#f00",
+      width:36,
+      height:36,
+      borderRadius:18,
+      // backgroundColor:"#f00",
       justifyContent:"center",
       alignItems:"center"
     },
@@ -144,7 +128,6 @@ const styles = StyleSheet.create({
     quantity_container:{
       width:"7%",
       height:"80%",
-      backgroundColor: "#887",
       position: "absolute",
       justifyContent: "center",
       alignItems: "center",
@@ -155,17 +138,7 @@ const styles = StyleSheet.create({
       paddingHorizontal:5,
       paddingVertical:5
     },
-    // delete_container:{
-    //   width:60,
-    //   height:60,
-    //   borderRadius:12,
-    //   // borderWidth:1,
-    //   // borderColor:"#52f",
-    //   backgroundColor:"#52f",
-    //   marginLeft:35,
-    //   justifyContent:"center",
-    //   alignItems:"center"
-    // }
+ 
 });
 
 export default CartDish;

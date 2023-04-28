@@ -108,7 +108,7 @@ const OrdersScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}> 
-      <View style={styles.leftColumn}>
+      <View style={[styles.leftColumn,{backgroundColor:colors.background}]}>
         <View style={styles.dishesByTypeButtonContainer}> 
           <FlatList
             data={DISH_TYPES}
@@ -161,8 +161,8 @@ const OrdersScreen = ({navigation}) => {
           <ReceiptView ref={receiptViewRef} edit={false} style={styles.receiptView}/>
         </View>
         <View style={styles.dialogButtonsContainer}>
-          <Button title="Cancel" onPress={() => setShowReceiptDialog(false)} style={styles.cancelButton}/>
-          <Button title="CheckOut" onPress={() => handleReceiptCheckout()} style={styles.checkOutButton}/>
+          <Button title="Cancel" onPress={() => setShowReceiptDialog(false)} buttonStyle={[styles.cancelButton,{backgroundColor:colors.darkText}]}/>
+          <Button title="CheckOut" onPress={() => handleReceiptCheckout()}buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}/>
         </View>
       </Overlay>
     </View>
@@ -173,7 +173,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    // backgroundColor:"#5e0a9c"
   },
   checkOutBtn:{
     backgroundColor:"#5e0a9c"
@@ -198,7 +197,7 @@ const styles = StyleSheet.create({
   flatListContainer:{
     flex:1,
     // paddingTop: 20,
-    backgroundColor:"#f0f0f0",
+    // backgroundColor:"#f0f0f0",
     justifyContent:"center",
     alignItems:"center"
   },

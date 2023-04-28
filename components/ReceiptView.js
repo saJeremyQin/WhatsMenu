@@ -15,9 +15,10 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Print from 'expo-print';
 import { WebView } from 'react-native-webview';
 import { ReturningDishContext } from '../context/appContext';
-
+import { THEME } from '../gloabls/constants';
 
 const ReceiptView = React.forwardRef((props, ref) => {
+  const {colors} = THEME;
   const {isReturningDish, setIsReturningDish} = useContext(ReturningDishContext);
   const [htmlContent, setHtmlContent] = useState('');
 
@@ -256,7 +257,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
 
   return (
     total === 0 ? (
-      <Text style={styles.noPlacedDishesText}>
+      <Text style={[styles.noPlacedDishesText, {color:colors.dialogPrimary}]}>
         Have no placed dishes yet!
       </Text>
     ) : (
@@ -296,7 +297,7 @@ const ReceiptView = React.forwardRef((props, ref) => {
                             <Text style={styles.price}>{getDishById(dishItem.dishId).price}</Text>
                             { isReturningDish && (
                               <View style={styles.delete_container}>
-                                <Pressable style={styles.delete_btn} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
+                                <Pressable style={[styles.delete_btn,{backgroundColor:colors.text}]} onPress={()=>btnDeleteDishHandler(indexS, indexD)}>
                                   <AntDesign name="minus" size={24} color="white"/>
                                 </Pressable>
                               </View>
@@ -321,9 +322,9 @@ const ReceiptView = React.forwardRef((props, ref) => {
         {
           props.edit ? (     
             <Button
-              title={ isReturningDish ? "Finish":"ReturnDish" }
+              title={ isReturningDish ? "Finish":"Return Dish" }
               buttonStyle={{
-                  backgroundColor: 'rgba(111, 202, 186, 1)',
+                  backgroundColor: colors.accent,
                   borderRadius: 5,
               }}
               // disabled={orderPlaced}
@@ -475,7 +476,7 @@ const styles = StyleSheet.create({
     width:30,
     height:30,
     borderRadius:15,
-    backgroundColor:"#f00",
+    // backgroundColor:"#f00",
     // marginLeft:40,
     justifyContent:"center",
     alignItems:"center"

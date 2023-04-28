@@ -7,10 +7,12 @@ import { Button } from "react-native-elements";
 import { ReturningDishContext } from "../context/appContext";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { useState } from "react";
+import { THEME } from "../gloabls/constants";
 
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+    const {colors} = THEME;
     const [isReturningDish, setIsReturningDish] = useState(false);
     const isReturningDishContextValue = {isReturningDish,setIsReturningDish};
     return (
@@ -31,23 +33,14 @@ const RootNavigator = () => {
                     <Stack.Screen
                         name="Orders"
                         component={OrdersScreen}
-                        // options={{
-                        //     animation: "fade_from_bottom",
-                        //     headerShown: true,
-                        //     title: "",
-                        //     headerStyle: {
-                        //         backgroundColor: "#7855be",
-                        //     },
-                        //     headerTintColor: "#f31282",
-                        //  }}
+              
                         options={({navigation,route}) => ({
                             headerShown:true,
                             title:"Orders",
                             headerStyle:{
-                                // backgroundColor:"#7855be",
-                                backgroundColor:"#f0f0f0"
+                                backgroundColor: colors.darkBG
                             },
-                            headerTintColor: "#2089dc",
+                            headerTintColor: colors.text,
                             headerRight:() => {
                                 <Button title="CheckOut" color="#0f0"/>
                             }

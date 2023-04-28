@@ -1,9 +1,8 @@
 import { Pressable, Text, StyleSheet } from "react-native";
-// import { useTheme } from "@react-navigation/native";
+import { THEME } from "../gloabls/constants";
 
 export function DishTypeButton({ title, slug, onPress, id, active }) {
-  // console.log("dishbutton here slug is", slug);
-//   const { colors } = useTheme();
+  const {colors} = THEME;
   return (
     <Pressable
       onPress={() => onPress(slug, id)}
@@ -11,8 +10,8 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
         styles.dish_type_btn,
         {
           backgroundColor: active
-            ? "#2089dc"
-            : "#fff"
+            ? colors.dialogPrimary
+            : colors.brightBackground
         },
       ]}
     >

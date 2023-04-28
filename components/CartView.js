@@ -1,14 +1,13 @@
-import React from "react";
+import React,{useState} from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 import CartDish from "./CartDish";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentOrder, placeOrder } from "../redux/slices/ordersSlice";
 import { Button } from "react-native-elements";
-import { useState } from "react";
-
+import { THEME } from "../gloabls/constants";
 
 const CartView = (props) => {
-    // const [orderPlaced, setOrderPlaced] = useState(false);
+    const {colors} = THEME;
     const dispatch = useDispatch();
     const shoppingCartDishes = (useSelector(selectCurrentOrder)).tobeAddedDishes;
     const numOfShoppingCartDishes = shoppingCartDishes.length;
@@ -23,7 +22,7 @@ const CartView = (props) => {
         <View style={styles.container}>
         {
             numOfShoppingCartDishes == 0 ? (
-                <Text style={styles.noDishesText}>
+                <Text style={[styles.noDishesText, {color:colors.dialogPrimary}]}>
                     No dishes in your cart!
                 </Text>
             ) : (
@@ -41,7 +40,7 @@ const CartView = (props) => {
                 <Button
                     title="Place Order"
                     buttonStyle={{
-                        backgroundColor: 'rgba(111, 202, 186, 1)',
+                        backgroundColor: colors.accent,
                         borderRadius: 5,
                     }}
                     // disabled={orderPlaced}

@@ -7,17 +7,17 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
 import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
 import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slices/ordersSlice";
-import { CURRENCY } from "../gloabls/constants";
+import { CURRENCY, THEME } from "../gloabls/constants";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const cardSize = 180;
 const blankImage =
   "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
 
 const DishCard = props => {
-
+  const {colors} = THEME;
   const [dishName, setDishName] = useState();
-  const [dishDescription, setDishDescription] = useState();
-  
+  const [dishDescription, setDishDescription] = useState(); 
 
   const dish = props.dish;
   const curOrder = useSelector(selectCurrentOrder);
@@ -76,7 +76,7 @@ const DishCard = props => {
           activeOpacity={0.7}
           style={[
             styles.bottom_container,
-            { backgroundColor: "#2089dc" },
+            { backgroundColor: colors.brightBackground },
           ]}
         >
         <Image
@@ -85,13 +85,13 @@ const DishCard = props => {
           }}
           style={styles.image}
         />
-        <Text style={[styles.title, { color: "#0FF" }]}>
+        <Text style={[styles.title, { color: colors.darkText }]}>
           {dishName || "N/A"}
         </Text>
         {/* <Text style={[styles.description, { color: "#F0F0F0" }]}>
           {dishDescription || "N/A"}
         </Text> */}
-        <Text style={[styles.price, { color: "#F0F0F0" }]}>
+        <Text style={[styles.price, { color: colors.darkText }]}>
           {CURRENCY.sign} {dish.price || "N/A"}
         </Text>
       </Pressable>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     width: cardSize,
     paddingBottom: cardSize / 15,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

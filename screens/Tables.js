@@ -95,7 +95,7 @@ const TablesScreen = ({navigation}) => {
           resizeMode="contain"
           style={styles.headerImage}
         />
-        <Text style={[styles.headerText, {color: colors.headerText}]}>
+        <Text style={[styles.headerText, {color: colors.text}]}>
           Welcome to WhatsMenu
         </Text>
       </View>
@@ -142,7 +142,7 @@ const styles=StyleSheet.create({
   },
   headContainer:{
     flex:1,
-    backgroundColor:"#555",
+    // backgroundColor:"#555",
     flexDirection:"row",
     paddingHorizontal:40,
     marginTop:20,
