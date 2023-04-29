@@ -9,7 +9,7 @@ import CartDish from "./CartDish";
 const CartView = ({onOrderPlaced}) => {
     const {colors} = THEME;
     const dispatch = useDispatch();
-    const shoppingCartDishes = (useSelector(selectCurrentOrder))?.tobeAddedDishes;
+    const shoppingCartDishes = (useSelector(selectCurrentOrder))?.shoppingCartDishes;
     const numOfShoppingCartDishes = shoppingCartDishes.length;
 
     const btnPlaceOrderHandler = () => {

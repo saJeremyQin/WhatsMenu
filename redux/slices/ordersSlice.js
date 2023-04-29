@@ -21,241 +21,120 @@ const ordersSlice = createSlice({
     initialState,
     reducers:{
       createOrder: (state, action) => {
-          state.currentTable=action.payload.tableNumber;
-          const numberOfDiners=action.payload.numberOfDiners;
-      
-          const orderId = generateOrderId();
-          const newOrder = {
-            id: orderId,
-            tableNumber:state.currentTable,
-            numberOfDiners:numberOfDiners,
-            tobeAddedDishes: [],
-            // haveBeenPlacedDishes: [],
-            ongoingDishesSections:[],
-            orderStatus: 1,               //1, ongoing; 0, finished or unstart
-          };
-
-          state.currentOrderId=orderId;
-          state.orders=[...state.orders,newOrder];
-          // console.log("State after creating order:", state);
+        // Since redux-toolkit has integrated immer, code can be written like state is mutable.
+        const orderId = generateOrderId();
+        const newOrder = {
+          id: orderId,
+          tableNumber:action.payload.tableNumber,
+          numberOfDiners:action.payload.numberOfDiners,
+          shoppingCartDishes: [],
+          ongoingDishesSections:[],
+          orderStatus: 1,               //1, ongoing; 0, finished or unstart
+        };
+        state.currentOrderId=orderId;
+        state.currentTable=action.payload.tableNumber;
+        state.orders.push(newOrder);
+        console.log("state after create is", state);
       },
       addDishToShoppingCart: (state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
         const { dishId } = action.payload;
-
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
-        if (orderIndex === -1) return;
-
-        let updatedOrder = null;
-        const { tobeAddedDishes } = state.orders[orderIndex];
-        const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
-        // console.log("tobeAdded is", tobeAddedDishes);
-        // console.log("dish index is", dishIndex);
-
-        if (dishIndex === -1) {
-          // create a new array of tobeAddedDishes for the updated order, add a new object.
-          const tobeAddedDishes = [...state.orders[orderIndex].tobeAddedDishes, {
-            dishId:dishId,
-            dishQuantity:1
-          }];
         
-          // create a new object representing the updated order.
-          updatedOrder = {
-            ...state.orders[orderIndex],
-            tobeAddedDishes,
-          };
-
-          state.currentOrderId = orderId;
-        } else {
-          // How to complete the code?
-          const tobeAddedDishes = state.orders[orderIndex].tobeAddedDishes;
-          const dish = tobeAddedDishes[dishIndex];
-          const curDishQuantity = dish.dishQuantity;
-          const updatedDish = {
-            ...dish,
-            dishQuantity: curDishQuantity+1
-          };
-          const updatedToBeAddedDishes = [
-            ...tobeAddedDishes.slice(0,dishIndex),
-            updatedDish,
-            ...tobeAddedDishes.slice(dishIndex+1)
-          ];
-          updatedOrder = {
-            ...state.orders[orderIndex],
-            tobeAddedDishes:updatedToBeAddedDishes,
-          };
+        if (orderIndex === -1) {
+            return;
         }
 
-        // update order in orders
-        state.orders=[
-          ...state.orders.slice(0, orderIndex),
-          updatedOrder,
-          ...state.orders.slice(orderIndex+1)
-        ];
-        // console.log("State after creating order:", state.orders[orderIndex]);
+        const order = state.orders[orderIndex];
+        const dishIndex = order.shoppingCartDishes.findIndex((dish) => dish.dishId === dishId);
+
+        // if dish doesn't exists in shoppingCartDishes, push a new one
+        if (dishIndex === -1) {
+            order.shoppingCartDishes.push({ dishId, dishQuantity: 1 });
+        } else {  // else, increment the quantity
+            order.shoppingCartDishes[dishIndex].dishQuantity += 1;
+        }
       },
-      removeDishFromShoppingCart:(state, action) => {
-   
+      removeDishFromShoppingCart: (state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
         const { dishId } = action.payload;
-
+      
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
         if (orderIndex === -1) return;
-
-        const { tobeAddedDishes } = state.orders[orderIndex];
-        const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
-        if (dishIndex === -1) return;
-
-        // remove the tobeAddedDishes[dishIndex], but operate on copied data.
-        const updatedTobeAddedDishes = [...tobeAddedDishes.slice(0, dishIndex), ...tobeAddedDishes.slice(dishIndex + 1)];
-        const updatedOrder = { ...state.orders[orderIndex], tobeAddedDishes: updatedTobeAddedDishes };
       
-        //how to update orders?, the same
-        state.orders=[
-          ...state.orders.slice(0, orderIndex),
-          updatedOrder,
-          ...state.orders.slice(orderIndex+1)
-        ];
-        //console.log("State after creating order:", state.orders[orderIndex]);
-      },
-      changeDishQuantityInShoppingCart:(state, action) => {
+        const order = state.orders[orderIndex];
+        const dishIndex = order.shoppingCartDishes.findIndex((dish) => dish.dishId === dishId);
+        if (dishIndex === -1) return;
+        
+        //from the dishIndex, remove one, modify the original array.
+        order.shoppingCartDishes.splice(dishIndex, 1);
+      }, 
+      changeDishQuantityInShoppingCart: (state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
         const { dishId, slug } = action.payload;
-
+      
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
         if (orderIndex === -1) return;
-
-        const { tobeAddedDishes } = state.orders[orderIndex];
-        const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
+      
+        const order = state.orders[orderIndex];
+        const dishIndex = order.shoppingCartDishes.findIndex((dish) => dish.dishId === dishId);
         if (dishIndex === -1) return;
-
-        // Update the dishQuantity for the specified dishId
-        const quantity = slug==="plus" ? 1:-1;
-        console.log("quantity here is", quantity);
-        const updatedTobeAddedDishes = tobeAddedDishes.map((dish) =>
-          dish.dishId === dishId ? { ...dish, dishQuantity: dish.dishQuantity + quantity } : dish
-        );
-        // console.log("updatedTo is",updatedTobeAddedDishes);
-
-        const updatedOrder = { ...state.orders[orderIndex], tobeAddedDishes: updatedTobeAddedDishes };
-
-        state.orders = [
-          ...state.orders.slice(0, orderIndex),
-          updatedOrder,
-          ...state.orders.slice(orderIndex + 1),
-        ];
-      },
+      
+        const quantity = slug === "plus" ? 1 : -1;
+        order.shoppingCartDishes[dishIndex].dishQuantity += quantity;
+      },    
       placeOrder:(state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
-
+      
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
         if (orderIndex === -1) return;
-
-        let { tobeAddedDishes } = state.orders[orderIndex];
-        // console.log("tobeAddedDishes are",tobeAddedDishes);
-
+      
+        let shoppingCartDishes = state.orders[orderIndex].shoppingCartDishes;
+      
         //add one section each time 
         const currentTime = new Date();
         const currentTimestamp = currentTime.getTime();
-
-        const ongoingDishesSections = [...state.orders[orderIndex].ongoingDishesSections, {
-          dishesOngoing: tobeAddedDishes,
+        
+        //empty shoppingCartDishes, and create one section with time
+        state.orders[orderIndex].shoppingCartDishes = [];
+        state.orders[orderIndex].ongoingDishesSections.push({
+          dishesOngoing: shoppingCartDishes,
           placedTime: currentTimestamp
-        }];
-
-        const updatedOrder = {
-          ...state.orders[orderIndex],
-          tobeAddedDishes: [],
-          ongoingDishesSections
-        };
-
-        state.orders = [
-          ...state.orders.slice(0, orderIndex),
-          updatedOrder,
-          ...state.orders.slice(orderIndex + 1),
-        ];
-        // console.log("updatedOrder after placeOrder is",updatedOrder);
-      },
-      deleteDishInOngoingDishes:(state,action) => {
-
+        });     
+      },   
+      deleteDishInOngoingDishes: (state, action) => {
         const { currentOrderId: orderId, currentTable } = state;
         const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
         if (orderIndex === -1) return;
+      
+        const indexS = action.payload.indexS;
+        const indexD = action.payload.indexD;
+      
+        // locate to the indexS section
+        const dishesOngoing = state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing;
+        
+        // check whether the dish quantity of indexD dish is great than 1,
+        // if yes, delete the dish quantity, if no, delete the dish in disheOngoing
+        // after delete dish, check whehter the ongoingDishesSection length, if is 0, it has been empty, delete the section.
+        const dishQuantity = dishesOngoing[indexD].dishQuantity;
 
-        const indexS=action.payload.indexS;
-        const indexD=action.payload.indexD;
-
-        let tempDishesArray = [...state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing];
-
-        let updatedOngoingDishes=null;
-
-        //check whether the dishquantity is 1 before update
-        const curDishQuantity = tempDishesArray[indexD].dishQuantity;
-        if( curDishQuantity > 1) {
-          //delete dishQuantity to 1 first.
-          const updatedDish = {
-            ...tempDishesArray[indexD],
-            dishQuantity:curDishQuantity-1
-          };
-          updatedOngoingDishes = [
-            ...tempDishesArray.slice(0, indexD),
-            updatedDish,
-            ...tempDishesArray.slice(indexD+1)
-          ];
+        if(dishQuantity > 1) {
+          //delete dish quantity
+          state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing[indexD].dishQuantity=dishQuantity-1;
         } else {
-          //dishQuantity=1, delete current dish
-          updatedOngoingDishes = [
-            ...tempDishesArray.slice(0, indexD),
-            ...tempDishesArray.slice(indexD + 1)
-          ];
-        }
-         
-        //check whether the length is 0 after update.
-        const curLength = updatedOngoingDishes.length;
-
-        let updatedOrder = null;
-
-        //if curLength=0, delete current section, or update dishesArray
-        if(curLength == 0) {
-          // delete the current section
-          const updatedOngoingDishesSections = [      
-            ...state.orders[orderIndex].ongoingDishesSections.slice(0, indexS),
-            ...state.orders[orderIndex].ongoingDishesSections.slice(indexS + 1)
-          ];
-
-          updatedOrder = {
-            ...state.orders[orderIndex],
-            ongoingDishesSections: updatedOngoingDishesSections
-          };        
-        } else {
-          //update specified section
-          const updatedDishesSection = {
-            ...state.orders[orderIndex].ongoingDishesSections[indexS],
-            dishesOngoing: updatedOngoingDishes
-          };
-
-          //update sections
-          const updatedOngoingDishesSections = [
-            ...state.orders[orderIndex].ongoingDishesSections.slice(0,indexS),
-            updatedDishesSection,
-            ...state.orders[orderIndex].ongoingDishesSections.slice(indexS+1)
-          ];
-          updatedOrder = {
-            ...state.orders[orderIndex],
-            ongoingDishesSections: updatedOngoingDishesSections
-          };   
-        }
-        // console.log("updatedOrder after delete is", updatedOrder);
-        //how to update orders?, the same
-        state.orders=[
-          ...state.orders.slice(0, orderIndex),
-          updatedOrder,
-          ...state.orders.slice(orderIndex+1)
-        ];
+          //delete current dish
+          state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing.splice(indexD,1);
+          //check whether the whole dishesOngoing is empty after delete dish
+          const curLength = state.orders[orderIndex].ongoingDishesSections[indexS].dishesOngoing.length;
+          if(curLength === 0) {
+             // delete the current section
+             state.orders[orderIndex].ongoingDishesSections.splice(indexS, 1);
+          }   
+        }    
       },
       checkOutOrder: (state, action) => {
         const { currentOrderId, currentTable } = state;
-        state.orders = state.orders.filter((order) => !(order.id === currentOrderId && order.tableNumber === currentTable));
+        state.orders.filter((order) => !(order.id === currentOrderId && order.tableNumber === currentTable));
         state.currentOrderId = null;
         state.currentTable = 0;
         console.log("orders are", state.orders);
@@ -298,16 +177,13 @@ export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
   // console.log("curTable is", curTable);
 
   const orderIndex = state.allOrders.orders.findIndex((order) => order.id === orderId && order.tableNumber === curTable);
-  // console.log("order index is", orderIndex);
 
   if (orderIndex === -1) return;
-  // console.log("order index is", orderIndex);
 
-  const { tobeAddedDishes } = state.allOrders.orders[orderIndex];
-  // console.log("tobeAdded is", tobeAddedDishes);
-  const dishIndex = tobeAddedDishes.findIndex((dish) => dish.dishId === dishId);
+  const { shoppingCartDishes } = state.allOrders.orders[orderIndex];
+  const dishIndex = shoppingCartDishes.findIndex((dish) => dish.dishId === dishId);
   if (dishIndex === -1) return;
-  return tobeAddedDishes[dishIndex].dishQuantity;
+  return shoppingCartDishes[dishIndex].dishQuantity;
 }
 
 export const selectOngoingDishesSections = (state) => 

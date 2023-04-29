@@ -36,7 +36,7 @@ const OrdersScreen = ({navigation}) => {
 
   const currentTableNum = useSelector(selectCurrentTable);
   // console.log("current table is",currentTableNum);
-  const dishesCountInShoppingCart = (useSelector(selectCurrentOrder))?.tobeAddedDishes.length;
+  const dishesCountInShoppingCart = (useSelector(selectCurrentOrder))?.shoppingCartDishes.length;
   const dinersNum = useSelector(selectNumberOfDiners);
   const total = useSelector(selectTotalAmountByTableNumber(currentTableNum));
 
