@@ -84,6 +84,23 @@ const TablesScreen = ({navigation}) => {
     )
   };
 
+  // const validateNumberInput = (value) => {
+  //   const parsedValue = parseInt(value, 10);
+  //   if (isNaN(parsedValue)) {
+  //     // if the input value is not a number, return an empty string
+  //     return '';
+  //   }
+  //   // clamp the parsed value to the range [0, 30]
+  //   const clampedValue = Math.min(Math.max(parsedValue, 0), 30);
+  //   // if the clamped value is different from the original input, update the input value
+  //   if (clampedValue !== parsedValue) {
+  //     return clampedValue.toString();
+  //   }
+  //   // if the input value is already within the range [0, 30], return it as is
+  //   return value;
+  // };
+  
+
 
   return (
     <View style={styles.container}>
