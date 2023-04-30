@@ -26,20 +26,20 @@ export const THEME = {
       active: "#F05801",
       inactive: "#702900",
     },
-    dishType: {
-      active: "#000",
-      inactive: "#FFF",
-    },
-    dish: {
-      background: "#FFF",
-      title: "#000",
-      description: "#454545",
-      price: "#000",
-    },
-    cart: {
-      box: "#e85e5e",
-      count: "#000",
-    },
+    // dishType: {
+    //   active: "#000",
+    //   inactive: "#FFF",
+    // },
+    // dish: {
+    //   background: "#FFF",
+    //   title: "#000",
+    //   description: "#454545",
+    //   price: "#000",
+    // },
+    // cart: {
+    //   box: "#e85e5e",
+    //   count: "#000",
+    // },
   },
 };
 

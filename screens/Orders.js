@@ -177,12 +177,12 @@ const OrdersScreen = ({navigation}) => {
         overlayStyle={styles.warningOverlayStyle}
       >
         <View style={styles.warningContainer}>
-          <Text style={styles.warningTitle}>Warning</Text>
-          <Text style={styles.warningContent}>{warningContent}</Text>
+          <Text style={[styles.warningTitle, {color:colors.accent}]}>Warning</Text>
+          <Text style={[styles.warningContent,{color:colors.text}]}>{warningContent}</Text>
           <Button 
             title="Ok" 
             onPress={()=> setShowWarningOverlay(false)}
-            buttonStyle={styles.okButtonStyle}
+            buttonStyle={[styles.okButtonStyle,{backgroundColor:colors.accent}]}
             titleStyle={styles.okButtonTextStyle}
             containerStyle={styles.okButtonContainerStyle}
           />
@@ -196,9 +196,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-  },
-  checkOutBtn:{
-    // backgroundColor:"#5e0a9c"
   },
   leftColumn: {
     flex: 3,
@@ -277,34 +274,35 @@ const styles = StyleSheet.create({
   warningOverlayStyle:{
     width:512,
     height:180,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: "rgba(3, 3, 3, 0.8)",
     borderRadius: 10,
     padding: 20,
   },
   warningContainer: {
     alignItems: "flex-start",
+    marginHorizontal:10
   },
   warningTitle: {
-    color: "#fff",
     fontSize: 24,
     marginBottom: 10,
   },
   warningContent: {
-    color: "#fff",
+    // color: "#fff",
     fontSize: 16,
     textAlign: "center",
     marginBottom: 20,
   },
   okButtonContainerStyle:{
+    marginTop:10,
     alignSelf:"flex-end"
   },
   okButtonStyle: {
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     borderRadius: 20,
     width: 100,
   },
   okButtonTextStyle: {
-    color: "black",
+    color: "white",
     fontSize: 16,
   },
 });
