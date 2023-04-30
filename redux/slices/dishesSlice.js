@@ -9,6 +9,7 @@ const dishesSlice = createSlice({
   initialState,
   reducers: {
     setDishes: (state, action) => {
+      console.log("payload is", action.payload);
       state.dishes = action.payload;
     }
   },
