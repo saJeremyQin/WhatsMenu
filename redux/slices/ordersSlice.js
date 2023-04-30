@@ -34,7 +34,6 @@ const ordersSlice = createSlice({
         state.currentOrderId=orderId;
         state.currentTable=action.payload.tableNumber;
         state.orders.push(newOrder);
-        console.log("state after create is", state);
       },
       addDishToShoppingCart: (state, action) => {
         const { currentOrderId: orderId, currentTable } = state;

@@ -25,6 +25,8 @@ const OrdersScreen = ({navigation}) => {
   const {colors} = THEME;
   const {isReturningDish} = useContext(ReturningDishContext);
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
+  const [showWarningOverlay, setShowWarningOverlay] = useState(false);
+  const [warningContent, setWarningContent] = useState('');
 
   const receiptViewRef = useRef(null);
   // Write the logic of menuScreen
@@ -53,11 +55,15 @@ const OrdersScreen = ({navigation}) => {
   const btnCheckOutHandler = () => {
     // console.log("isReturningDish in Orders is", isReturningDish);
     if(total === 0) {
-      Alert.alert("Warning", "No placed dishes to check out");
+      // Alert.alert("Warning", "No placed dishes to check out");
+      setWarningContent("No placed dishes to check out");
+      setShowWarningOverlay(true);
       return ;
     }
     if(isReturningDish) {
-      Alert.alert("Warning", "You are returning dish, can't check out!");
+      // Alert.alert("Warning", "You are returning dish, can't check out!");
+      setWarningContent("You are returning dish, can't check out!");
+      setShowWarningOverlay(true);
       return ;
     } 
     setShowReceiptDialog(true); 
@@ -166,6 +172,22 @@ const OrdersScreen = ({navigation}) => {
           <Button title="CheckOut" onPress={() => handleReceiptCheckout()}buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}/>
         </View>
       </Overlay>
+      <Overlay
+        isVisible={showWarningOverlay}
+        overlayStyle={styles.warningOverlayStyle}
+      >
+        <View style={styles.warningContainer}>
+          <Text style={styles.warningTitle}>Warning</Text>
+          <Text style={styles.warningContent}>{warningContent}</Text>
+          <Button 
+            title="Ok" 
+            onPress={()=> setShowWarningOverlay(false)}
+            buttonStyle={styles.okButtonStyle}
+            titleStyle={styles.okButtonTextStyle}
+            containerStyle={styles.okButtonContainerStyle}
+          />
+          </View>
+      </Overlay>
     </View>
   );
 }
@@ -203,9 +225,6 @@ const styles = StyleSheet.create({
     alignItems:"center"
   },
   dishesList: {
-    // height: 700,
-    // flexGrow: 0,
-    // flex:1,
     marginTop:10,
     paddingHorizontal: 10,
     // alignItems:"flex-start"
@@ -213,28 +232,12 @@ const styles = StyleSheet.create({
   rightColumn: {
     flex: 2,
     backgroundColor: '#eee',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // paddingHorizontal:10
     height: Dimensions.get("window").height-120,
     overflow:"hidden"
   },
-  orderplaced_img:{
-    width:320,
-    height:246
-  },
   flatList:{
-    // flexGrow: 0,
     marginTop:30,
     width:"80%"
-  },
-  receipt_container:{
-    flex:1,
-    width:"80%",
-    height:"80%",
-    justifyContent:"center",
-    alignItems:"center",
-    backgroundColor:"green"
   },
   overlayStyle:{
     width:512,
@@ -255,14 +258,7 @@ const styles = StyleSheet.create({
     height:600,
     padding: 10,
     borderRadius: 10,
-    // backgroundColor: 'pink',
-    // elevation:5
   },  
-  // dialogTitle: {
-  //   fontSize: 18,
-  //   fontWeight: 'bold',
-  //   marginBottom: 20,
-  // },
   receiptView:{
     flex:1
   },
@@ -278,6 +274,40 @@ const styles = StyleSheet.create({
   checkOutBtn: {
     width:100
   },
+  warningOverlayStyle:{
+    width:512,
+    height:180,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    borderRadius: 10,
+    padding: 20,
+  },
+  warningContainer: {
+    alignItems: "flex-start",
+  },
+  warningTitle: {
+    color: "#fff",
+    fontSize: 24,
+    marginBottom: 10,
+  },
+  warningContent: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  okButtonContainerStyle:{
+    alignSelf:"flex-end"
+  },
+  okButtonStyle: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    width: 100,
+  },
+  okButtonTextStyle: {
+    color: "black",
+    fontSize: 16,
+  },
 });
+  
 
 export default OrdersScreen;
