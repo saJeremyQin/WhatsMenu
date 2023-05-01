@@ -18,9 +18,12 @@ const TablesScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
 
-  const [showDialog, setShowDialog] = useState(false);
+  const [showNumbersOfDiners, setShowNumbersOfDiners] = useState(false);
   const [tableNumber, setTableNumber] = useState(null);
   const [numberOfDiners, setNumberOfDiners] = useState(null);
+  const [showWarningOverlay, setShowWarningOverlay] = useState(false);
+  const [warningContent, setWarningContent] = useState('');
+
 
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);
@@ -29,8 +32,9 @@ const TablesScreen = ({navigation}) => {
     client.request(DISHES_QUERY).then((data) => {
       dispatch(setDishes(data.dishes));
     }).catch((error) => {
-      console.log('API call failed:', error);
-      Alert.alert('Network Error', 'There was an issue fetching data from the server. Please check your internet connection and try again.', [{ text: 'OK' }]);
+      // console.log('API call failed:', error);
+      setWarningContent("Network issue! Please check your internet connection.");
+      setShowWarningOverlay(true);
     });
   }, []);
   
@@ -43,7 +47,7 @@ const TablesScreen = ({navigation}) => {
   const handleTableCardClick = (tableNumber) => {
     const tableOrder = orders.find(order => order.tableNumber === tableNumber);
     !tableOrder 
-      ? (setTableNumber(tableNumber), setShowDialog(true))
+      ? (setTableNumber(tableNumber), setShowNumbersOfDiners(true))
       : (dispatch(resumeOrder({tableNumber})), navigation.navigate("Orders"))
   };
 
@@ -55,26 +59,11 @@ const TablesScreen = ({navigation}) => {
         numberOfDiners
       })
     );
-    setShowDialog(false);
+    setShowNumbersOfDiners(false);
     navigation.navigate("Orders");
   };
 
   const renderTableItem = ({item}) => {
-    // const tableOrder = orders.find(order => order.tableNumber === item);
-    // let totalAmount=0;
-    // if(tableOrder) {
-    //   // calculate the ongoing order totalAmount, this can be encapsulated in a function.
-    //   totalAmount = tableOrder?.ongoingDishesSections.reduce(
-    //     (acc, section) =>
-    //       acc + 
-    //       section.dishesOngoing.reduce(
-    //         (acc, dish) =>
-    //           acc + getDishById(dish.dishId)?.price * dish.dishQuantity,
-    //           0
-    //       ),
-    //     0
-    //   );
-    // };
 
     return (
       <TableCard 
@@ -83,23 +72,6 @@ const TablesScreen = ({navigation}) => {
       />    
     )
   };
-
-  // const validateNumberInput = (value) => {
-  //   const parsedValue = parseInt(value, 10);
-  //   if (isNaN(parsedValue)) {
-  //     // if the input value is not a number, return an empty string
-  //     return '';
-  //   }
-  //   // clamp the parsed value to the range [0, 30]
-  //   const clampedValue = Math.min(Math.max(parsedValue, 0), 30);
-  //   // if the clamped value is different from the original input, update the input value
-  //   if (clampedValue !== parsedValue) {
-  //     return clampedValue.toString();
-  //   }
-  //   // if the input value is already within the range [0, 30], return it as is
-  //   return value;
-  // };
-  
 
 
   return (
@@ -126,8 +98,8 @@ const TablesScreen = ({navigation}) => {
         // itemStyle={{ backgroundColor: 'pink', borderRadius: 8, padding: 16 }}
       />
       <Overlay 
-        isVisible={showDialog} 
-        onBackdropPress={() => setShowDialog(false)}
+        isVisible={showNumbersOfDiners} 
+        onBackdropPress={() => setShowNumbersOfDiners(false)}
         overlayStyle={[styles.overlayStyle,{backgroundColor:colors.background}]}
       >
         <View style={[styles.dialogContainer,{backgroundColor:colors.brightBackground}]}>
@@ -140,10 +112,26 @@ const TablesScreen = ({navigation}) => {
             inputContainerStyle={{borderBottomWidth: 0}} // add this line
           />
           <View style={styles.dialogButtonsContainer}>
-            <Button title="Cancel" onPress={() => setShowDialog(false)} buttonStyle={[styles.cancelButton,{backgroundColor:colors.darkText}]}/>
+            <Button title="Cancel" onPress={() => setShowNumbersOfDiners(false)} buttonStyle={[styles.cancelButton,{backgroundColor:colors.darkText}]}/>
             <Button title="Ok" onPress={handleDialogSubmit} buttonStyle={[styles.okButton, {backgroundColor:colors.accent}]}/>
           </View>
         </View>
+      </Overlay>
+      <Overlay
+        isVisible={showWarningOverlay}
+        overlayStyle={styles.warningOverlayStyle}
+      >
+        <View style={styles.warningContainer}>
+          <Text style={[styles.warningTitle, {color:colors.accent}]}>Warning</Text>
+          <Text style={[styles.warningContent,{color:colors.text}]}>{warningContent}</Text>
+          <Button 
+            title="Ok" 
+            onPress={()=> setShowWarningOverlay(false)}
+            buttonStyle={[styles.okButtonStyle,{backgroundColor:colors.accent}]}
+            titleStyle={styles.okButtonTextStyle}
+            containerStyle={styles.okButtonContainerStyle}
+          />
+          </View>
       </Overlay>
     </View>
   );
@@ -219,6 +207,40 @@ const styles=StyleSheet.create({
   },
   okButton: {
     width:80
+  },
+  warningOverlayStyle:{
+    width:512,
+    height:180,
+    backgroundColor: "rgba(3, 3, 3, 0.8)",
+    borderRadius: 10,
+    padding: 20,
+  },
+  warningContainer: {
+    alignItems: "flex-start",
+    marginHorizontal:10
+  },
+  warningTitle: {
+    fontSize: 24,
+    marginBottom: 10,
+  },
+  warningContent: {
+    // color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  okButtonContainerStyle:{
+    marginTop:10,
+    alignSelf:"flex-end"
+  },
+  okButtonStyle: {
+    // backgroundColor: "#fff",
+    borderRadius: 20,
+    width: 100,
+  },
+  okButtonTextStyle: {
+    color: "white",
+    fontSize: 16,
   },
 });
 
