@@ -167,7 +167,6 @@ const styles=StyleSheet.create({
     padding: 16 
   },
   overlayStyle: {
-    // backgroundColor: '#f0f0f0',
     borderRadius: 20,
     padding: 15,
     shadowColor: '#000',
@@ -184,8 +183,6 @@ const styles=StyleSheet.create({
     borderRadius: 15,
     // backgroundColor: 'white',
     elevation:5,
-    // borderColor: 'red', // add this line to confirm if the line is the border
-    // borderWidth: 1, 
   },
   dialogTitle: {
     fontSize: 18,
@@ -194,7 +191,6 @@ const styles=StyleSheet.create({
   },
   input:{
     borderWidth: 1,
-    // borderColor: '#D3D3D3',
     borderRadius: 5,
     paddingLeft:5,
   },
