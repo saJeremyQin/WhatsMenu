@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sajeremyqin.whatsMenu"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a5daf7de-439f-4a30-af2c-15f1832359e3"
+      }
+    },
+    "owner": "sajeremyqin"
   }
 }
