@@ -132,8 +132,12 @@ const ordersSlice = createSlice({
         }    
       },
       checkOutOrder: (state, action) => {
-        const { currentOrderId, currentTable } = state;
-        state.orders.filter((order) => !(order.id === currentOrderId && order.tableNumber === currentTable));
+        const { currentOrderId:orderId, currentTable } = state;
+        const orderIndex = state.orders.findIndex((order) => order.id === orderId && order.tableNumber === currentTable);
+        if (orderIndex === -1) return;
+        state.orders.splice(orderIndex,1);
+        // state.orders.filter((order) => !(order.id === currentOrderId && order.tableNumber === currentTable));
+
         state.currentOrderId = null;
         state.currentTable = 0;
         console.log("orders are", state.orders);
