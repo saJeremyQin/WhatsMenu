@@ -6,7 +6,8 @@ import RootNavigator from './navigation/RootNavigator';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { THEME } from './globals/constants';
-
+import { client } from './globals/netRequest';
+import { ApolloProvider } from '@apollo/client';
 
 
 export default function App() {
@@ -26,10 +27,12 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <StatusBar backgroundColor={colors.darkBG} />
-      <View style={styles.container}>    
-        <RootNavigator />
-      </View>
+      <ApolloProvider client={client}>
+        <StatusBar backgroundColor={colors.darkBG} />
+        <View style={styles.container}>    
+          <RootNavigator />
+        </View>
+      </ApolloProvider>
     </Provider>
   );
 }

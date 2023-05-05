@@ -5,15 +5,16 @@ import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSli
 import { setDishes, selectDishes } from "../redux/slices/dishesSlice";
 import { Overlay, Button, Input, Divider, colors } from "react-native-elements";
 import { client, DISHES_QUERY } from "../globals/netRequest";
-import { DISH_TYPES } from "../globals/constants";
 import TableCard from "../components/TableCard";
 import { THEME } from '../globals/constants';
+import { useQuery } from "@apollo/client";
 
 // Keep it a pure function, variable read only is ok.
 const numOfTables = 30;
 
 const TablesScreen = ({navigation}) => {
   const { colors } = THEME;
+  const { loading, error, data } = useQuery(DISHES_QUERY);
 
   const dispatch = useDispatch();
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
@@ -28,15 +29,25 @@ const TablesScreen = ({navigation}) => {
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);
 
+  // useEffect(() => {
+  //   client.request(DISHES_QUERY).then((data) => {
+  //     dispatch(setDishes(data.dishes));
+  //   }).catch((error) => {
+  //     setWarningContent("Network issue! Please check your internet connection.");
+  //     setShowWarningOverlay(true);
+  //   });
+  // }, []);
+
   useEffect(() => {
-    client.request(DISHES_QUERY).then((data) => {
+    if (data) {
       dispatch(setDishes(data.dishes));
-    }).catch((error) => {
-      // console.log('API call failed:', error);
-      setWarningContent("Network issue! Please check your internet connection.");
-      setShowWarningOverlay(true);
-    });
-  }, []);
+    }
+  }, [data, dispatch]);
+
+  if(error) {
+    setWarningContent("Network issue! Please check your internet connection.");
+    setShowWarningOverlay(true);
+  };
   
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);
