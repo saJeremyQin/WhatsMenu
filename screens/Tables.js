@@ -1,5 +1,5 @@
 import React,{ useEffect,useState } from "react";
-import { StyleSheet, View, Text, Image, FlatList, Alert } from "react-native";
+import { StyleSheet, View, Text, Image, FlatList, Alert, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
 import { setDishes, selectDishes } from "../redux/slices/dishesSlice";
@@ -24,6 +24,12 @@ const TablesScreen = ({navigation}) => {
   const [numberOfDiners, setNumberOfDiners] = useState(null);
   const [showWarningOverlay, setShowWarningOverlay] = useState(false);
   const [warningContent, setWarningContent] = useState('');
+
+  //1280*900 on Huawei M3
+  // const width = Dimensions.get('window').width;
+  // const height = Dimensions.get('window').height;
+  // console.log("screen width is", width);     
+  // console.log("screen height is", height);
 
 
   const orders = useSelector(selectOrders);
