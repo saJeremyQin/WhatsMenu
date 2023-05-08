@@ -5,10 +5,10 @@ import { useSelector,useDispatch } from "react-redux";
 import { selectTotalAmountByTableNumber } from "../redux/slices/ordersSlice";
 import { useNavigation } from "@react-navigation/native";
 import HighlightedTable from "./HighlightedTable";
-import { THEME } from "../globals/constants";
+import { THEME, windowHeight,windowWidth } from "../globals/constants";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const cardSize = 180;
+// const cardSize = windowWidth > 960 ? 180 : 150;
 
 // React.memo to prevent unnecessary re-renders if the parent component re-renders but the props of TableCard component do not change.
 const TableCard = React.memo(({tableNumber,onTableCardClick}) => {
@@ -47,16 +47,21 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    marginVertical:20,
-    marginHorizontal:15,
-    borderRadius: 10,
+    // marginVertical:20,
+    marginVertical: 0.03*windowHeight,
+    // marginHorizontal:15,
+    marginHorizontal:0.02*windowWidth,
+    // borderRadius: 10,
+    borderRadius: 0.01*windowWidth
   },
   amount:{
     fontSize:22,
   },
   image:{
-    width: 128,
-    height:128
+    // width: 128,
+    width:0.12*windowWidth,
+    height:0.12*windowWidth,
+    // height:128
   },
   number:{
     fontSize:22,
@@ -65,7 +70,8 @@ const styles = StyleSheet.create({
     // because of transparent
   },
   highlightedCard: {
-    borderRadius:10,
+    // borderRadius:10,
+    borderRadius:0.01*windowWidth,
     overflow: "hidden"
   },
   tableStyle: {

@@ -1,14 +1,20 @@
+import { Dimensions } from 'react-native';
+
 // Currency
 export const CURRENCY = { name: "AUD", sign: "$" };
 
 // Dish Types
 export const DISH_TYPES = [
-    { id: 1, title: "Starters", slug: "starter" },
-    { id: 2, title: "Main Courses", slug: "main" },
-    { id: 3, title: "Drinks", slug: "drinks" },
-    { id: 4, title: "Desserts", slug: "dessert" },
-  ];
-  
+  { id: 1, title: "Starters", slug: "starter" },
+  { id: 2, title: "Main Courses", slug: "main" },
+  { id: 3, title: "Drinks", slug: "drinks" },
+  { id: 4, title: "Desserts", slug: "dessert" },
+];
+
+// windowWidth, windowHeight
+export const windowWidth = Dimensions.get('window').width;
+export const windowHeight = Dimensions.get('window').height;
+
 // Theme
 export const THEME = {
   colors: {

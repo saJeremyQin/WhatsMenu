@@ -9,7 +9,7 @@ import {
   selectDishQuantityByIdWrapper,
   removeDishFromShoppingCart
  } from "../redux/slices/ordersSlice";
-import { THEME } from "../globals/constants";
+import { THEME, windowHeight,windowWidth} from "../globals/constants";
 
 const CartDish = props => {
   const {colors} = THEME;
@@ -73,37 +73,48 @@ const styles = StyleSheet.create({
       flexDirection:"row",
       justifyContent:"space-between",
       alignItems:"center",
-      marginVertical:10,
+      // marginVertical:10,
+      marginVertical:0.015*windowHeight,
     },
     mainContainer: {
       overflow: "hidden",
       flexDirection: "row",
       alignItems: "center",
-      height: 90,
+      // height: 90,
+      height:0.12*windowHeight,
       width: "80%",
       borderWidth: 1,
-      borderRadius: 15,
+      // borderRadius: 15,
+      borderRadius:0.015*windowWidth,
     },
     dishImg: {
-      width: 90,
-      height: 90,
+      // width: 90,
+      width:0.12*windowHeight,
+      // height: 90,
+      height:0.12*windowHeight
     },
     dishInfoContainer: {
-      height: 90,
+      // height: 90,
+      height:0.12*windowHeight,
       alignItems: "flex-start",
       justifyContent: "space-around",
-      paddingLeft: 10,
+      // paddingLeft: 10,
+      paddingLeft:0.01*windowWidth,
     },
     deleteContainer: {
-      width:60,
+      // width:60,
+      width:0.05*windowWidth,
       justifyContent:"center",
       alignItems:"center",
       // backgroundColor:"purple"
     },
     deleteBtn:{
-      width:36,
-      height:36,
-      borderRadius:18,
+      // width:36,
+      width:0.04*windowWidth,
+      height:0.04*windowWidth,
+      // height:36,
+      // borderRadius:18,
+      borderRadius:0.02*windowWidth,
       justifyContent:"center",
       alignItems:"center"
     },
@@ -117,8 +128,10 @@ const styles = StyleSheet.create({
       position: "absolute",
       justifyContent: "center",
       alignItems: "center",
-      right: 15,
-      borderRadius: 15,
+      // right: 15,
+      right:0.01*windowWidth,
+      // borderRadius: 15,
+      borderRadius:0.01*windowWidth
     },
 });
 

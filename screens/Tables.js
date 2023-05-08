@@ -6,7 +6,7 @@ import { setDishes, selectDishes } from "../redux/slices/dishesSlice";
 import { Overlay, Button, Input, Divider, colors } from "react-native-elements";
 import { client, DISHES_QUERY } from "../globals/netRequest";
 import TableCard from "../components/TableCard";
-import { THEME } from '../globals/constants';
+import { THEME, windowWidth,windowHeight } from '../globals/constants';
 import { useQuery } from "@apollo/client";
 
 // Keep it a pure function, variable read only is ok.
@@ -26,8 +26,8 @@ const TablesScreen = ({navigation}) => {
   const [warningContent, setWarningContent] = useState('');
 
   //1280*900 on Huawei M3 ???
-  const { width, height } = Dimensions.get('window');
-  console.log(`Screen dimensions: ${width} x ${height}`);
+  // const { width, height } = Dimensions.get('window');
+  // console.log(`Screen dimensions: ${width} x ${height}`);
 
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);
@@ -154,17 +154,19 @@ const TablesScreen = ({navigation}) => {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor:"#f0f0f0",
     justifyContent:"center",
   },
   headContainer:{
     flex:1,
     flexDirection:"row",
-    paddingHorizontal:40,
-    marginTop:20,
+    // paddingHorizontal:40,
+    paddingHorizontal: 0.05*windowWidth,
+    // marginTop:20,
+    marginTop: 0.02*windowHeight,
     justifyContent:"flex-start",
     alignItems:"center",
-    minHeight:80,
+    // minHeight:80,
+    minHeight:0.1*windowHeight
   },
   headerImage:{
     aspectRatio: 1,
@@ -172,16 +174,21 @@ const styles=StyleSheet.create({
   },
   headerText:{
     fontSize:24,
-    minHeight:50,
-    paddingLeft:30,
-    lineHeight:60,
+    // minHeight:50,
+    minHeight: 0.06*windowHeight,
+    // paddingLeft:30,
+    paddingLeft:0.04*windowWidth,
+    // lineHeight:60,
+    lineHeight:0.07*windowHeight
   },
   flatList:{ 
     padding: 16 
   },
   overlayStyle: {
-    borderRadius: 20,
-    padding: 15,
+    // borderRadius: 20,
+    borderRadius: 0.02*windowWidth,
+    // padding: 15,
+    padding: 0.02*windowHeight,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -192,60 +199,76 @@ const styles=StyleSheet.create({
     elevation: 5,
   },
   dialogContainer: {
-    padding: 20,
-    borderRadius: 15,
-    // backgroundColor: 'white',
+    // padding: 20,
+    padding:0.02*windowHeight,
+    // borderRadius: 15,
+    borderRadius:0.02*windowHeight,
     elevation:5,
+    // backgroundColor:"pink"
   },
   dialogTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
+    // marginBottom: 20,
+    marginBottom:0.03*windowHeight
   },
   input:{
     borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft:5,
+    // borderRadius: 5,
+    borderRadius:0.01*windowHeight,
+    paddingLeft:0.01*windowHeight,
   },
   dialogButtonsContainer: {
     flexDirection: 'row',
     justifyContent: "space-evenly",
   },
   cancelButton: {
-    width:80,
+    // width:80,
+    width: 0.08*windowWidth,
   },
   okButton: {
-    width:80
+    // width:80
+    width:0.08*windowWidth,
   },
   warningOverlayStyle:{
-    width:512,
-    height:180,
+    // width:512,
+    width:0.4*windowWidth,
+    // height:180,
+    height:0.25*windowHeight,
     backgroundColor: "rgba(3, 3, 3, 0.8)",
-    borderRadius: 10,
-    padding: 20,
+    // borderRadius: 10,
+    borderRadius:0.02*windowHeight,
+    // padding: 20,
+    padding:0.03*windowHeight
   },
   warningContainer: {
     alignItems: "flex-start",
-    marginHorizontal:10
+    // marginHorizontal:10
+    marginHorizontal:0.01*windowWidth,
   },
   warningTitle: {
     fontSize: 24,
-    marginBottom: 10,
+    // marginBottom: 10,
+    marginBottom:0.01*windowHeight,
   },
   warningContent: {
     // color: "#fff",
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 20,
+    // marginBottom: 20,
+    marginBottom:0.02*windowHeight,
   },
   okButtonContainerStyle:{
-    marginTop:10,
+    // marginTop:10,
+    marginTop:0.01*windowHeight,
     alignSelf:"flex-end"
   },
   okButtonStyle: {
     // backgroundColor: "#fff",
-    borderRadius: 20,
-    width: 100,
+    // borderRadius: 20,
+    borderRadius:0.03*windowHeight,
+    // width: 100,
+    width:0.12*windowWidth
   },
   okButtonTextStyle: {
     color: "white",

@@ -15,7 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Print from 'expo-print';
 import { WebView } from 'react-native-webview';
 import { ReturningDishContext } from '../context/appContext';
-import { THEME, restaurant } from '../globals/constants';
+import { THEME, restaurant, windowHeight, windowWidth } from '../globals/constants';
 
 const ReceiptView = React.forwardRef(({edit}, ref) => {
   const {colors} = THEME;
@@ -343,8 +343,10 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    paddingHorizontal: 20,
-    margin: 10,
+    // paddingHorizontal: 20,
+    paddingHorizontal:0.02*windowWidth,
+    // margin: 10,
+    margin:0.01*windowWidth,
     width:"100%",
   },
   noPlacedDishesText: {
@@ -375,8 +377,9 @@ const styles = StyleSheet.create({
     alignItems:"center"
   },
   logo: {
-    width: 100,
-    height: 100,
+    // width: 100,
+    width:0.1*windowWidth,
+    height: 0.1*windowWidth,
     resizeMode: 'contain',
   },
   company: {
@@ -384,13 +387,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   address: {
-    marginTop: 5,
+    // marginTop: 5,
+    marginTop:0.01*windowHeight,
     fontSize: 14,
   },
   dishesSections: {
-    marginTop: 10,
-    paddingTop:10,
-    paddingHorizontal:5,
+    // marginTop: 10,
+    marginTop:0.01*windowHeight,
+    // paddingTop:10,
+    paddingTop:0.01*windowHeight,
+    // paddingHorizontal:5,
+    paddingHorizontal:0.01*windowWidth,
     borderTopWidth: 1,
     borderBottomWidth:1,
     borderColor: '#ccc',
@@ -405,31 +412,31 @@ const styles = StyleSheet.create({
   dishItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    // marginBottom: 5,
+    marginBottom:0.01*windowHeight,
     alignItems:"center",
     width:"100%",
-    // height:80,
-    // backgroundColor:"pink"
   },
   itemHeader: {
     flex: 1,
     fontWeight: 'bold',
-    // backgroundColor:"red"
   },
   quantityHeader: {
-    width: 50,
+    // width: 50,
+    width:0.05*windowWidth,
     fontWeight: 'bold',
     textAlign: 'center',
-    // backgroundColor:"blue"
   },
   priceHeader: {
-    width: 70,
+    // width: 70,
+    width: 0.08*windowWidth,
     fontWeight: 'bold',
     textAlign: 'center',
     // backgroundColor:"green"
   },  
   optHeader:{
-    width: 60,
+    // width: 60,
+    width:0.06*windowWidth,
     fontWeight: 'bold',
     textAlign: 'center',
     // backgroundColor:"purple"
@@ -439,27 +446,31 @@ const styles = StyleSheet.create({
     // backgroundColor:"red"
   },
   quantity: {
-    width: 50,
+    // width: 50,
+    width:0.05*windowWidth,
     textAlign: 'center',
     // backgroundColor:"blue"
   },
   price: {
-    width: 70,
+    // width: 70,
+    width:0.08*windowWidth,
     textAlign: 'center',
     // backgroundColor:"green"
   },
   delete_container: {
-    width:60,
+    // width:60,
+    width:0.06*windowWidth,
     justifyContent:"center",
     alignItems:"center",
     // backgroundColor:"purple"
   },
   delete_btn:{
-    width:30,
-    height:30,
-    borderRadius:15,
-    // backgroundColor:"#f00",
-    // marginLeft:40,
+    // width:30,
+    width:0.03*windowWidth,
+    // height:30,
+    height:0.03*windowWidth,
+    // borderRadius:15,
+    borderRadius:0.015*windowWidth,
     justifyContent:"center",
     alignItems:"center"
   },
@@ -470,23 +481,28 @@ const styles = StyleSheet.create({
     alignSelf:"flex-end"
   },
   separator:{
-    paddingTop:5,
+    // paddingTop:5,
+    paddingTop:0.01*windowHeight,
     color:"#ccc"
   },
   footer: {
     alignSelf:"flex-end",
-    marginTop: 20,
+    // marginTop: 20,
+    marginTop:0.03*windowHeight,
     borderTopWidth: 1,
     borderColor: '#ccc',
-    paddingTop: 10,
+    // paddingTop: 10,
+    paddingTop:0.01*windowHeight,
   },
   subtotal: {
     textAlign: 'right',
-    marginBottom: 5,
+    // marginBottom: 5,
+    marginBottom:0.01*windowHeight,
   },
   tax: {
     textAlign: 'right',
-    marginBottom: 5,
+    // marginBottom: 5,
+    marginBottom: 0.01*windowHeight,
   },
   total: {
     textAlign: 'right',

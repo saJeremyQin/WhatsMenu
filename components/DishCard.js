@@ -7,10 +7,10 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useSelector,useDispatch } from "react-redux";
 import { selectCurrentOrder, selectCurrentTable } from "../redux/slices/ordersSlice";
 import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slices/ordersSlice";
-import { CURRENCY, THEME, blankImage } from "../globals/constants";
+import { CURRENCY, THEME, blankImage,windowHeight,windowWidth } from "../globals/constants";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const cardSize = 180;
+const cardSize = windowWidth > 960 ? 180 : 150;
 
 const DishCard = ({dish}) => {
   const {colors} = THEME;
@@ -66,9 +66,6 @@ const DishCard = ({dish}) => {
         <Text style={[styles.title, { color: colors.darkText }]}>
           {dishName || "N/A"}
         </Text>
-        {/* <Text style={[styles.description, { color: "#F0F0F0" }]}>
-          {dishDescription || "N/A"}
-        </Text> */}
         <Text style={[styles.price, { color: colors.darkText }]}>
           {CURRENCY.sign} {dish.price || "N/A"}
         </Text>
@@ -82,7 +79,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 20,
+    // margin: 20,
+    margin: 0.02*windowWidth
   },
   image: {
     width: cardSize,
@@ -101,7 +99,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    borderRadius: 10,
+    // borderRadius: 10,
+    borderRadius: 0.01*windowWidth,
     overflow: "hidden",
   },
   title: {

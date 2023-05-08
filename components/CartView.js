@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-elements";
-import { THEME } from "../globals/constants";
+import { THEME, windowHeight,windowWidth } from "../globals/constants";
 import { selectCurrentOrder, placeOrder } from "../redux/slices/ordersSlice";
 import CartDish from "./CartDish";
 
@@ -72,8 +72,10 @@ const styles=StyleSheet.create({
         fontSize: 22
     },
     flatList: {
-        marginTop:20,
-        paddingHorizontal: 10,
+        // marginTop:20,
+        marginTop: 0.03*windowHeight,
+        // paddingHorizontal: 10,
+        paddingHorizontal:0.01*windowWidth
     },
 })
 

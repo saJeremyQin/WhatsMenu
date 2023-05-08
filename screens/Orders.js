@@ -19,7 +19,7 @@ import {
 import { selectDishes, selectDishesByType } from "../redux/slices/dishesSlice";
 import OrdersTabView from "../navigation/OrdersTabView";
 import { DishTypeButton } from "../components/DishTypeButton";
-import { THEME, DISH_TYPES } from "../globals/constants";
+import { THEME, DISH_TYPES, windowHeight, windowWidth } from "../globals/constants";
 
 const OrdersScreen = ({navigation}) => {
   const {colors} = THEME;
@@ -204,44 +204,50 @@ const styles = StyleSheet.create({
   },
   dishesByTypeButtonContainer:{
     width:"100%",
-    height:80,
-    // flexGrow:0,
+    // height:80,
+    height: 0.15*windowHeight,
   },
   dishesByTypeContainer:{
     width:"100%",
   },
   dishTypeButtonList:{
     marginLeft:"8%",
-    paddingTop: 25,  
+    // paddingTop: 25,  
+    paddingTop: 0.04*windowHeight,
   },
   flatListContainer:{
     flex:1,
-    // paddingTop: 20,
-    // backgroundColor:"#f0f0f0",
     justifyContent:"center",
     alignItems:"center"
   },
   dishesList: {
-    marginTop:10,
-    paddingHorizontal: 10,
-    // alignItems:"flex-start"
+    // marginTop:10,
+    marginTop:0.15*windowHeight,
+    // paddingHorizontal: 10,
+    paddingHorizontal:0.01*windowWidth,
   },
   rightColumn: {
     flex: 2,
     backgroundColor: '#eee',
-    height: Dimensions.get("window").height-120,
+    // height: Dimensions.get("window").height-120,
+    height: windowHeight*0.9,
     overflow:"hidden"
   },
   flatList:{
-    marginTop:30,
+    // marginTop:30,
+    marginTop: 0.04*windowHeight,
     width:"80%"
   },
   overlayStyle:{
-    width:512,
-    height:680,
+    // width:512,
+    width: 0.6*windowWidth,
+    // height:680,
+    height:0.9*windowHeight,
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 15,
+    // borderRadius: 20,
+    borderRadius:0.02*windowWidth,
+    // padding: 15,
+    padding:0.015*windowWidth,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -252,54 +258,71 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   dialogContainer:{
-    height:600,
-    padding: 10,
-    borderRadius: 10,
+    // height:600,
+    height:0.8*windowHeight,
+    // padding: 10,
+    padding:0.01*windowWidth,
+    // borderRadius: 10,
+    borderRadius:0.01*windowWidth
   },  
   receiptView:{
     flex:1
   },
   dialogButtonsContainer: {
-    marginTop:10,
-    height:40,
+    // marginTop:10,
+    marginTop:0.015*windowHeight,
+    // height:40,
+    height:0.06*windowHeight,
     flexDirection: 'row',
     justifyContent: "space-evenly",
   },
   cancelBtn: {
-    width:100
+    // width:100
+    width:0.1*windowWidth,
   },
   checkOutBtn: {
-    width:100
+    // width:100,
+    width:0.1*windowWidth,
   },
   warningOverlayStyle:{
-    width:512,
-    height:180,
+    // width:512,
+    width:0.4*windowWidth,
+    // height:180,
+    height:0.25*windowHeight,
     backgroundColor: "rgba(3, 3, 3, 0.8)",
-    borderRadius: 10,
-    padding: 20,
+    // borderRadius: 10,
+    borderRadius:0.01*windowWidth,
+    // padding: 20,
+    padding:0.02*windowWidth,
   },
   warningContainer: {
     alignItems: "flex-start",
-    marginHorizontal:10
+    // marginHorizontal:10
+    marginHorizontal:0.01*windowWidth,
   },
   warningTitle: {
     fontSize: 24,
-    marginBottom: 10,
+    // marginBottom: 10,
+    marginBottom:0.01*windowWidth,
   },
   warningContent: {
     // color: "#fff",
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 20,
+    // marginBottom: 20,
+    marginBottom: 0.03*windowHeight,
   },
   okButtonContainerStyle:{
-    marginTop:10,
+    // marginTop:10,
+    marginTop:0.01*windowWidth,
     alignSelf:"flex-end"
   },
   okButtonStyle: {
     // backgroundColor: "#fff",
-    borderRadius: 20,
-    width: 100,
+    // borderRadius: 20,
+    borderRadius:0.02*windowWidth,
+    // width: 100,
+    width:0.1*windowWidth
   },
   okButtonTextStyle: {
     color: "white",

@@ -1,5 +1,5 @@
 import { Pressable, Text, StyleSheet } from "react-native";
-import { THEME } from "../globals/constants";
+import { THEME, windowHeight, windowWidth } from "../globals/constants";
 
 export function DishTypeButton({ title, slug, onPress, id, active }) {
   const {colors} = THEME;
@@ -27,10 +27,14 @@ export function DishTypeButton({ title, slug, onPress, id, active }) {
 
 const styles = StyleSheet.create({
   dishTypeBtn: {
-    marginHorizontal: 10,
-    height: 35,
-    paddingHorizontal: 15,
-    borderRadius: 30,
+    // marginHorizontal: 10,
+    marginHorizontal:0.01*windowWidth,
+    // height: 35,
+    height: 0.06*windowHeight,
+    // paddingHorizontal: 15,
+    paddingHorizontal:0.015*windowWidth,
+    // borderRadius: 30,
+    borderRadius:0.03*windowWidth,
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
