@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     // marginHorizontal: 10,
     marginHorizontal:0.01*windowWidth,
     // height: 35,
-    height: 0.06*windowHeight,
+    height: 0.05*windowHeight,
     // paddingHorizontal: 15,
     paddingHorizontal:0.015*windowWidth,
     // borderRadius: 30,

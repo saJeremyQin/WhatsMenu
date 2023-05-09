@@ -48,10 +48,10 @@ const CartView = ({onOrderPlaced}) => {
                 // disabled={orderPlaced}
                 titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
                 containerStyle={{
-                    marginVertical: 10,
+                    marginVertical: 0.01*windowHeight,
                     alignSelf: 'center', // center the button horizontally
                     position:"absolute",
-                    bottom:30
+                    bottom:0.04*windowHeight
                 }}
                 onPress={btnPlaceOrderHandler}
             />  

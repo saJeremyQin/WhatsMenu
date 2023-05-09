@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // margin: 20,
-    margin: 0.02*windowWidth
+    margin: 0.02*windowWidth,
+    // backgroundColor:"blue"
   },
   image: {
     width: cardSize,

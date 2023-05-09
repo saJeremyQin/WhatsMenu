@@ -205,15 +205,16 @@ const styles = StyleSheet.create({
   dishesByTypeButtonContainer:{
     width:"100%",
     // height:80,
-    height: 0.15*windowHeight,
+    height: 0.12*windowHeight,
+    // backgroundColor:"pink"
   },
   dishesByTypeContainer:{
     width:"100%",
   },
   dishTypeButtonList:{
-    marginLeft:"8%",
+    marginLeft:"7%",
     // paddingTop: 25,  
-    paddingTop: 0.04*windowHeight,
+    paddingTop: 0.02*windowHeight,
   },
   flatListContainer:{
     flex:1,
@@ -222,9 +223,10 @@ const styles = StyleSheet.create({
   },
   dishesList: {
     // marginTop:10,
-    marginTop:0.15*windowHeight,
+    marginTop:0.01*windowHeight,
     // paddingHorizontal: 10,
     paddingHorizontal:0.01*windowWidth,
+    // backgroundColor:"red"
   },
   rightColumn: {
     flex: 2,
@@ -270,7 +272,7 @@ const styles = StyleSheet.create({
   },
   dialogButtonsContainer: {
     // marginTop:10,
-    marginTop:0.015*windowHeight,
+    marginTop:0.01*windowHeight,
     // height:40,
     height:0.06*windowHeight,
     flexDirection: 'row',
