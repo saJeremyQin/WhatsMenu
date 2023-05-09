@@ -322,7 +322,7 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
                   marginVertical: 0.01*windowHeight,
                   alignSelf: 'center', // center the button horizontally
                   position:"absolute",
-                  bottom:0.04*windowHeight
+                  bottom:0.01*windowHeight
               }}
               onPress={btnReturnDishHandler}
             />
