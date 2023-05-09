@@ -2,11 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { StyleSheet, View, Text, FlatList, Image, Dimensions, Alert } from "react-native";
 import { Button, Divider, Overlay } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
-import CartDish from "../components/CartDish";
-import ReceiptView,{ generateReceiptHTML } from "../components/ReceiptView";
-import DishCard from "../components/DishCard";
 import * as Print from 'expo-print';
-import { ReturningDishContext } from "../context/appContext";
 
 import { 
   placeOrder, 
@@ -17,7 +13,14 @@ import {
   selectTotalAmountByTableNumber
 } from "../redux/slices/ordersSlice";
 import { selectDishes, selectDishesByType } from "../redux/slices/dishesSlice";
+import { ReturningDishContext } from "../context/appContext";
+
 import OrdersTabView from "../navigation/OrdersTabView";
+import CartDish from "../components/CartDish";
+import DishCard from "../components/DishCard";
+import ReceiptView,{ generateReceiptHTML } from "../components/ReceiptView";
+import WarningOverlay from "../components/WarningOverlay";
+
 import { DishTypeButton } from "../components/DishTypeButton";
 import { THEME, DISH_TYPES, windowHeight, windowWidth } from "../globals/constants";
 
@@ -172,7 +175,7 @@ const OrdersScreen = ({navigation}) => {
           <Button title="CheckOut" onPress={() => handleReceiptCheckout()}buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}/>
         </View>
       </Overlay>
-      <Overlay
+      {/* <Overlay
         isVisible={showWarningOverlay}
         overlayStyle={styles.warningOverlayStyle}
       >
@@ -187,7 +190,13 @@ const OrdersScreen = ({navigation}) => {
             containerStyle={styles.okButtonContainerStyle}
           />
           </View>
-      </Overlay>
+      </Overlay> */}
+      <WarningOverlay
+        isVisible={showWarningOverlay}
+        warningTitle="Warning"
+        warningContent={warningContent}
+        onPress={() => setShowWarningOverlay(false)}
+      />
     </View>
   );
 }

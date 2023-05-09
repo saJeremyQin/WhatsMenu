@@ -11,13 +11,6 @@ import { THEME } from './globals/constants';
 import { client } from './globals/netRequest';
 import { ApolloProvider } from '@apollo/client';
 
-// import { activateKeepAwake } from 'expo-keep-awake';
-// import { activateKeepAwake } from 'expo-dev-client';
-
-// if (__DEV__) {
-//   activateKeepAwake();
-//   activateKeepAwake();
-// }
 
 
 export default function App() {

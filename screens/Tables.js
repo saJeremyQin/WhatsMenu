@@ -8,6 +8,7 @@ import { client, DISHES_QUERY } from "../globals/netRequest";
 import TableCard from "../components/TableCard";
 import { THEME, windowWidth,windowHeight } from '../globals/constants';
 import { useQuery } from "@apollo/client";
+import WarningOverlay from "../components/WarningOverlay";
 
 // Keep it a pure function, variable read only is ok.
 const numOfTables = 30;
@@ -131,7 +132,7 @@ const TablesScreen = ({navigation}) => {
           </View>
         </View>
       </Overlay>
-      <Overlay
+      {/* <Overlay
         isVisible={showWarningOverlay}
         overlayStyle={styles.warningOverlayStyle}
       >
@@ -146,7 +147,13 @@ const TablesScreen = ({navigation}) => {
             containerStyle={styles.okButtonContainerStyle}
           />
           </View>
-      </Overlay>
+      </Overlay> */}
+      <WarningOverlay 
+        isVisible={showWarningOverlay} 
+        warningTitle="Warning" 
+        warningContent={warningContent} 
+        onPress={() => setShowWarningOverlay(false)}
+      />
     </View>
   );
 }
