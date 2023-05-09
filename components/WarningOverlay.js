@@ -3,10 +3,8 @@ import { Overlay, Button } from "react-native-elements";
 import { StyleSheet, View, Text } from "react-native";
 import { THEME, windowHeight, windowWidth } from "../globals/constants";
 
-
 const WarningOverlay = ({isVisible, warningTitle, warningContent, onPress}) => {
     const { colors } = THEME;
-    // console.log("warning content is", warningContent);
     return (
         <Overlay
             isVisible={isVisible}
