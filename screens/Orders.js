@@ -175,22 +175,6 @@ const OrdersScreen = ({navigation}) => {
           <Button title="CheckOut" onPress={() => handleReceiptCheckout()}buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}/>
         </View>
       </Overlay>
-      {/* <Overlay
-        isVisible={showWarningOverlay}
-        overlayStyle={styles.warningOverlayStyle}
-      >
-        <View style={styles.warningContainer}>
-          <Text style={[styles.warningTitle, {color:colors.accent}]}>Warning</Text>
-          <Text style={[styles.warningContent,{color:colors.text}]}>{warningContent}</Text>
-          <Button 
-            title="Ok" 
-            onPress={()=> setShowWarningOverlay(false)}
-            buttonStyle={[styles.okButtonStyle,{backgroundColor:colors.accent}]}
-            titleStyle={styles.okButtonTextStyle}
-            containerStyle={styles.okButtonContainerStyle}
-          />
-          </View>
-      </Overlay> */}
       <WarningOverlay
         isVisible={showWarningOverlay}
         warningTitle="Warning"

@@ -27,8 +27,8 @@ const TablesScreen = ({navigation}) => {
   const [warningContent, setWarningContent] = useState('');
 
   //1280*900 on Huawei M3 ???
-  // const { width, height } = Dimensions.get('window');
-  // console.log(`Screen dimensions: ${width} x ${height}`);
+  const { width, height } = Dimensions.get('screen');
+  console.log(`Screen dimensions: ${width} x ${height}`);
 
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);

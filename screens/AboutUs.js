@@ -18,19 +18,19 @@ const AboutUsScreen = () => {
       </Text>
       <View style={styles.linksContainer}>
         <Link
-          linkUrl="https://sumanbiswas.vercel.app/"
+          linkUrl="https://jeremyqin.vercel.app/"
           linkTitle="Everything You Need To Know"
         />
         <Link
-          linkUrl="https://sumanbiswas.vercel.app/"
+          linkUrl="https://JeremyQin.vercel.app/"
           linkTitle="Apply For Your Menu App"
         />
         <Link
-          linkUrl="https://sumanbiswas.vercel.app/"
+          linkUrl="https://JeremyQin.vercel.app/"
           linkTitle="Contact Me"
         />
         <Link
-          linkUrl="https://sumanbiswas.vercel.app/"
+          linkUrl="https://jeremyqin.vercel.app/"
           linkTitle="My Website"
         />
       </View>

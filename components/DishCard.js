@@ -10,7 +10,8 @@ import { addDishToShoppingCart,removeDishFromShoppingCart } from "../redux/slice
 import { CURRENCY, THEME, blankImage,windowHeight,windowWidth } from "../globals/constants";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const cardSize = windowWidth > 960 ? 180 : 150;
+// const cardSize = windowWidth > 960 ? 180 : 150;
+const cardSize = 0.15*windowWidth;
 
 const DishCard = ({dish}) => {
   const {colors} = THEME;
