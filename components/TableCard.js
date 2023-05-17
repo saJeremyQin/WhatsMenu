@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     // marginVertical:20,
-    marginVertical: 0.03*windowHeight,
+    marginVertical: 0.02*windowHeight,
     // marginHorizontal:15,
-    marginHorizontal:0.02*windowWidth,
+    marginHorizontal:0.01*windowWidth,
     // borderRadius: 10,
     borderRadius: 0.01*windowWidth
   },
   amount:{
-    fontSize:22,
+    fontSize:20,
   },
   image:{
     // width: 128,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     // height:128
   },
   number:{
-    fontSize:22,
+    fontSize:18,
   },
   defaultCard: {
     // because of transparent

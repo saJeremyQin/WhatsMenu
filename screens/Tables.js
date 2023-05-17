@@ -118,7 +118,7 @@ const TablesScreen = ({navigation}) => {
         overlayStyle={[styles.overlayStyle,{backgroundColor:colors.background}]}
       >
         <View style={[styles.dialogContainer,{backgroundColor:colors.brightBackground}]}>
-          <Text style={[styles.dialogTitle,{color:colors.accent}]}>Enter Number of Diners for Table {tableNumber}</Text>
+          <Text style={[styles.dialogTitle,{color:colors.accent}]}>Enter Number of Diners Table {tableNumber}</Text>
           <Input
             placeholder="Number of Diners"
             keyboardType="numeric"
@@ -127,27 +127,11 @@ const TablesScreen = ({navigation}) => {
             inputContainerStyle={{borderBottomWidth: 0}} // add this line
           />
           <View style={styles.dialogButtonsContainer}>
-            <Button title="Cancel" onPress={() => setShowNumbersOfDiners(false)} buttonStyle={[styles.cancelButton,{backgroundColor:colors.darkText}]}/>
-            <Button title="Ok" onPress={handleDialogSubmit} buttonStyle={[styles.okButton, {backgroundColor:colors.accent}]}/>
+            <Button title="Cancel" onPress={() => setShowNumbersOfDiners(false)} buttonStyle={[styles.cancelButton,{backgroundColor:colors.darkText}]} titleStyle={{fontSize:14}}/>
+            <Button title="Ok" onPress={handleDialogSubmit} buttonStyle={[styles.okButton, {backgroundColor:colors.accent}]} titleStyle={{fontSize:14}}/>
           </View>
         </View>
       </Overlay>
-      {/* <Overlay
-        isVisible={showWarningOverlay}
-        overlayStyle={styles.warningOverlayStyle}
-      >
-        <View style={styles.warningContainer}>
-          <Text style={[styles.warningTitle, {color:colors.accent}]}>Warning</Text>
-          <Text style={[styles.warningContent,{color:colors.text}]}>{warningContent}</Text>
-          <Button 
-            title="Ok" 
-            onPress={()=> setShowWarningOverlay(false)}
-            buttonStyle={[styles.okButtonStyle,{backgroundColor:colors.accent}]}
-            titleStyle={styles.okButtonTextStyle}
-            containerStyle={styles.okButtonContainerStyle}
-          />
-          </View>
-      </Overlay> */}
       <WarningOverlay 
         isVisible={showWarningOverlay} 
         warningTitle="Warning" 
@@ -169,7 +153,7 @@ const styles=StyleSheet.create({
     // paddingHorizontal:40,
     paddingHorizontal: 0.05*windowWidth,
     // marginTop:20,
-    marginTop: 0.02*windowHeight,
+    marginTop: 0.015*windowHeight,
     justifyContent:"flex-start",
     alignItems:"center",
     // minHeight:80,
@@ -180,11 +164,11 @@ const styles=StyleSheet.create({
     width: "5%",
   },
   headerText:{
-    fontSize:24,
+    fontSize:20,
     // minHeight:50,
-    minHeight: 0.06*windowHeight,
+    minHeight: 0.05*windowHeight,
     // paddingLeft:30,
-    paddingLeft:0.04*windowWidth,
+    paddingLeft:0.02*windowWidth,
     // lineHeight:60,
     lineHeight:0.07*windowHeight
   },
@@ -217,7 +201,7 @@ const styles=StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     // marginBottom: 20,
-    marginBottom:0.03*windowHeight
+    marginBottom:0.02*windowHeight
   },
   input:{
     borderWidth: 1,

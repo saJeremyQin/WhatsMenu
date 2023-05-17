@@ -22,7 +22,7 @@ const MainTabNavigator = () => {
           tabBarActiveTintColor: colors.bottomTab.active,                            //Text color of TarBarItem, Active
           tabBarInactiveTintColor:colors.bottomTab.inactive,                         //Text color of TarBarItem, Inactive
           tabBarLabelStyle: { 
-            fontSize: 20 
+            fontSize: 18 
           },
           tabBarStyle:{
             backgroundColor:colors.bottomTab.background
@@ -37,7 +37,7 @@ const MainTabNavigator = () => {
               iconName = 'spa'
           }
           color = focused ? colors.bottomTab.active : colors.bottomTab.inactive;
-          size = focused ? 28 : 24;
+          size = focused ? 22 : 18;
             return <FontAwesome5 name={iconName} size={size} color={color}/>;
           },
       })}

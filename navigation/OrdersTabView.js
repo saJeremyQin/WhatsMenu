@@ -40,6 +40,7 @@ const OrdersTabView = () => {
           color: index === 0 ? colors.bottomTab.active : colors.bottomTab.inactive 
         }}
         containerStyle={{
+          height:50,
           backgroundColor: index === 0 ? colors.bottomTab.inactivebackground : colors.bottomTab.background
         }}
       />
@@ -56,6 +57,7 @@ const OrdersTabView = () => {
           color: index === 1 ? colors.bottomTab.active : colors.bottomTab.inactive
         }}
         containerStyle={{ 
+          height:50,
           backgroundColor: index === 1 ? colors.bottomTab.inactivebackground : colors.bottomTab.background
         }}
       />

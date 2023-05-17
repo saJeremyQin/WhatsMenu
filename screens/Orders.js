@@ -137,7 +137,7 @@ const OrdersScreen = ({navigation}) => {
           dishesByType.length === 0 ? (
             <Text 
               style={{
-                fontSize:24,
+                fontSize:20,
                 color:colors.dialogPrimary
               }}
             >
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     width:"100%",
   },
   dishTypeButtonList:{
-    marginLeft:"7%",
+    marginLeft:"4%",
     // paddingTop: 25,  
     paddingTop: 0.02*windowHeight,
   },

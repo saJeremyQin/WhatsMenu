@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
   },
   dishTypeText: {
     fontWeight: "300",
-    fontSize:20
+    fontSize:18
   },
 });

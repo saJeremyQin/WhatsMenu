@@ -26,10 +26,6 @@ const AboutUsScreen = () => {
           linkTitle="Apply For Your Menu App"
         />
         <Link
-          linkUrl="https://JeremyQin.vercel.app/"
-          linkTitle="Contact Me"
-        />
-        <Link
           linkUrl="https://jeremyqin.vercel.app/"
           linkTitle="My Website"
         />
