@@ -3,7 +3,7 @@ import React,{ useState} from 'react';
 import CartView from '../components/CartView';
 import { Tab, Text, TabView } from '@rneui/themed';
 import ReceiptView from '../components/ReceiptView';
-import { THEME } from '../globals/constants';
+import { THEME, windowHeight } from '../globals/constants';
 
 
 const OrdersTabView = () => {
@@ -30,7 +30,7 @@ const OrdersTabView = () => {
       <Tab.Item
         title="Cart"
         titleStyle={{ 
-          fontSize: 16, 
+          fontSize: 14, 
           fontWeight: index === 0 ? 'bold' : 'normal',
           color: index === 0 ? colors.bottomTab.active : colors.bottomTab.inactive
         }}     
@@ -40,14 +40,15 @@ const OrdersTabView = () => {
           color: index === 0 ? colors.bottomTab.active : colors.bottomTab.inactive 
         }}
         containerStyle={{
-          height:50,
+          // height:50,
+          height:0.09*windowHeight,
           backgroundColor: index === 0 ? colors.bottomTab.inactivebackground : colors.bottomTab.background
         }}
       />
       <Tab.Item
         title="Receipt"
         titleStyle={{ 
-          fontSize: 16, 
+          fontSize: 14, 
           fontWeight: index === 1 ? 'bold' : 'normal',
           color: index === 1 ? colors.bottomTab.active : colors.bottomTab.inactive
         }}
@@ -57,7 +58,9 @@ const OrdersTabView = () => {
           color: index === 1 ? colors.bottomTab.active : colors.bottomTab.inactive
         }}
         containerStyle={{ 
-          height:50,
+          // height:50,
+          height:0.09*windowHeight,
+          // paddingBottom:2,
           backgroundColor: index === 1 ? colors.bottomTab.inactivebackground : colors.bottomTab.background
         }}
       />

@@ -29,14 +29,16 @@ const WarningOverlay = ({isVisible, warningTitle, warningContent, onPress}) => {
 
 const styles = StyleSheet.create({
     warningOverlayStyle:{
-        width:0.4*windowWidth,
-        height:0.25*windowHeight,
+        width:0.36*windowWidth,
+        height:0.2*windowHeight,
         backgroundColor: "rgba(3, 3, 3, 0.8)",
         borderRadius:0.02*windowHeight,
         padding:0.03*windowHeight
       },
       warningContainer: {
-        alignItems: "flex-start",
+        // alignItems: "flex-start",
+        alignItems:"flex-start",
+        // justifyContent:"center",
         marginHorizontal:0.01*windowWidth,
       },
       warningTitle: {
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
       },
       okButtonStyle: {
         borderRadius:0.03*windowHeight,
-        width:0.12*windowWidth
+        width:0.08*windowWidth
       },
       okButtonTextStyle: {
         color: "white",

@@ -317,12 +317,12 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
                   borderRadius: 5,
               }}
               // disabled={orderPlaced}
-              titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+              titleStyle={{ fontWeight: 'bold', fontSize: 18 }}
               containerStyle={{
                   marginVertical: 0.01*windowHeight,
                   alignSelf: 'center', // center the button horizontally
                   position:"absolute",
-                  bottom:0.01*windowHeight
+                  bottom:0.05*windowHeight
               }}
               onPress={btnReturnDishHandler}
             />

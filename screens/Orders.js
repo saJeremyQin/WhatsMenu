@@ -50,7 +50,7 @@ const OrdersScreen = ({navigation}) => {
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={ btnCheckOutHandler } title="CheckOut" buttonStyle={{backgroundColor:colors.accent}} />
+        <Button onPress={ btnCheckOutHandler } title="CheckOut" titleStyle={{fontSize:14}} buttonStyle={{backgroundColor:colors.accent}} />
       ),
     });
   }, [isReturningDish, total]);

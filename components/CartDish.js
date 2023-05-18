@@ -59,7 +59,7 @@ const CartDish = props => {
       </View>
       <View style={styles.deleteContainer}>
         <Pressable style={[styles.deleteBtn, {backgroundColor:colors.text}]} onPress={() =>btnDeleteDishHandler() }>
-          <AntDesign name="minus" size={28} color="white"/>
+          <AntDesign name="minus" size={22} color="white"/>
         </Pressable>
       </View>
     </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       // height: 90,
       height:0.12*windowHeight,
-      width: "80%",
+      width: "85%",
       borderWidth: 1,
       // borderRadius: 15,
       borderRadius:0.015*windowWidth,
@@ -103,18 +103,18 @@ const styles = StyleSheet.create({
     },
     deleteContainer: {
       // width:60,
-      width:0.05*windowWidth,
+      width:0.04*windowWidth,
       justifyContent:"center",
       alignItems:"center",
       // backgroundColor:"purple"
     },
     deleteBtn:{
       // width:36,
-      width:0.04*windowWidth,
-      height:0.04*windowWidth,
+      width:0.03*windowWidth,
+      height:0.03*windowWidth,
       // height:36,
       // borderRadius:18,
-      borderRadius:0.02*windowWidth,
+      borderRadius:0.015*windowWidth,
       justifyContent:"center",
       alignItems:"center"
     },
