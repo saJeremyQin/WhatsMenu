@@ -37,21 +37,22 @@ const styles = StyleSheet.create({
       },
       warningContainer: {
         // alignItems: "flex-start",
+        flex:1,
         alignItems:"flex-start",
-        // justifyContent:"center",
+        justifyContent:"space-evenly",
         marginHorizontal:0.01*windowWidth,
       },
       warningTitle: {
-        fontSize: 24,
-        marginBottom:0.01*windowHeight,
+        fontSize: 22,
+        // marginBottom:0.01*windowHeight,
       },
       warningContent: {
         fontSize: 16,
         textAlign: "center",
-        marginBottom:0.02*windowHeight,
+        // marginBottom:0.02*windowHeight,
       },
       okButtonContainerStyle:{
-        marginTop:0.01*windowHeight,
+        // marginTop:0.01*windowHeight,
         alignSelf:"flex-end"
       },
       okButtonStyle: {
