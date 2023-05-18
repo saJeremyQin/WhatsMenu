@@ -70,7 +70,7 @@ const styles=StyleSheet.create({
         flex:1,
         alignSelf:"center",
         textAlignVertical: "center",
-        fontSize: 22
+        fontSize: 20
     },
     flatList: {
         // marginTop:20,

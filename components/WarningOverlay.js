@@ -29,11 +29,11 @@ const WarningOverlay = ({isVisible, warningTitle, warningContent, onPress}) => {
 
 const styles = StyleSheet.create({
     warningOverlayStyle:{
-        width:0.36*windowWidth,
-        height:0.2*windowHeight,
+        width:0.4*windowWidth,
+        height:0.26*windowHeight,
         backgroundColor: "rgba(3, 3, 3, 0.8)",
         borderRadius:0.02*windowHeight,
-        padding:0.03*windowHeight
+        padding:0.02*windowHeight
       },
       warningContainer: {
         // alignItems: "flex-start",
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
         alignSelf:"flex-end"
       },
       okButtonStyle: {
-        borderRadius:0.03*windowHeight,
-        width:0.08*windowWidth
+        borderRadius:0.02*windowHeight,
+        width:0.06*windowWidth
       },
       okButtonTextStyle: {
         color: "white",

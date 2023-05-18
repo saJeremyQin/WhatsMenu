@@ -80,7 +80,7 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
         }
         .restaurantInfo {
           width: 100%;
-          margin-top: 30px;
+          margin-top: 20px;
           text-align: center;
         }
         .logo {
@@ -89,7 +89,7 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
           object-fit: contain;
         }      
         .company {
-          font-size: 24px;
+          font-size: 20px;
           font-weight: bold;
           text-align: center;
           margin-bottom: 10px;
@@ -106,7 +106,7 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
         }
         .curTable {
           text-align: center;
-          font-size: 26px;
+          font-size: 22px;
         }
         .diners {
           text-align: right;

@@ -171,8 +171,19 @@ const OrdersScreen = ({navigation}) => {
           <ReceiptView ref={receiptViewRef} edit={false} style={styles.receiptView}/>
         </View>
         <View style={styles.dialogButtonsContainer}>
-          <Button title="Cancel" onPress={() => setShowReceiptDialog(false)} buttonStyle={[styles.cancelBtn,{backgroundColor:colors.darkText}]}/>
-          <Button title="CheckOut" onPress={() => handleReceiptCheckout()}buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}/>
+          <Button 
+            title="Cancel" 
+            onPress={() => setShowReceiptDialog(false)} 
+            titleStyle={{fontSize:14}}
+            buttonStyle={[styles.cancelBtn,{backgroundColor:colors.darkText}]}
+          />
+          <Button 
+            title="Print" 
+            onPress={() => handleReceiptCheckout()} 
+            titleStyle={{fontSize:14}}
+            // containerStyle={{marginBottom:0.01*windowHeight}}
+            buttonStyle={[styles.checkOutBtn,{backgroundColor:colors.accent}]}
+          />
         </View>
       </Overlay>
       <WarningOverlay
@@ -265,19 +276,21 @@ const styles = StyleSheet.create({
   },
   dialogButtonsContainer: {
     // marginTop:10,
-    marginTop:0.01*windowHeight,
+    // marginTop:0.01*windowHeight,
     // height:40,
-    height:0.06*windowHeight,
+    height:0.1*windowHeight,
     flexDirection: 'row',
     justifyContent: "space-evenly",
   },
   cancelBtn: {
     // width:100
+    // flex:1,
     width:0.1*windowWidth,
   },
   checkOutBtn: {
     // width:100,
     width:0.1*windowWidth,
+    // height:0.04*windowHeight
   },
   warningOverlayStyle:{
     // width:512,
