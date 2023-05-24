@@ -13,7 +13,7 @@ const AboutUsScreen = () => {
         style={styles.fullLogo}
       />
       <Text style={[styles.text, { color: colors.accent }]}>
-        The cheapest and simplest way to make your own fully customizable
+        The cheapest way to make your own customizable
         restaurant menu app.
       </Text>
       <View style={styles.linksContainer}>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   fullLogo: {
     aspectRatio:1,
-    width: "8%",
+    width: "10%",
   },
   text: {
     width: 0.9*windowWidth,
