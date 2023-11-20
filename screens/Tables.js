@@ -44,6 +44,7 @@ const TablesScreen = ({navigation}) => {
 
   useEffect(() => {
     if (data) {
+      console.log('dishes are', data.dishes);
       dispatch(setDishes(data.dishes));
     }
   }, [data, dispatch]);
