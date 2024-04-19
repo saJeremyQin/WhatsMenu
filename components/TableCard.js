@@ -47,11 +47,8 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    // marginVertical:20,
     marginVertical: 0.02*windowHeight,
-    // marginHorizontal:15,
     marginHorizontal:0.01*windowWidth,
-    // borderRadius: 10,
     borderRadius: 0.01*windowWidth
   },
   amount:{
