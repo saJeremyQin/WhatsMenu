@@ -28,19 +28,12 @@ const TablesScreen = ({navigation}) => {
 
   //1280*900 on Huawei M3 ???
   const { width, height } = Dimensions.get('screen');
-  console.log(`Screen dimensions: ${width} x ${height}`);
+  // console.log(`Screen dimensions: ${width} x ${height}`);
+  console.log('data is', data);
+  
 
   const orders = useSelector(selectOrders);
   const dishes = useSelector(selectDishes);
-
-  // useEffect(() => {
-  //   client.request(DISHES_QUERY).then((data) => {
-  //     dispatch(setDishes(data.dishes));
-  //   }).catch((error) => {
-  //     setWarningContent("Network issue! Please check your internet connection.");
-  //     setShowWarningOverlay(true);
-  //   });
-  // }, []);
 
   useEffect(() => {
     if (data) {
@@ -48,10 +41,37 @@ const TablesScreen = ({navigation}) => {
     }
   }, [data, dispatch]);
 
-  if(error) {
-    setWarningContent("Network issue! Please check your internet connection.");
-    setShowWarningOverlay(true);
-  };
+  // if(error) {
+  //   setWarningContent("Network issue! Please check your internet connection.");
+  //   setShowWarningOverlay(true);
+  // };
+  useEffect(() => {
+    fetch("https://whats-menu-server.vercel.app/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: "{ __typename }" })
+    })
+      .then(res => res.json())
+      .then(data => console.log("✅ 成功返回:", data))
+      .catch(err => console.log("❌ fetch 出错:", err));
+  }, []);
+
+  useEffect(() => {
+    if(error) {
+      console.error("❌ useQuery 出错:", error);
+
+      if (error.networkError) {
+        console.log("🌐 Network Error: ", error.networkError);
+      }
+      if (error.graphQLErrors) {
+        console.log("🛑 GraphQL Errors: ", error.graphQLErrors);
+      }
+    }
+    if (error) {
+      setWarningContent("Network issue! Please check your internet connection.");
+      setShowWarningOverlay(true);
+    }
+  }, [error]);
   
   const getDishById = (dishId) => {
     const dish = dishes.find((dish) => dish.id === dishId);

@@ -38,6 +38,8 @@ const OrdersScreen = ({navigation}) => {
 
   // Get the dishes by current dishType
   const dishesByType = useSelector(selectDishesByType(curDishType));
+  console.log("dishesByType are", dishesByType);
+  
 
   const currentTableNum = useSelector(selectCurrentTable);
   // console.log("current table is",currentTableNum);
@@ -73,6 +75,8 @@ const OrdersScreen = ({navigation}) => {
   };
 
   const handleDishTypeClick = (slug) => {
+    console.log('slug is', slug);
+    
     setCurDishType(slug);
   };
 
