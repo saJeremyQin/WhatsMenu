@@ -6,6 +6,8 @@ import { createHttpLink } from "apollo-link-http";
 
 const httpLink = createHttpLink({
   uri: "https://whats-menu-server.vercel.app/api",
+  // uri:"http://localhost:5005/api",
+  // uri:"http://192.168.8.101:5005/api",
 });
 
 export const client = new ApolloClient({
@@ -25,7 +27,10 @@ export const DISHES_QUERY = gql`
       description
       price
       id
-      type
+      type {
+        title
+        alias
+      }
     }
   }
 `;

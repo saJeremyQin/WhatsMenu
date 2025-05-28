@@ -1,5 +1,5 @@
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { selectDishById } from "./dishesSlice";
 
 const initialState = {
@@ -163,55 +163,96 @@ export const {
 } = ordersSlice.actions;
 
 export const selectCurrentTable = (state) => state.allOrders.currentTable;
-export const selectCurrentOrder = (state) =>  
-  state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId);
-export const selectNumberOfDiners = (state) => 
-  state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).numberOfDiners;
 export const selectOrders = (state) => state.allOrders.orders;
+export const selectCurrentOrderId = (state) => state.allOrders.currentOrderId;
 
-export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
-  // This will create a closure that captures the dishId argument, 
-  // and returns a selector function that takes the state and returns the desired dish object.
-  // return state.allDishes.dishes.find((dish) => dish.id === dishId);
-  // const { currentOrderId: orderId, currentTable } = state;
-  const orderId = state.allOrders.currentOrderId;
-  const curTable = state.allOrders.currentTable;
-  // console.log("current OrderId  is", orderId);
-  // console.log("curTable is", curTable);
+// export const selectCurrentOrder = (state) =>  
+//   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId);
+export const selectCurrentOrder =createSelector(
+  [selectOrders, selectCurrentOrderId],
+  (orders, currentOrderId) => orders.find(order => order.id === currentOrderId)
+);
 
-  const orderIndex = state.allOrders.orders.findIndex((order) => order.id === orderId && order.tableNumber === curTable);
-
-  if (orderIndex === -1) return;
-
-  const { shoppingCartDishes } = state.allOrders.orders[orderIndex];
-  const dishIndex = shoppingCartDishes.findIndex((dish) => dish.dishId === dishId);
-  if (dishIndex === -1) return;
-  return shoppingCartDishes[dishIndex].dishQuantity;
+export const selectNumberOfDiners = (state) => {
+  const order = state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).numberOfDiners;
+  return order ? order.numberOfDiners : 0; 
 }
 
-export const selectOngoingDishesSections = (state) => 
-  state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).ongoingDishesSections;
+// export const selectDishQuantityByIdWrapper = (dishId) => (state) => {
+//   // This will create a closure that captures the dishId argument, 
+//   // and returns a selector function that takes the state and returns the desired dish object.
+//   // return state.allDishes.dishes.find((dish) => dish.id === dishId);
+//   // const { currentOrderId: orderId, currentTable } = state;
+//   const orderId = state.allOrders.currentOrderId;
+//   const curTable = state.allOrders.currentTable;
+//   // console.log("current OrderId  is", orderId);
+//   // console.log("curTable is", curTable);
 
+//   const orderIndex = state.allOrders.orders.findIndex((order) => order.id === orderId && order.tableNumber === curTable);
 
+//   if (orderIndex === -1) return;
+
+//   const { shoppingCartDishes } = state.allOrders.orders[orderIndex];
+//   const dishIndex = shoppingCartDishes.findIndex((dish) => dish.dishId === dishId);
+//   if (dishIndex === -1) return;
+//   return shoppingCartDishes[dishIndex].dishQuantity;
+// }
+
+// 类似地，针对某个dishId，获取当前订单中数量
+export const selectDishQuantityByIdWrapper = (dishId) => createSelector(
+  [selectOrders, selectCurrentOrderId, selectCurrentTable],
+  (orders, currentOrderId, currentTable) => {
+    const order = orders.find(order => order.id === currentOrderId && order.tableNumber === currentTable);
+    if (!order) return undefined;
+    const dish = order.shoppingCartDishes.find(d => d.dishId === dishId);
+    return dish ? dish.dishQuantity : undefined;
+  }
+);
+
+// export const selectOngoingDishesSections = (state) => 
+//   state.allOrders.orders.find((order) => order.id === state.allOrders.currentOrderId).ongoingDishesSections;
+export const selectOngoingDishesSections = (state) => {
+  const order = state.allOrders.orders.find(order => order.id === state.allOrders.currentOrderId);
+  return order ? order.ongoingDishesSections : [];
+}
+
+// export const selectTotalAmountByTableNumber = (tableNumber) => (state) => {
+//   const orders = selectOrders(state);
+//   const tableOrder = orders.find((order) => order.tableNumber === tableNumber);
+
+//   let totalAmount = 0;
+//   if (tableOrder) {
+//     totalAmount = tableOrder.ongoingDishesSections.reduce(
+//       (acc, section) =>
+//         acc +
+//         section.dishesOngoing.reduce(
+//           (acc, dish) =>
+//             acc + selectDishById(dish.dishId)(state)?.price * dish.dishQuantity,
+//           0
+//         ),
+//       0
+//     );
+//   }
+
+//   return totalAmount;
+// };
 export const selectTotalAmountByTableNumber = (tableNumber) => (state) => {
   const orders = selectOrders(state);
   const tableOrder = orders.find((order) => order.tableNumber === tableNumber);
 
   let totalAmount = 0;
-  if (tableOrder) {
-    totalAmount = tableOrder.ongoingDishesSections.reduce(
-      (acc, section) =>
-        acc +
-        section.dishesOngoing.reduce(
-          (acc, dish) =>
-            acc + selectDishById(dish.dishId)(state)?.price * dish.dishQuantity,
-          0
-        ),
-      0
-    );
+  if (tableOrder && Array.isArray(tableOrder.ongoingDishesSections)) {
+    totalAmount = tableOrder.ongoingDishesSections.reduce((acc, section) => {
+      const dishes = Array.isArray(section.dishesOngoing) ? section.dishesOngoing : [];
+      return acc + dishes.reduce((acc2, dish) => {
+        const dishPrice = selectDishById(dish.dishId)(state)?.price || 0;
+        return acc2 + dishPrice * dish.dishQuantity;
+      }, 0);
+    }, 0);
   }
 
   return totalAmount;
 };
+
   
 export default ordersSlice.reducer;

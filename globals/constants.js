@@ -5,7 +5,7 @@ export const CURRENCY = { name: "AUD", sign: "$" };
 
 // Dish Types
 export const DISH_TYPES = [
-  { id: 1, title: "Starters", slug: "starter" },
+  { id: 1, title: "Starters", slug: "starters" },
   { id: 2, title: "Main Courses", slug: "main" },
   { id: 3, title: "Drinks", slug: "drinks" },
   { id: 4, title: "Desserts", slug: "dessert" },
