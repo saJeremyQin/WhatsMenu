@@ -5,10 +5,22 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { createHttpLink } from "apollo-link-http";
 
 const httpLink = createHttpLink({
-  uri: "https://whats-menu-server.vercel.app/api",
-  // uri:"http://localhost:5005/api",
+  // uri: "https://whats-menu-server.vercel.app/api",
+  uri: "https://tg3re2pkmfdsbhaw4rn3jkxmim.appsync-api.ap-southeast-2.amazonaws.com/graphql",
+  headers: {
+    'x-api-key': 'da2-y43yn2ltxbgxzon65yyml3noky'
+  }
   // uri:"http://192.168.8.101:5005/api",
 });
+
+// const authLink = new ApolloLink((operation, forward) => {
+//   operation.setContext({
+//     headers: {
+//       'x-api-key': 'da2-y43yn2ltxbgxzon65yyml3noky',
+//     }
+//   });
+//   return forward(operation);
+// });
 
 export const client = new ApolloClient({
   link: httpLink,
