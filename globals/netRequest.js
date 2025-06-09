@@ -6,9 +6,9 @@ import { createHttpLink } from "apollo-link-http";
 
 const httpLink = createHttpLink({
   // uri: "https://whats-menu-server.vercel.app/api",
-  uri: "https://tg3re2pkmfdsbhaw4rn3jkxmim.appsync-api.ap-southeast-2.amazonaws.com/graphql",
+  uri: "https://ixyse3o5b5epbn6fu3gi3wrxki.appsync-api.ap-southeast-2.amazonaws.com/graphql",
   headers: {
-    'x-api-key': 'da2-y43yn2ltxbgxzon65yyml3noky'
+    'x-api-key': 'da2-finw46n22zcrnjbykuoen4rhse'
   }
   // uri:"http://192.168.8.101:5005/api",
 });
