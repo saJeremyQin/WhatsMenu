@@ -40,7 +40,7 @@ export const selectDishById = (dishId) =>
 export const selectDishesByType = (type) => 
   createSelector(
     [selectDishes],
-    (dishes) => dishes.filter(dish => dish.type.title === type)
+    (dishes) => dishes.filter(dish => dish.dishType.title === type)
   )
 
 export default dishesSlice.reducer;
