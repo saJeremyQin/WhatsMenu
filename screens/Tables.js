@@ -1,4 +1,4 @@
-import React,{ useEffect,useState } from "react";
+import React,{ useCallback, useEffect,useState } from "react";
 import { StyleSheet, View, Text, Image, FlatList, Alert, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
@@ -80,12 +80,19 @@ const TablesScreen = ({navigation}) => {
   }
 
   // This is the function pass down to child component and invoked by TableCard.
-  const handleTableCardClick = (tableNumber) => {
+  // Use useCallback to wrap handleTableCardClick
+  // The dependencies are all the variables outside and used by it
+  const handleTableCardClick = useCallback((tableNumber) => {
+
     const tableOrder = orders.find(order => order.tableNumber === tableNumber);
-    !tableOrder 
-      ? (setTableNumber(tableNumber), setShowNumbersOfDiners(true))
-      : (dispatch(resumeOrder({tableNumber})), navigation.navigate("Orders"))
-  };
+    if(!tableOrder) {
+      setTableNumber(tableNumber);
+      setShowNumbersOfDiners(true);
+    } else {
+      dispatch(resumeOrder({tableNumber}));
+      navigation.navigate("Orders")
+    }
+  }, [orders, dispatch, navigation, setTableNumber, setShowNumbersOfDiners]); 
 
   // Open one new table after input numberOfDiners
   const handleDialogSubmit = () => {
@@ -99,15 +106,17 @@ const TablesScreen = ({navigation}) => {
     navigation.navigate("Orders");
   };
 
-  const renderTableItem = ({item}) => {
-
+  // Pass the function cached directly
+  const renderTableItem = useCallback(({item}) => {
     return (
       <TableCard 
+        // Pass handleTableCardClick directly, instead of wrapping it in a new ananymous function
+        // It can receive parameter of item interally
         tableNumber={item} 
-        onTableCardClick={()=> handleTableCardClick(item)} 
+        onTableCardClick={handleTableCardClick} 
       />    
     )
-  };
+  },[handleTableCardClick]) 
 
 
   return (

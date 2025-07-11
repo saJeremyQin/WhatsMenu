@@ -17,12 +17,12 @@ const TableCard = React.memo(({tableNumber,onTableCardClick}) => {
   const totalAmount = useSelector(selectTotalAmountByTableNumber(tableNumber));
   const cardStyle = totalAmount > 0 ? styles.highlightedCard : styles.defaultCard;
 
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
+  // const navigation = useNavigation();
+  // const dispatch = useDispatch();
 
-  const tableCardClickHandler = () => {
+  const tableCardClickHandler = React.useCallback(() => {
     onTableCardClick(tableNumber);
-  };
+  }, [onTableCardClick, tableNumber]);
   
   return (
     <Pressable 
