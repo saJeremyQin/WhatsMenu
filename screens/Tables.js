@@ -97,7 +97,7 @@ const TablesScreen = ({navigation}) => {
   const handleNeedCreateOrder = useCallback((tableNumber) => {
     setTableNumber(tableNumber);
     setShowNumbersOfDiners(true);
-  }, [setTableNumber, setShowNumbersOfDiners]);
+  }, []);
 
   // Open one new table after input numberOfDiners
   const handleDialogSubmit = () => {
