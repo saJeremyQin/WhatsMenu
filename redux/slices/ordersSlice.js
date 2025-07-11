@@ -1,6 +1,6 @@
 
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { selectDishById } from "./dishesSlice";
+import { selectDishById, selectDishes } from "./dishesSlice";
 
 const initialState = {
     orders: [],
@@ -236,23 +236,57 @@ export const selectOngoingDishesSections = (state) => {
 
 //   return totalAmount;
 // };
-export const selectTotalAmountByTableNumber = (tableNumber) => (state) => {
-  const orders = selectOrders(state);
-  const tableOrder = orders.find((order) => order.tableNumber === tableNumber);
+// export const selectTotalAmountByTableNumber = (tableNumber) => (state) => {
+//   const orders = selectOrders(state);
+//   const tableOrder = orders.find((order) => order.tableNumber === tableNumber);
 
-  let totalAmount = 0;
-  if (tableOrder && Array.isArray(tableOrder.ongoingDishesSections)) {
-    totalAmount = tableOrder.ongoingDishesSections.reduce((acc, section) => {
-      const dishes = Array.isArray(section.dishesOngoing) ? section.dishesOngoing : [];
-      return acc + dishes.reduce((acc2, dish) => {
-        const dishPrice = selectDishById(dish.dishId)(state)?.price || 0;
-        return acc2 + dishPrice * dish.dishQuantity;
-      }, 0);
-    }, 0);
+//   let totalAmount = 0;
+//   if (tableOrder && Array.isArray(tableOrder.ongoingDishesSections)) {
+//     totalAmount = tableOrder.ongoingDishesSections.reduce((acc, section) => {
+//       const dishes = Array.isArray(section.dishesOngoing) ? section.dishesOngoing : [];
+//       return acc + dishes.reduce((acc2, dish) => {
+//         const dishPrice = selectDishById(dish.dishId)(state)?.price || 0;
+//         return acc2 + dishPrice * dish.dishQuantity;
+//       }, 0);
+//     }, 0);
+//   }
+
+//   return totalAmount;
+// };
+
+// 缓存器
+const totalAmountSelectorCache = {};
+
+export const selectTotalAmountByTableNumber = (tableNumber) => {
+  if (!totalAmountSelectorCache[tableNumber]) {
+    totalAmountSelectorCache[tableNumber] = createSelector(
+      [
+        (state) =>
+          state.allOrders.orders.find((order) => order.tableNumber === tableNumber),
+        selectDishes,
+      ],
+      (tableOrder, dishes) => {
+        let total = 0;
+        if (tableOrder?.ongoingDishesSections) {
+          total = tableOrder.ongoingDishesSections.reduce((sum, section) => {
+            return (
+              sum +
+              section.dishesOngoing.reduce((sectionSum, dish) => {
+                const price = dishes.find((d) => d.id === dish.dishId)?.price || 0;
+                return sectionSum + dish.dishQuantity * price;
+              }, 0)
+            );
+          }, 0);
+        }
+
+        return total;
+      }
+    );
   }
 
-  return totalAmount;
+  return totalAmountSelectorCache[tableNumber];
 };
+
 
   
 export default ordersSlice.reducer;

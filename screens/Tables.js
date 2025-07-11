@@ -82,17 +82,22 @@ const TablesScreen = ({navigation}) => {
   // This is the function pass down to child component and invoked by TableCard.
   // Use useCallback to wrap handleTableCardClick
   // The dependencies are all the variables outside and used by it
-  const handleTableCardClick = useCallback((tableNumber) => {
+  // const handleTableCardClick = useCallback((tableNumber) => {
 
-    const tableOrder = orders.find(order => order.tableNumber === tableNumber);
-    if(!tableOrder) {
-      setTableNumber(tableNumber);
-      setShowNumbersOfDiners(true);
-    } else {
-      dispatch(resumeOrder({tableNumber}));
-      navigation.navigate("Orders")
-    }
-  }, [orders, dispatch, navigation, setTableNumber, setShowNumbersOfDiners]); 
+  //   const tableOrder = orders.find(order => order.tableNumber === tableNumber);
+  //   if(!tableOrder) {
+  //     setTableNumber(tableNumber);
+  //     setShowNumbersOfDiners(true);
+  //   } else {
+  //     dispatch(resumeOrder({tableNumber}));
+  //     navigation.navigate("Orders")
+  //   }
+  // }, [orders, dispatch, navigation, setTableNumber, setShowNumbersOfDiners]); 
+
+  const handleNeedCreateOrder = useCallback((tableNumber) => {
+    setTableNumber(tableNumber);
+    setShowNumbersOfDiners(true);
+  }, [setTableNumber, setShowNumbersOfDiners]);
 
   // Open one new table after input numberOfDiners
   const handleDialogSubmit = () => {
@@ -113,10 +118,10 @@ const TablesScreen = ({navigation}) => {
         // Pass handleTableCardClick directly, instead of wrapping it in a new ananymous function
         // It can receive parameter of item interally
         tableNumber={item} 
-        onTableCardClick={handleTableCardClick} 
+        onNeedCreateOrder={handleNeedCreateOrder} 
       />    
     )
-  },[handleTableCardClick]) 
+  },[handleNeedCreateOrder]) 
 
 
   return (
