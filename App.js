@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { THEME } from './globals/constants';
 import { client } from './globals/netRequest';
-import { ApolloProvider } from '@apollo/client';
+// import { ApolloProvider } from '@apollo/client';
 
 
 
@@ -30,12 +30,12 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ApolloProvider client={client}>
+      {/* <ApolloProvider client={client}> */}
         <StatusBar backgroundColor={colors.darkBG} />
         <View style={styles.container}>    
           <RootNavigator />
         </View>
-      </ApolloProvider>
+      {/* </ApolloProvider> */}
     </Provider>
   );
 }

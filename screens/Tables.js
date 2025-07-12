@@ -2,12 +2,12 @@ import React,{ useCallback, useEffect,useState } from "react";
 import { StyleSheet, View, Text, Image, FlatList, Alert, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, selectOrders,resumeOrder } from "../redux/slices/ordersSlice";
-import { setDishes, selectDishes } from "../redux/slices/dishesSlice";
+import { fetchDishes, selectDishes } from "../redux/slices/dishesSlice";
 import { Overlay, Button, Input, Divider, colors } from "react-native-elements";
-import { client, DISHES_QUERY } from "../globals/netRequest";
+import { DISHES_QUERY } from "../globals/netRequest";
 import TableCard from "../components/TableCard";
 import { THEME, windowWidth,windowHeight } from '../globals/constants';
-import { useQuery } from "@apollo/client";
+// import { useQuery } from "@apollo/client";
 import WarningOverlay from "../components/WarningOverlay";
 
 // Keep it a pure function, variable read only is ok.
@@ -15,7 +15,7 @@ const numOfTables = 30;
 
 const TablesScreen = ({navigation}) => {
   const { colors } = THEME;
-  const { loading, error, data } = useQuery(DISHES_QUERY);
+  // const { loading, error, data } = useQuery(DISHES_QUERY);
 
   const dispatch = useDispatch();
   const tableNumbers = Array.from({length: numOfTables}, (_, index) => index + 1);
@@ -27,57 +27,68 @@ const TablesScreen = ({navigation}) => {
   const [warningContent, setWarningContent] = useState('');
 
   //1280*900 on Huawei M3 ???
-  const { width, height } = Dimensions.get('screen');
+  // const { width, height } = Dimensions.get('screen');
   // console.log(`Screen dimensions: ${width} x ${height}`);
-  console.log('data is', data);
-  
+  // console.log('data is', data);
+
+  // Get the data, loading status and error from Redux
+  const dishes = useSelector(selectDishes);
+  const loadingDishes = useSelector(state => state.allDishes.loading);
+  const dishError = useSelector(state => state.allDishes.error);
 
   const orders = useSelector(selectOrders);
-  const dishes = useSelector(selectDishes);
 
+  // When mounting, dishpatch fetchDishes thunk action
   useEffect(() => {
-    if (data) {
-      console.log('dishes are', data.dishes);
-      dispatch(setDishes(data.dishes));
-    }
-  }, [data, dispatch]);
+    dispatch(fetchDishes());
+  }, [dispatch]);
 
+  // Error displaying
+  useEffect(() => {
+    if(dishError) {
+      console.error("❌ Dish Fetch Error from Redux:", dishError);
+      setWarningContent(`Network issue! Please check your internet connection. Error: ${dishError}`);
+      setShowWarningOverlay(true);
+    } else {
+      setShowWarningOverlay(false);
+    }
+  }, [dishError]);
   // if(error) {
   //   setWarningContent("Network issue! Please check your internet connection.");
   //   setShowWarningOverlay(true);
   // };
-  useEffect(() => {
-    fetch("https://whats-menu-server.vercel.app/api", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: "{ __typename }" })
-    })
-      .then(res => res.json())
-      .then(data => console.log("✅ 成功返回:", data))
-      .catch(err => console.log("❌ fetch 出错:", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("https://whats-menu-server.vercel.app/api", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ query: "{ __typename }" })
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => console.log("✅ 成功返回:", data))
+  //     .catch(err => console.log("❌ fetch 出错:", err));
+  // }, []);
 
-  useEffect(() => {
-    if(error) {
-      console.error("❌ useQuery 出错:", error);
+  // useEffect(() => {
+  //   if(error) {
+  //     console.error("❌ useQuery 出错:", error);
 
-      if (error.networkError) {
-        console.log("🌐 Network Error: ", error.networkError);
-      }
-      if (error.graphQLErrors) {
-        console.log("🛑 GraphQL Errors: ", error.graphQLErrors);
-      }
-    }
-    if (error) {
-      setWarningContent("Network issue! Please check your internet connection.");
-      setShowWarningOverlay(true);
-    }
-  }, [error]);
+  //     if (error.networkError) {
+  //       console.log("🌐 Network Error: ", error.networkError);
+  //     }
+  //     if (error.graphQLErrors) {
+  //       console.log("🛑 GraphQL Errors: ", error.graphQLErrors);
+  //     }
+  //   }
+  //   if (error) {
+  //     setWarningContent("Network issue! Please check your internet connection.");
+  //     setShowWarningOverlay(true);
+  //   }
+  // }, [error]);
   
-  const getDishById = (dishId) => {
-    const dish = dishes.find((dish) => dish.id === dishId);
-    return dish;
-  }
+  // const getDishById = (dishId) => {
+  //   const dish = dishes.find((dish) => dish.id === dishId);
+  //   return dish;
+  // }
 
   // This is the function pass down to child component and invoked by TableCard.
   // Use useCallback to wrap handleTableCardClick
