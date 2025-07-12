@@ -7,7 +7,6 @@ import { Overlay, Button, Input, Divider, colors } from "react-native-elements";
 import { DISHES_QUERY } from "../globals/netRequest";
 import TableCard from "../components/TableCard";
 import { THEME, windowWidth,windowHeight } from '../globals/constants';
-// import { useQuery } from "@apollo/client";
 import WarningOverlay from "../components/WarningOverlay";
 
 // Keep it a pure function, variable read only is ok.
@@ -25,11 +24,6 @@ const TablesScreen = ({navigation}) => {
   const [numberOfDiners, setNumberOfDiners] = useState(null);
   const [showWarningOverlay, setShowWarningOverlay] = useState(false);
   const [warningContent, setWarningContent] = useState('');
-
-  //1280*900 on Huawei M3 ???
-  // const { width, height } = Dimensions.get('screen');
-  // console.log(`Screen dimensions: ${width} x ${height}`);
-  // console.log('data is', data);
 
   // Get the data, loading status and error from Redux
   const dishes = useSelector(selectDishes);
@@ -53,57 +47,9 @@ const TablesScreen = ({navigation}) => {
       setShowWarningOverlay(false);
     }
   }, [dishError]);
-  // if(error) {
-  //   setWarningContent("Network issue! Please check your internet connection.");
-  //   setShowWarningOverlay(true);
-  // };
-  // useEffect(() => {
-  //   fetch("https://whats-menu-server.vercel.app/api", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ query: "{ __typename }" })
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => console.log("✅ 成功返回:", data))
-  //     .catch(err => console.log("❌ fetch 出错:", err));
-  // }, []);
-
-  // useEffect(() => {
-  //   if(error) {
-  //     console.error("❌ useQuery 出错:", error);
-
-  //     if (error.networkError) {
-  //       console.log("🌐 Network Error: ", error.networkError);
-  //     }
-  //     if (error.graphQLErrors) {
-  //       console.log("🛑 GraphQL Errors: ", error.graphQLErrors);
-  //     }
-  //   }
-  //   if (error) {
-  //     setWarningContent("Network issue! Please check your internet connection.");
-  //     setShowWarningOverlay(true);
-  //   }
-  // }, [error]);
-  
-  // const getDishById = (dishId) => {
-  //   const dish = dishes.find((dish) => dish.id === dishId);
-  //   return dish;
-  // }
 
   // This is the function pass down to child component and invoked by TableCard.
-  // Use useCallback to wrap handleTableCardClick
-  // The dependencies are all the variables outside and used by it
-  // const handleTableCardClick = useCallback((tableNumber) => {
-
-  //   const tableOrder = orders.find(order => order.tableNumber === tableNumber);
-  //   if(!tableOrder) {
-  //     setTableNumber(tableNumber);
-  //     setShowNumbersOfDiners(true);
-  //   } else {
-  //     dispatch(resumeOrder({tableNumber}));
-  //     navigation.navigate("Orders")
-  //   }
-  // }, [orders, dispatch, navigation, setTableNumber, setShowNumbersOfDiners]); 
+  // Use useCallback to wrap handleNeedCreateOrder
 
   const handleNeedCreateOrder = useCallback((tableNumber) => {
     setTableNumber(tableNumber);
@@ -154,9 +100,6 @@ const TablesScreen = ({navigation}) => {
         renderItem={renderTableItem}
         keyExtractor={(item) => item.toString()}
         style={[styles.flatList,{backgroundColor: colors.background}]}
-        // contentContainerStyle={{ paddingBottom: 32 }}
-        // columnWrapperStyle={{ justifyContent: 'space-between' }}
-        // itemStyle={{ backgroundColor: 'pink', borderRadius: 8, padding: 16 }}
       />
       <Overlay 
         isVisible={showNumbersOfDiners} 
