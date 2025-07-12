@@ -253,7 +253,7 @@ const ReceiptView = React.forwardRef(({edit}, ref) => {
       edit ? ( <View style={styles.container}>
         <ScrollView style={styles.receiptContainer}>
           <View style={styles.restaurantHeader}>
-            <Image style={styles.logo} source={restaurant.logo} />
+            <Image style={styles.logo} source={{uri:restaurant.logo}} />
             <Text style={styles.company}>{restaurant.company}</Text>
             <Text style={styles.address}>{restaurant.address}</Text>
           </View>

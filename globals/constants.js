@@ -53,7 +53,7 @@ export const THEME = {
 export const restaurant = {
   company:"Forks and Chopsticks Asian Restaurant",
   address:"Unit 69/155 Brebner Dr, West Lakes SA 5021",
-  logo: require("../assets/restaurant_logo.png")
+  logo: "https://emenu-app-resources.s3.ap-southeast-2.amazonaws.com/restaurant_logo.png"
 };
 
 export const blankImage =
