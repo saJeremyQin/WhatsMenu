@@ -34,7 +34,7 @@ const OrdersScreen = ({navigation}) => {
   const receiptViewRef = useRef(null);
   // Write the logic of menuScreen
   const dispatch = useDispatch();
-  const [curDishType, setCurDishType] = useState("main");
+  const [curDishType, setCurDishType] = useState("main course");
 
   // Get the dishes by current dishType
   const dishesByType = useSelector(selectDishesByType(curDishType));

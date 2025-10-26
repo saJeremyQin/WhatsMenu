@@ -1,19 +1,19 @@
-// import { request, GraphQLClient, gql } from 'graphql-request';
+// ...existing code...
 
 // import { useQuery, gql } from "@apollo/client";
-// import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-// import { createHttpLink } from "apollo-link-http";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { createHttpLink } from "apollo-link-http";
 
-// const httpLink = createHttpLink({
-//   uri: "https://whats-menu-server.vercel.app/api",
-//   // uri:"http://192.168.8.101:5005/api",
-// });
+const httpLink = createHttpLink({
+  // uri: "https://whats-menu-server.vercel.app/api",
+  uri:"http://192.168.8.101:5005/api",
+});
 
-// export const client = new ApolloClient({
-//   link: httpLink,
-//   cache: new InMemoryCache(),
-// });
-import { gql}  from 'graphql-request';
+export const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+});
+// import { gql}  from 'graphql-request';
 
 
 export const DISHES_QUERY = gql`
@@ -25,7 +25,7 @@ export const DISHES_QUERY = gql`
       description
       price
       dishType {
-        title
+        name
         alias
       }
     }

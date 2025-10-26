@@ -1,6 +1,5 @@
 import { createSlice, createSelector, createAsyncThunk } from '@reduxjs/toolkit';
-import { request} from 'graphql-request';
-import { DISHES_QUERY } from '../../globals/netRequest';
+import { DISHES_QUERY, client } from '../../globals/netRequest';
 
 const initialState = {
   dishes: [],
@@ -12,12 +11,12 @@ export const fetchDishes = createAsyncThunk(
   'dishes/fetchDishes',                    //Action type prefix
   async (_, thunkAPI) => {                 //payloadCreator function
     try {
-      const endpoint = "https://whats-menu-server.vercel.app/api";
-      const data = await request(endpoint, DISHES_QUERY);
+      const { data } = await client.query({
+        query: DISHES_QUERY
+      });
       return data.dishes;
-      
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message || 'Failed to get dishes')
+      return thunkAPI.rejectWithValue(error.message || 'Failed to get dishes');
     }
   }
 
@@ -78,7 +77,7 @@ export const selectDishById = (dishId) =>
 export const selectDishesByType = (type) => 
   createSelector(
     [selectDishes],
-    (dishes) => dishes.filter(dish => dish.dishType.title === type)
+    (dishes) => dishes.filter(dish => dish.dishType.name === type)
   )
 
 export default dishesSlice.reducer;
