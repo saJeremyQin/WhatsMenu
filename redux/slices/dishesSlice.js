@@ -1,5 +1,6 @@
 import { createSlice, createSelector, createAsyncThunk } from '@reduxjs/toolkit';
-import { DISHES_QUERY, client } from '../../globals/netRequest';
+import { DISHES_QUERY, GRAPHQL_ENDPOINT } from '../../globals/netRequest';
+import { request } from 'graphql-request';
 
 const initialState = {
   dishes: [],
@@ -11,15 +12,12 @@ export const fetchDishes = createAsyncThunk(
   'dishes/fetchDishes',                    //Action type prefix
   async (_, thunkAPI) => {                 //payloadCreator function
     try {
-      const { data } = await client.query({
-        query: DISHES_QUERY
-      });
+      const data = await request(GRAPHQL_ENDPOINT, DISHES_QUERY);
       return data.dishes;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message || 'Failed to get dishes');
     }
   }
-
 )
 
 const dishesSlice = createSlice({

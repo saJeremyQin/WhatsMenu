@@ -1,32 +1,20 @@
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
+if (__DEV__) {
+  loadDevMessages();
+  loadErrorMessages();
+}
 import 'expo-dev-client';
 
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import * as ScreenOrientation from 'expo-screen-orientation';
 import RootNavigator from './navigation/RootNavigator';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { THEME } from './globals/constants';
-import { client } from './globals/netRequest';
-// import { ApolloProvider } from '@apollo/client';
-
-
 
 export default function App() {
   const {colors} = THEME;
-
-  // useEffect(() => {
-  //   try {
-  //     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-  //   } catch (error) {
-  //     console.log(error);   
-  //   }
-
-  //   return () => {
-  //     ScreenOrientation.unlockAsync();
-  //   };
-  // },[]);
 
   return (
     <Provider store={store}>
@@ -43,9 +31,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexDirection:"row"
   },
-
 });
 
 
